@@ -1,3 +1,20 @@
 body {
   background: red;
 }
+
+.Sidebar {
+  text-align:center;
+}
+
+.websiteTitle {
+  background: #F4EEE0;
+  border: 5px solid black;
+  border-radius: 6px;
+  width: 70%;
+  margin:1em auto;
+}
+
+.sidebarOptions{
+  list-style: none;
+  padding:0;
+}

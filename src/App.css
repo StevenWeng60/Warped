@@ -9,7 +9,7 @@
 }
 
 .sidebar {
-  background:yellow;
+  background: #4F4557;
   grid-column: 1;
   grid-row: 1 / 7;
 }
