@@ -1,10 +1,14 @@
 import './App.css';
 import Sidebar from './Sidebar.js';
+import Searchbar from './Searchbar.js';
 
 function App() {
   return (
     <div className="App">
       <div className="Body">
+        <div className="searchbar">
+          <Searchbar/>
+        </div>
         <div className="sidebar">
           <Sidebar/>
         </div>

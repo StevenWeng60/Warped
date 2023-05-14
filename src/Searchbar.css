@@ -1,0 +1,41 @@
+body {
+  background:red;
+}
+
+h1 {
+  color: black;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+form {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  background-color: #6D5D6E;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: gray;
+}
