@@ -1,4 +1,6 @@
 import "./Sidebar.css"
+import React from 'react';
+import { FaHome, FaUserCircle, FaMailBulk, FaRegPlusSquare, FaToriiGate } from "react-icons/fa";
 
 function Sidebar() {
   return (
@@ -8,22 +10,36 @@ function Sidebar() {
       </div>
       <ul className="sidebarOptions">
         <li>
-          <h2>Profile</h2>
+          <div>
+            <FaHome style={{fontSize: '2em'}}/>
+            <h2 className="lih2">  Profile</h2>
+          </div>
         </li>
         <li>
-          <h2>Home</h2>
+          <div>
+            <FaUserCircle style={{fontSize: '2em'}}/>
+            <h2 className="lih2">  Home</h2>
+          </div>
         </li>
         <li>
-          <h2>Messages</h2>
+          <div>
+            <FaMailBulk style={{fontSize: '2em'}}/>
+            <h2 className="lih2">  Messages</h2>
+          </div>
         </li>
         <li>
-          <h2>Post</h2>
+          <div>
+            <FaRegPlusSquare style={{fontSize: '2em'}}/>
+            <h2 className="lih2">  Post</h2>
+          </div>
         </li>
         <li>
-          <h2>Warp</h2>
+          <div>
+            <FaToriiGate style={{fontSize: '2em'}}/>
+            <h2 className="lih2">  Warp</h2>
+          </div>
         </li>
       </ul>
-      <h1>Sidebar here bro</h1>
     </div>
   );
 }
