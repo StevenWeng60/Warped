@@ -1,0 +1,17 @@
+.feedimg{
+  height: 30px;
+  width: 30px;
+}
+.mainfeedul li{
+  margin: 2em auto;
+  height: 85%;
+  width: 50%;
+  outline: 5px solid white;
+  background: yellow;
+}
+.mainfeedul {
+  height: 90%;
+  width: 90%;
+  list-style:none;
+  align-items: center;
+}

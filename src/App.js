@@ -2,6 +2,7 @@ import './App.css';
 import Sidebar from './Sidebar.js';
 import Searchbar from './Searchbar.js';
 import FriendIcons from './FriendIcons.js';
+import Main from './Main.js';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <FriendIcons/>
         </div>
         <div className="mainfeed">
+          <Main/>
         </div>
       </div>
     </div>
