@@ -1,27 +1,16 @@
 import './App.css';
-import Sidebar from './Sidebar.js';
-import Searchbar from './Searchbar.js';
-import FriendIcons from './FriendIcons.js';
-import Main from './Main.js';
+import Home from './Home.js';
+import Profile from './Profile.js';
+import { Route, Routes } from "react-router-dom"
 
 function App() {
   return (
-    <div className="App">
-      <div className="Body">
-        <div className="searchbar">
-          <Searchbar/>
-        </div>
-        <div className="sidebar">
-          <Sidebar/>
-        </div>
-        <div className="friendicons">
-          <FriendIcons/>
-        </div>
-        <div className="mainfeed">
-          <Main/>
-        </div>
-      </div>
-    </div>
+    <>
+      <Routes>
+        <Route path="" element={<Home />}/>
+        <Route path="/profile" element={<Profile />}/>
+      </Routes>
+    </>
   );
 }
 
