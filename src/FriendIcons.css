@@ -1,0 +1,14 @@
+.friendsul {
+  list-style: none;
+  white-space: nowrap;
+}
+
+.friendsul li {
+  display:inline-block;
+  margin: 0 1em;
+}
+
+.friendsul li img {
+  border-radius: 50px;
+  outline: 2px solid white;
+}

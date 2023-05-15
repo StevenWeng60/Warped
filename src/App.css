@@ -1,15 +1,16 @@
 .Body {
   background: #393646;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(8, 1fr);
   gap: 10px;
   grid-auto-rows: minmax(10em, auto);
   height: 100vh;
+  width: 100vw;
 }
 
 .searchbar {
-  grid-column: 2 / 5;
+  grid-column: 2 / 6;
   grid-row: 1;
 }
 
@@ -19,7 +20,13 @@
   grid-row: 1 / 9;
 }
 
+.friendicons {
+  background:blue;
+  grid-column: 2 / 6;
+  grid-row: 2;
+}
+
 .mainfeed {
-  grid-column: 2 / 5;
+  grid-column: 2 / 6;
   grid-row: 2 / 9;
 }
