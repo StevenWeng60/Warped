@@ -3,8 +3,8 @@
   width: 30px;
 }
 .mainfeedul li{
-  margin: 2em auto;
-  height: 85%;
+  margin: 4em auto;
+  height: 100%;
   width: 50%;
   outline: 5px solid white;
   background: yellow;
@@ -14,4 +14,35 @@
   width: 90%;
   list-style:none;
   align-items: center;
+}
+
+.mainfeedul li h4 {
+  margin: 0;
+}
+
+.mainfeedul li p {
+  margin: 0;
+}
+
+.posttop {
+  display:flex;
+  align-items:center;
+}
+
+.postbottom {
+  padding: 1em;
+}
+
+.postuserpfp{
+  display: inline-block;
+  height: 3em;
+  width: 3em;
+  border-radius: 50px;
+  outline: 2px solid black;
+  margin: .5em;
+}
+
+.postusername{
+  display: inline-block;
+  margin-bottom: 2em;
 }

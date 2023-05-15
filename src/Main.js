@@ -14,14 +14,24 @@ function Main() {
 
   const listitems2 = people.map(person =>
     <li key={person.id}>
+      <div className="posttop">
+        <img
+          className="postuserpfp"
+          src={getImageUrl(person)}
+          alt={person.name}
+        />
+        <h4 className="postusername">{person.name}</h4>
+      </div>
       <img
         src={getImageUrl(person)}
         alt={person.name}
         className="feedimg"
-        style= {{height:'80%', width: '100%'}}
+        style= {{height:'70%', width: '100%'}}
       />
-      <h4>{person.name}</h4>
-      <p>{person.accomplishment}</p>
+      <div classname="postbottom">
+        <h4>{person.name}</h4>
+        <p>{person.accomplishment}</p>
+      </div>
     </li>
   );
 
