@@ -28,7 +28,7 @@ function Main() {
         className="feedimg"
         style= {{height:'70%', width: '100%'}}
       />
-      <div classname="postbottom">
+      <div className="postbottom">
         <h4>{person.name}</h4>
         <p>{person.accomplishment}</p>
       </div>

@@ -1,8 +1,8 @@
 import './App.css';
+import './Profile.css';
 import Sidebar from './Sidebar.js';
 import Searchbar from './Searchbar.js';
-import FriendIcons from './FriendIcons.js';
-import Main from './Main.js';
+import ProfileTop from './ProfileTop.js';
 
 function Profile() {
   return (
@@ -13,6 +13,9 @@ function Profile() {
       </div>
       <div className="searchbar">
         <Searchbar/>
+      </div>
+      <div className="topofprofile">
+        <ProfileTop/>
       </div>
     </div>
   </div>
