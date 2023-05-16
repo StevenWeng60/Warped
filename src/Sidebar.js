@@ -1,6 +1,7 @@
 import "./Sidebar.css"
 import React from 'react';
 import { FaHome, FaUserCircle, FaMailBulk, FaRegPlusSquare, FaToriiGate } from "react-icons/fa";
+import { Link, Route, Routes } from "react-router-dom"
 
 function Sidebar() {
   return (
@@ -10,16 +11,20 @@ function Sidebar() {
       </div>
       <ul className="sidebarOptions">
         <li>
-          <div>
-            <FaHome style={{fontSize: '2em'}}/>
-            <h2 className="lih2">  Profile</h2>
-          </div>
+          <Link to="/profile" className="link">
+            <div>
+              <FaHome style={{fontSize: '2em'}}/>
+              <h2 className="lih2">  Profile</h2>
+            </div>
+          </Link>
         </li>
         <li>
-          <div>
-            <FaUserCircle style={{fontSize: '2em'}}/>
-            <h2 className="lih2">  Home</h2>
-          </div>
+          <Link to="/" className="link">
+            <div>
+              <FaUserCircle style={{fontSize: '2em'}}/>
+              <h2 className="lih2">  Home</h2>
+            </div>
+          </Link>
         </li>
         <li>
           <div>
