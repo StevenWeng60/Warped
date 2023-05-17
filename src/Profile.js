@@ -3,6 +3,7 @@ import './Profile.css';
 import Sidebar from './Sidebar.js';
 import Searchbar from './Searchbar.js';
 import ProfileTop from './ProfileTop.js';
+import ProfileBottom from './ProfileBottom.js';
 
 function Profile() {
   return (
@@ -16,6 +17,9 @@ function Profile() {
       </div>
       <div className="topofprofile">
         <ProfileTop/>
+      </div>
+      <div className="bottomofprofile">
+        <ProfileBottom/>
       </div>
     </div>
   </div>

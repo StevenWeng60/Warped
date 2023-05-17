@@ -3,3 +3,9 @@
   grid-row: 2 / 4;
   background: yellow;
 }
+
+.bottomofprofile {
+  grid-column: 2 / 6;
+  grid-row: 4 / 9;
+  background:green;
+}

@@ -1,0 +1,17 @@
+.postflexcontainer {
+  display:flex;
+  flex-wrap: wrap;
+}
+.postflexcontainer img{
+  width: 100%;
+  height: 100%;
+}
+.post{
+  flex-basis: calc(95% / 3);
+  max-width: calc(95% / 3);
+  flex-grow: 1;
+  width: 33%;
+  height: 50%;
+  outline: 2px solid white;
+  margin-left: 0.2%;
+}
