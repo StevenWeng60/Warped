@@ -1,6 +1,6 @@
-import { posts } from './posts.js'
-import { people } from './data.js'
-import { getImageUrl } from './utils.js'
+import { posts } from '../../../utilities/posts.js'
+import { people } from '../../../utilities/data.js'
+import { getImageUrl } from '../../../utilities/utils.js'
 import './Main.css'
 
 function Main() {
@@ -28,7 +28,7 @@ function Main() {
         className="feedimg"
         style= {{height:'70%', width: '100%'}}
       />
-      <div classname="postbottom">
+      <div className="postbottom">
         <h4>{person.name}</h4>
         <p>{person.accomplishment}</p>
       </div>
