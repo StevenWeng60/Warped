@@ -74,6 +74,9 @@
 .actualmessage {
   margin-left: 2em;
   max-width: 80%;
+  background: peachpuff;
+  border-radius: .5em;
+  padding: .2em;
 }
 
 .submitmessagef{
