@@ -2,6 +2,7 @@ import '../../App.css';
 import './Messages.css'
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import Searchbar from '../../components/searchbar/Searchbar.js';
+import Messagebox from './messagebox/Messagebox.js'
 
 function Messages() {
   return (
@@ -12,6 +13,9 @@ function Messages() {
       </div>
       <div className="searchbar">
         <Searchbar/>
+      </div>
+      <div className="messagesbox">
+        <Messagebox/>
       </div>
     </div>
   </div>
