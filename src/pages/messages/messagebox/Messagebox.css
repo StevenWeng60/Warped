@@ -1,0 +1,84 @@
+.messagecontainer {
+  display:flex;
+  height:100%;
+}
+
+.messagesidebar {
+  background:blue;
+  width:30%;
+}
+
+.messagechat{
+  background:green;
+  width:70%;
+  height:100%;
+}
+
+.mfriendslist {
+  list-style-type: none;
+  vertical-align: center;
+}
+
+.messagefriends {
+  display:flex;
+  align-items:center;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  margin-right: 1em;
+  padding-left: 0.5em;
+}
+
+.messagefriends:hover {
+  background: white;
+  cursor:pointer;
+}
+
+.messagefpfp {
+  display: inline-block;
+  height: 3em;
+  width: 3em;
+  border-radius: 50px;
+  outline: 2px solid black;
+}
+
+.fusername {
+  display: inline-block;
+  padding: 1em;
+}
+
+/* FOR MESSAGE CHAT */
+
+.mchattop {
+  width: 100%;
+  height: 10%;
+  background: red;
+}
+.mchatmid {
+  width: 100%;
+  height: 83%;
+  background: gray;
+}
+.mchatbottom {
+  display:flex;
+  width: 100%;
+  height: 7%;
+  background: white;
+}
+
+.messagebubble {
+  display:flex;
+  padding-top: 1em;
+  padding-left: 0.5em;
+}
+
+.actualmessage {
+  margin-left: 2em;
+  max-width: 80%;
+  background: peachpuff;
+  border-radius: .5em;
+  padding: .2em;
+}
+
+.submitmessagef{
+  margin: auto;
+}
