@@ -27,10 +27,12 @@ function Sidebar() {
           </Link>
         </li>
         <li>
-          <div>
-            <FaMailBulk style={{fontSize: '2em'}}/>
-            <h2 className="lih2">  Messages</h2>
-          </div>
+          <Link to="/messages" className="link">          
+            <div>
+              <FaMailBulk style={{fontSize: '2em'}}/>
+              <h2 className="lih2">  Messages</h2>
+            </div>
+          </Link>
         </li>
         <li>
           <div>
