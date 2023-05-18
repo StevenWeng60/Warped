@@ -1,9 +1,9 @@
-import './App.css';
+import '../../App.css';
 import './Profile.css';
-import Sidebar from './Sidebar.js';
-import Searchbar from './Searchbar.js';
-import ProfileTop from './ProfileTop.js';
-import ProfileBottom from './ProfileBottom.js';
+import Sidebar from '../../components/sidebar/Sidebar.js';
+import Searchbar from '../../components/searchbar/Searchbar.js';
+import ProfileTop from './profiletop/ProfileTop.js';
+import ProfileBottom from './profilebottom/ProfileBottom.js';
 
 function Profile() {
   return (

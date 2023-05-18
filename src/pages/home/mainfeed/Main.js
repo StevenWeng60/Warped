@@ -1,6 +1,6 @@
-import { posts } from './posts.js'
-import { people } from './data.js'
-import { getImageUrl } from './utils.js'
+import { posts } from '../../../utilities/posts.js'
+import { people } from '../../../utilities/data.js'
+import { getImageUrl } from '../../../utilities/utils.js'
 import './Main.css'
 
 function Main() {

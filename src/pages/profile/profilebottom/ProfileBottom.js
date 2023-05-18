@@ -1,6 +1,6 @@
 import './ProfileBottom.css'
-import { people } from './data.js'
-import { getImageUrl } from './utils.js'
+import { people } from '../../../utilities/data.js'
+import { getImageUrl } from '../../../utilities/utils.js'
 
 function ProfileBottom() {
   const chemists = people.filter(person =>

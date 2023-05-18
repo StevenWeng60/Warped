@@ -1,8 +1,8 @@
-import './App.css';
-import Sidebar from './Sidebar.js';
-import Searchbar from './Searchbar.js';
-import FriendIcons from './FriendIcons.js';
-import Main from './Main.js';
+import '../../App.css';
+import Sidebar from '../../components/sidebar/Sidebar.js';
+import Searchbar from '../../components/searchbar/Searchbar.js';
+import FriendIcons from './friendicons/FriendIcons.js';
+import Main from './mainfeed/Main.js';
 
 function Home() {
   return (
