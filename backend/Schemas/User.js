@@ -58,6 +58,14 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
     require:true,
   },
+  numPosts: {
+    type: Number,
+    default: 0,
+  },
+  numFriends: {
+    type: Number,
+    default: 0
+  },
   friends: {
     type: [mongoose.SchemaTypes.ObjectID],
     ref: 'User'
@@ -66,7 +74,6 @@ const userSchema = new mongoose.Schema({
     type: Number,
     min: 1,
     max: 200,
-
   },
   messages: {
     type: [chatSchema],
