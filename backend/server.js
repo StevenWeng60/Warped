@@ -1,9 +1,13 @@
 const express = require('express');
 const mongoose = require("mongoose");
+const routes = require("./routes/routes.js");
 require('dotenv').config();
 const {User, Chat, Message} = require("./Schemas/User")
 
 const app = express();
+
+// routes
+app.use('/home', routes);
 
 app.get('/', (req, res) => {
   res.send('Hellow, world!');
@@ -19,7 +23,6 @@ async function connect () {
 }
 
 connect();
-
 
 async function run() {
   try{
