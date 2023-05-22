@@ -1,0 +1,73 @@
+.loginpage {
+  display:flex;
+  flex-direction: column;
+  background: #393646;
+  height: 100vh;
+  width: 100vw;
+  align-content: space-around;
+}
+
+.logincontainer {
+  height: 50%;
+  width: 50%;
+  display:flex;
+  margin:auto;
+  flex-direction:column;
+  background:#4F4557;
+  padding: 1.5em;
+}
+
+h2 {
+  margin: 0;
+}
+
+.logincontainer form {
+  display:block;
+  margin: 0.5em 0;
+  width: 100%;
+  overflow:hidden;
+  max-width: none;
+}
+
+.login-form {
+  font-size: 2.5em;
+  width: 100%;
+}
+
+#username {
+  font-size: 0.5em;
+  width: 100%;
+}
+
+#password {
+  font-size: 0.5em;
+  width: 100%;
+}
+
+.warped {
+  padding: 2em;
+  text-align:center;
+  background: #F4EEE0;
+  border: 5px solid black;
+  border-radius: 6px;
+}
+
+input[type="password"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+
+#loginbtn {
+  border-radius: 0.5em;
+  width:100%;
+  margin: 1em 0;
+}
+
+.logincontainer br {
+  border-bottom: 2px solid grey;
+  width: 100%;
+}

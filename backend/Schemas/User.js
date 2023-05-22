@@ -68,12 +68,14 @@ const userSchema = new mongoose.Schema({
   },
   friends: {
     type: [mongoose.SchemaTypes.ObjectID],
+    default: [],
     ref: 'User'
   },
   age: {
     type: Number,
     min: 1,
     max: 200,
+    default: 1
   },
   messages: {
     type: [chatSchema],
@@ -83,8 +85,8 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     minLength: 10,
-    required: true,
     lowercase: true,
+    default: "noemail@noemail.com"
   },
   createdAt: {
     type: Date,

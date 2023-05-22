@@ -6,12 +6,20 @@ const {User, Chat, Message} = require("./Schemas/User")
 
 const app = express();
 
-// routes
-app.use('/home', routes);
+// parses the json body
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hellow, world!');
+// allow access-control from localhost:3000
+app.use((req, res, next) => {
+  console.log(req.body);
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
 });
+
+// routes
+app.use('/', routes);
 
 async function connect () {
   try {
@@ -42,10 +50,7 @@ async function run() {
     //   text: "this is my second message hooray!",
     //   user: "64679e8ec410342a6b763959",
     // })
-    const user = await User.findOne().where({username: "Steven"}).populate("friends");
-    // const user = await User.find();
-    user.friends.push('64679d489fb6cced5e12c756')
-    await user.save();
+    const user = await User.findOne().where({username: "Steven"})
     console.log(user)
   } catch (e){
     console.log(e.message);

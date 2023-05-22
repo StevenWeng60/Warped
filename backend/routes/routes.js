@@ -1,12 +1,23 @@
 const express = require('express');
 const router = express.Router();
 
+const { createUser, userLogin } = require('../controllers/controllers.js')
 
 router.route('/').get((req, res) => {
-  res.status(200).send("asdfkldjsaf");
+  res.send('Hellow, world!');
 })
-router.route('/friendicons').get().post()
-router.route('/posts').get().post()
 
-module.exports = router;
+router.route('/create').post(createUser)
+
+router.route('/login').post(userLogin)
+
+router.route('/friendicons').get((req, res) => {
+  
+})
+
+router.route('/posts').get((req, res) => {
+
+})
+
+module.exports = router
 
