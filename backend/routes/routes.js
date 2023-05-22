@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createUser, userLogin } = require('../controllers/controllers.js')
+const { createUser, userLogin, testing } = require('../controllers/controllers.js')
 
 router.route('/').get((req, res) => {
   res.send('Hellow, world!');
@@ -15,9 +15,7 @@ router.route('/friendicons').get((req, res) => {
   
 })
 
-router.route('/posts').get((req, res) => {
-
-})
+router.route('/posts').get(testing)
 
 module.exports = router
 

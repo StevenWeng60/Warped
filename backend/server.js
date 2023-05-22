@@ -6,6 +6,8 @@ const {User, Chat, Message} = require("./Schemas/User")
 
 const app = express();
 
+//middleware
+
 // parses the json body
 app.use(express.json());
 

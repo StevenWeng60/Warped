@@ -1,5 +1,7 @@
 const { User } = require('../Schemas/User.js');
 const bcrypt = require("bcrypt")
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 const createUser = async (req, res) => {
   try{
@@ -30,14 +32,27 @@ const createUser = async (req, res) => {
 
 const userLogin = async (req, res) => {
   const user = await User.findOne().where({username: req.body.username})
+  // Check to see if we can find the user
   if (user === null) {
     res.status(400).send('Cannot find user')
   }
+  // Check to see if user has correct password
   else {
     try{
       console.log(user)
+      // If user has corret password generate jwt web token
       if(await bcrypt.compare(req.body.password, user.password)){
-        res.send('Success')
+        try {
+          // convert mongoose document to plain object
+          const userObject = user.toObject();
+          // generate access token for user
+          const accessToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET);
+          // return the access token as the response
+          res.json({ accessToken: accessToken });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send('Internal server error');
+        }
       }
       else {
         res.send('Not allowed')
@@ -49,4 +64,14 @@ const userLogin = async (req, res) => {
   }
 }
 
-module.exports = {createUser, userLogin}
+const testing = (req, res) => {
+  const posts = [
+    {
+      username: "sdfa",
+      title: "asdf"
+    }
+  ]
+
+}
+
+module.exports = {createUser, userLogin, testing}

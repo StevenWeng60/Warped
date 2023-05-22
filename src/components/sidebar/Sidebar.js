@@ -46,6 +46,9 @@ function Sidebar() {
             <h2 className="lih2">  Warp</h2>
           </div>
         </li>
+        <li>
+          <h1>{localStorage.getItem("Username")}</h1>
+        </li>
       </ul>
     </div>
   );
