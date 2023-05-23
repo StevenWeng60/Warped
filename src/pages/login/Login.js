@@ -10,7 +10,7 @@ function Login() {
 
   const navigate = useNavigate();
   const routeChange = () => {
-    const path = "/profile";
+    const path = "/";
     navigate(path);
   }
 
@@ -30,8 +30,6 @@ function Login() {
         password: passwordRef.current.value
       })
       .then (function (response) {
-        console.log("----------------");
-        console.log(response.data.accessToken);
         localStorage.setItem('accessToken', response.data.accessToken);
         localStorage.setItem('Username', usernameRef.current.value);
 

@@ -64,6 +64,20 @@ const userLogin = async (req, res) => {
   }
 }
 
+const getFriends = async (req, res) => {
+  try{
+    console.log(req.body);
+    const user = await User.findOne().where({username: req.body.username}).populate('friends')
+    console.log("the user:")
+    console.log(user);
+    res.send(user);
+  }
+  catch (error){
+    res.status(500).send(error);
+  }
+
+}
+
 const testing = (req, res) => {
   const posts = [
     {
@@ -71,7 +85,6 @@ const testing = (req, res) => {
       title: "asdf"
     }
   ]
-
 }
 
-module.exports = {createUser, userLogin, testing}
+module.exports = {createUser, userLogin, testing, getFriends}

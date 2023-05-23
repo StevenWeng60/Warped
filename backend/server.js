@@ -52,7 +52,9 @@ async function run() {
     //   text: "this is my second message hooray!",
     //   user: "64679e8ec410342a6b763959",
     // })
-    const user = await User.findOne().where({username: "Steven"})
+    const user = await User.findOne().where({username: "username"})
+    user.friends.push("646ba982046ca414e64b9def")
+    user.save()
     console.log(user)
   } catch (e){
     console.log(e.message);
@@ -79,7 +81,7 @@ async function createChat() {
   }
 }
 
-run();
+// run();
 //createChat();
 
 
