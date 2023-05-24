@@ -1,27 +1,25 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const routes = require("./routes/routes.js");
+const uploadroutes = require("./routes/uploadroute.js")
 require('dotenv').config();
 const {User, Chat, Message} = require("./Schemas/User")
 
 const app = express();
 
-//middleware
-
-// parses the json body
+// global middleware for processing json objects
 app.use(express.json());
 
+// parses the json body
+
 // allow access-control from localhost:3000
-app.use((req, res, next) => {
-  console.log(req.body);
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+
+
+// storage middleware for multer
 
 // routes
 app.use('/', routes);
+app.use('/upload', uploadroutes);
 
 async function connect () {
   try {

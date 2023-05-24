@@ -31,6 +31,8 @@ const chatSchema = new mongoose.Schema({
 
 const postSchema = new mongoose.Schema({
   // images
+  data: Buffer,
+  contentType: String,
   user: mongoose.SchemaTypes.ObjectId,
   description: String,
   likes: {
@@ -58,6 +60,10 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
     require:true,
   },
+  avatar: {
+    type: Buffer
+  },
+  avatarContentType: String,
   numPosts: {
     type: Number,
     default: 0,
@@ -98,10 +104,12 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema)
 const Chat = mongoose.model("Chat", chatSchema)
 const Message = mongoose.model("Message", messageSchema)
+const Post = mongoose.model("Post", postSchema)
 
 
 module.exports = {
   User,
   Chat,
-  Message
+  Message,
+  Post,
 }
