@@ -123,23 +123,6 @@ const postUpload = async (req, res) => {
   }
 }
 
-const getPosts = async (req, res) => {
-  const requsername = req.query.username;
-  console.log(req.query);
-
-  try {
-    const user = await User.findOne().where({username: requsername});
-    if (!user) {
-      res.status(404).send('User not found');
-    } else {
-      res.set('Content-Type', user.avatarContentType);
-      res.send(user.avatar);
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('Error retrieving image or user');
-  }
-}
 
 const singlePostUpload = async (req, res) => {
   try{
@@ -158,7 +141,7 @@ const singlePostUpload = async (req, res) => {
           contentType: mimetype,
           description: req.body.caption,
         })
-
+        
         await post.save();
         
         // Add the post to the users post list
@@ -173,6 +156,40 @@ const singlePostUpload = async (req, res) => {
   }
   catch (e) {
     res.status(500).send(e.message);
+  }
+}
+
+const getPosts = async (req, res) => {
+  const requsername = req.query.username;
+  console.log(req.query);
+
+  try {
+    const user = await User.findOne().where({username: requsername});
+    if (!user) {
+      res.status(404).send('User not found');
+    } else {
+      // console.log(user);
+      res.set('Content-Type', user.avatarContentType);
+      res.send(user.avatar);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error retrieving image or user');
+  }
+}
+
+const getUsersPosts = async (req, res) => {
+  try {
+    const user = await User.findOne().where({username: req.query.username}).populate('posts')
+    if (!user) {
+      res.status(404).send('User not found');
+    } else {
+      console.log(user.posts);
+      res.status(200).send(user.posts);
+    }
+  }
+  catch (e){
+    res.status(500).send(e)
   }
 }
 /**const postUpload = async (req, res) => {
@@ -204,4 +221,4 @@ const testing = (req, res) => {
   ]
 }
 
-module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload}
+module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts}

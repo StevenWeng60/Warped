@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const routes = require("./routes/routes.js");
 const uploadroutes = require("./routes/uploadroute.js")
 require('dotenv').config();
-const {User, Chat, Message} = require("./Schemas/User")
+const {User, Chat, Message, Post} = require("./Schemas/User")
 
 const app = express();
 
@@ -50,9 +50,7 @@ async function run() {
     //   text: "this is my second message hooray!",
     //   user: "64679e8ec410342a6b763959",
     // })
-    const user = await User.findOne().where({username: "username"})
-    user.friends.push("646ba982046ca414e64b9def")
-    user.save()
+    const user = await User.findOne().where({username: 'bobthebuilder'}).populate('posts')
     console.log(user)
   } catch (e){
     console.log(e.message);
