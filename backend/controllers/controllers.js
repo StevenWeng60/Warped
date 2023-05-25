@@ -141,6 +141,60 @@ const getPosts = async (req, res) => {
   }
 }
 
+const singlePostUpload = async (req, res) => {
+  try{
+    const user = await User.findOne().where({username: req.body.username});
+    if(!user){
+      res.status(404).send('User not found');
+    }
+    // Create post here
+    else {
+      const {buffer, mimetype} = req.file;
+      try {
+        // Create the post and save it to the database
+        const post = new Post({
+          name: user.username,
+          data: buffer,
+          contentType: mimetype,
+          description: req.body.caption,
+        })
+
+        await post.save();
+        
+        // Add the post to the users post list
+        user.posts.push(post._id);
+        await user.save();
+      }
+      catch (e) {
+        return res.status(500).send("error in creating and saving post")
+      }
+    }
+    res.status(200).send("request sent successfully");
+  }
+  catch (e) {
+    res.status(500).send(e.message);
+  }
+}
+/**const postUpload = async (req, res) => {
+  const { originalname, buffer, mimetype } = req.file;
+  console.log(originalname);
+  try {
+    const post = new Post({
+      name: originalname,
+      data: buffer,
+      contentType:mimetype,
+      description: "first post created"
+    })
+
+    await post.save();
+    res.send("Post upload successful");
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).send("error uploading picture");
+  }
+} */
+
 const testing = (req, res) => {
   const posts = [
     {
@@ -150,4 +204,4 @@ const testing = (req, res) => {
   ]
 }
 
-module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload}
+module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload}

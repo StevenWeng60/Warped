@@ -6,7 +6,7 @@ import axios from 'axios';
 
 function Sidebar() {
   const inputFileRef = useRef(null);
-  
+
   const addAvatar = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -58,8 +58,10 @@ function Sidebar() {
         </li>
         <li>
           <div>
-            <FaRegPlusSquare style={{fontSize: '2em'}}/>
-            <h2 className="lih2">  Post</h2>
+            <Link to="/post" className="link">
+              <FaRegPlusSquare style={{fontSize: '2em'}}/>
+              <h2 className="lih2">  Post</h2>
+            </Link>
           </div>
         </li>
         <li>

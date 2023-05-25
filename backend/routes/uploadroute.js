@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 const multer = require("multer")
 const path = require("path")
-const { avatarUpload, postUpload, getPosts, pfpUpload} = require('../controllers/controllers.js')
+const { avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload} = require('../controllers/controllers.js')
 const fs = require("fs");
 
 
@@ -34,8 +34,13 @@ router.use((req, res, next) => {
   next();
 });
 
+// pfp used for adding profile pictures
+// addpost used for adding post to a users collection
+
+
 router.route("/avatar").post(avatarUpload)
 router.route("/post").post(postUpload)
 router.route("/pfp").post(pfpUpload)
+router.route("/singlepost").post(singlePostUpload)
 
 module.exports = router

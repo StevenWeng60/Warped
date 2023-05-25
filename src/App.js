@@ -4,6 +4,7 @@ import Profile from './pages/profile/Profile.js';
 import Messages from './pages/messages/Messages.js';
 import Login from './pages/login/Login.js';
 import CreateAcc from './pages/login/CreateAcc.js';
+import Post from './pages/post/Post.js';
 import Test from './Test.js';
 import { Route, Routes } from "react-router-dom"
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/messages" element={<Messages />}/>
         <Route path="/login" element={<Login />}/>
         <Route path="/create" element={<CreateAcc />}/>
+        <Route path="/post" element={<Post />}/>
         <Route path="/test" element={<Test/>}/>
       </Routes>
     </>

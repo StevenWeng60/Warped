@@ -15,7 +15,7 @@ const messageSchema = new mongoose.Schema({
 
 const chatSchema = new mongoose.Schema({
   listOfTexts: {
-    type: [mongoose.Schema.Types.ObjectId],
+    type: [mongoose.SchemaTypes.ObjectId],
     ref: 'Message'
   },
   messageBetween: {
@@ -64,6 +64,10 @@ const userSchema = new mongoose.Schema({
     type: Buffer
   },
   avatarContentType: String,
+  posts: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'Post'
+  },
   numPosts: {
     type: Number,
     default: 0,
