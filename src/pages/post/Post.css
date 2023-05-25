@@ -1,0 +1,42 @@
+.addpostform {
+  display:block;
+  background:yellow;
+  width: 50%;
+  height: 100%;
+  max-width: none;
+  margin:auto;
+}
+
+
+.addpost {
+  background: red;
+  grid-column: 2 / 6;
+  grid-row: 2 / 8;
+}
+
+.postfile-input-container {
+  position:relative;
+  width: 100%;
+  height: 60%;
+  border: 2px dashed #ccc;
+  background-color:aliceblue;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.postfile-input {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  cursor:pointer;
+}
+
+#postcaptions {
+  margin:auto;
+  width:95%;
+  height:30%;
+}

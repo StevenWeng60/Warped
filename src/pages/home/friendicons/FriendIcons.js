@@ -1,13 +1,29 @@
 import './FriendIcons.css'
 import { people } from '../../../utilities/data.js';
 import { getImageUrl } from '../../../utilities/utils.js';
+import axios from 'axios';
 
 function FriendIcons() {
-  const listItems = people.map(person =>
-    <li key={person.id}>
+  let friends = []
+  function getFriends() {
+    axios.post("http://localhost:3001/friendicons",{
+      username: localStorage.getItem("Username")
+    })
+    .then(function (response) {
+      console.log(response);
+      friends = response.data.friends;
+      console.log(friends);
+    })
+    .catch((error) =>{
+      console.log(error);
+    })
+  }
+  getFriends();
+  const listItems = friends.map(friend =>
+    <li key={friend.id}>
       <img
-        src={getImageUrl(person)}
-        alt={person.name}
+        src={getImageUrl(friend.username)}
+        alt={friend.username}
       />
     </li>
   );
