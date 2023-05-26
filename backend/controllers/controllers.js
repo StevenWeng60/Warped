@@ -192,6 +192,24 @@ const getUsersPosts = async (req, res) => {
     res.status(500).send(e)
   }
 }
+
+const findUsers = async (req, res) => {
+  try{
+    // Find users
+    if (req.query.queryItem === "User") {
+      const regex = new RegExp(req.query.username, 'i')
+      const user = await User.find({username: {$regex:regex}})
+      res.status(200).send(user)
+    }
+    // Find posts
+    else {
+
+    }
+  }
+  catch (error) {
+    res.status(500).send(error)
+  }
+}
 /**const postUpload = async (req, res) => {
   const { originalname, buffer, mimetype } = req.file;
   console.log(originalname);
@@ -221,4 +239,4 @@ const testing = (req, res) => {
   ]
 }
 
-module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts}
+module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers}

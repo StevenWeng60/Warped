@@ -1,6 +1,6 @@
 import '../../App.css';
+import './Home.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
-import Searchbar from '../../components/searchbar/Searchbar.js';
 import FriendIcons from './friendicons/FriendIcons.js';
 import Main from './mainfeed/Main.js';
 
@@ -10,9 +10,6 @@ function Home() {
     <div className="Body">
       <div className="sidebar">
         <Sidebar/>
-      </div>
-      <div className="searchbar">
-        <Searchbar/>
       </div>
       <div className="friendicons">
         <FriendIcons/>

@@ -1,0 +1,18 @@
+.searchresults-container {
+  display:flex;
+  width: 70%;
+  margin:auto;
+  background:lightcoral;
+  flex-direction:column;
+}
+
+.searchUser {
+  flex-grow:1;
+  padding: 1em;
+  font-size: 0.75em;
+}
+
+.searchUser:hover {
+  background: aliceblue;
+  cursor:pointer;
+}
