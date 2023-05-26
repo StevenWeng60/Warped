@@ -1,7 +1,6 @@
 import '../../App.css';
 import './Post.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
-import Searchbar from '../../components/searchbar/Searchbar.js';
 import { useState, useRef } from 'react'
 import axios from 'axios'
 
@@ -61,9 +60,6 @@ function Post() {
     <div className="Body">
       <div className="sidebar">
         <Sidebar/>
-      </div>
-      <div className="searchbar">
-        <Searchbar/>
       </div>
       <div className="addpost">
         <form className="addpostform" onSubmit={handleFormSubmit} encType="multipart/form-data">

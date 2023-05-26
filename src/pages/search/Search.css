@@ -1,0 +1,96 @@
+h1 {
+  color: black;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+form {
+  display: flex;
+  width: 100%;
+  max-width: 700px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-left: none !important;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  background-color: #6D5D6E;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: gray;
+}
+
+.searchbar {
+  grid-column: 2 / 6;
+  grid-row: 1;
+}
+
+.searchResults {
+  grid-column: 2 / 6;
+  grid-row: 2 / 9;
+  background: pink;
+}
+
+.dropDown {
+  position:relative;
+}
+
+.dropDownContent {
+  position: absolute;
+  visibility: hidden;
+}
+
+.dropDownContent ul {
+  list-style:none;
+  padding: 0;
+  margin: 0;
+  background: grey;
+}
+
+.dropDownContent ul li:hover {
+  background: white;
+  cursor:pointer;
+}
+
+.dropDownContent ul li h4{
+  margin: 0;
+  padding: 0.2em;
+}
+
+.dropDownMenu {
+  display:flex;
+  flex: 0.1;
+  background:gray;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+
+/* #topSearchBar {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-left: none;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+} */

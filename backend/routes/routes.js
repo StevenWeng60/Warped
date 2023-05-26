@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts } = require('../controllers/controllers.js')
+const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -22,6 +22,9 @@ router.route('/login').post(userLogin)
 router.route('/friendicons').post(getFriends)
 
 router.route('/posts').get(testing)
+
+// for finding users
+router.route('/findusers').get(findUsers)
 
 // get route for getting images from cloud
 router.route("/postmongodb").get(getPosts);
