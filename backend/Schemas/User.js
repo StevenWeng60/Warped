@@ -64,6 +64,10 @@ const userSchema = new mongoose.Schema({
     type: Buffer
   },
   avatarContentType: String,
+  profileDescription: {
+    type: String,
+    default: "No profile description yet"
+  },
   posts: {
     type: [mongoose.SchemaTypes.ObjectId],
     ref: 'Post'

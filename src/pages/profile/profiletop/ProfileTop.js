@@ -5,11 +5,17 @@ import { useRef, useState, useEffect } from 'react'
 import { Buffer } from 'buffer'
 import axios from 'axios'
 
-function ProfileTop() {
+function ProfileTop({userInfo}) {
 
   const inputFileRef = useRef(null);
 
-  const [postData, setPostData] = useState(null);
+  const [postData, setPostData] = useState(userInfo.avatarData);
+  // console.log(`avatarData: ${userInfo.avatarData}`)
+  // console.log(`avatarData: ${postData}`);
+
+  useEffect(() => {
+    setPostData(userInfo.avatarData);
+  }, [userInfo.avatarData])
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -65,13 +71,6 @@ function ProfileTop() {
   // used for simluating loading since async operations isnt fast enough
   // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    grabImageFromMongoDB();
-
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
-  }, []);
 
   // if (loading) {
   //   return <div>Loading</div>;
@@ -92,15 +91,15 @@ function ProfileTop() {
         <div className="pfdescription">
           <div className="pfdescriptionflex">
             <div className="name">
-              <h1>{chemists[0].name}</h1>
+              <h1>{userInfo.username}</h1>
               <h3>Edit profile</h3>
             </div>
             <div className="followerstats">
               <div className="followerstats2">
                 <div className="stats">
-                  <h4>0 posts</h4>
-                  <h4>0 followers</h4>
-                  <h4>0 following</h4>
+                  <h4>{userInfo.numPosts} posts</h4>
+                  <h4>{userInfo.numFriends} followers</h4>
+                  <h4>{userInfo.numFriends} following</h4>
                 </div>
               </div>
               <div className="filler">
@@ -108,7 +107,7 @@ function ProfileTop() {
               </div>
             </div>
             <div className="bio">
-              <p>{chemists[0].accomplishment}</p>
+              <p>{userInfo.profileDescription}</p>
             </div>
           </div>
         </div>
