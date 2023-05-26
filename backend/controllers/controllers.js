@@ -185,7 +185,7 @@ const getUsersPosts = async (req, res) => {
       res.status(404).send('User not found');
     } else {
       console.log(user.posts);
-      res.status(200).send(user.posts);
+      res.status(200).send(user);
     }
   }
   catch (e){
