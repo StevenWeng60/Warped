@@ -3,6 +3,7 @@ import Sidebar from '../../components/sidebar/Sidebar.js';
 import Searchresults from './searchresults/Searchresults.js';
 import { useRef, useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function Search() {
   const searchBarRef = useRef(null);
@@ -12,6 +13,8 @@ function Search() {
   const [qBtnVisibility, setQBtnVisibility] = useState(false);
   const [listOfData, setListOfData] = useState([]);
   const [labelIsUser, setLabelIsUser] = useState(true);
+
+  const navigate = useNavigate();
   
   const searchUser = async (e) => {
     e.preventDefault();
@@ -26,7 +29,6 @@ function Search() {
     // Step two - parse request
     .then(function (response) {
       setListOfData(response.data);
-      console.log(listOfData[0].username);
       // const listOfUsers = response.data.map((user) => {
       //   return(<div className="searchUser" key={user._id}>
       //     <h1>{user.username}</h1>
@@ -65,6 +67,12 @@ function Search() {
     setCurrLabelVal(value);
   }
 
+  // user clicked -> go to their profile
+  const userClicked = (username) => {
+    const userroute = '/profile/' + username;
+    navigate(userroute);
+  }
+
   return (
   <div className="App">
     <div className="Body">
@@ -97,7 +105,7 @@ function Search() {
       <div className="searchResults">
         { labelIsUser ?
           <Searchresults data={listOfData.map((data) => {
-            return(<div className="searchUser" key={data._id}>
+            return(<div className="searchUser" key={data._id} onClick={() => userClicked(data.username)}>
               <h1>{data.username}</h1>
             </div>);
           })}/>

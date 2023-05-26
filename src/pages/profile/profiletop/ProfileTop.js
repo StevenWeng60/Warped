@@ -7,6 +7,9 @@ import axios from 'axios'
 
 function ProfileTop({userInfo}) {
 
+  console.log(localStorage.getItem("Username"));
+  console.log(userInfo.username);
+
   const inputFileRef = useRef(null);
 
   const [postData, setPostData] = useState(userInfo.avatarData);
@@ -92,7 +95,10 @@ function ProfileTop({userInfo}) {
           <div className="pfdescriptionflex">
             <div className="name">
               <h1>{userInfo.username}</h1>
-              <h3>Edit profile</h3>
+                { localStorage.getItem("Username") === userInfo.username 
+                ? <h3>Edit profile</h3>
+                : <h3>Add friend</h3>
+                }
             </div>
             <div className="followerstats">
               <div className="followerstats2">
@@ -101,9 +107,6 @@ function ProfileTop({userInfo}) {
                   <h4>{userInfo.numFriends} followers</h4>
                   <h4>{userInfo.numFriends} following</h4>
                 </div>
-              </div>
-              <div className="filler">
-                <h3>Edit profile</h3>
               </div>
             </div>
             <div className="bio">

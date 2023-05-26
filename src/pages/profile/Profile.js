@@ -5,9 +5,11 @@ import ProfileTop from './profiletop/ProfileTop.js';
 import ProfileBottom from './profilebottom/ProfileBottom.js';
 import { Buffer } from 'buffer'
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 function Profile() {
+  const { username } = useParams();
 
   const [usersPosts, setUsersPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
@@ -21,7 +23,7 @@ function Profile() {
     axios.get("http://localhost:3001/usersposts", 
     {
       params: {
-        username: localStorage.getItem("Username")
+        username: username
       },
     })
     .then(function (response) {

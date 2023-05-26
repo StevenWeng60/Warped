@@ -5,6 +5,7 @@ import { Link, Route, Routes } from "react-router-dom"
 import axios from 'axios';
 
 function Sidebar() {
+  const profileRoute = '/profile/' + localStorage.getItem("Username");
 
   return (
     <div className="Sidebar">
@@ -13,7 +14,7 @@ function Sidebar() {
       </div>
       <ul className="sidebarOptions">
         <li>
-          <Link to="/profile" className="link">
+          <Link to={profileRoute} className="link">
             <div>
               <FaHome style={{fontSize: '2em'}}/>
               <h2 className="lih2">  Profile</h2>
