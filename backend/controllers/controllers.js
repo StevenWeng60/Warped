@@ -197,9 +197,21 @@ const findUsers = async (req, res) => {
   try{
     // Find users
     if (req.query.queryItem === "User") {
+      console.log("asdf")
+      // Find the request user
+      const requestUser = await User.findOne({username: req.query.requser}).select("friends").populate("friends");
+
+      const friends = requestUser.friends.map((friend) => {
+        console.log("mapped")
+        return friend.username;
+      })
+
+      // Find the list of users that contain the the search parameter
       const regex = new RegExp(req.query.username, 'i')
       const user = await User.find({username: {$regex:regex}})
-      res.status(200).send(user)
+
+      const response = [friends, user]
+      res.status(200).send(response)
     }
     // Find posts
     else {
@@ -208,6 +220,37 @@ const findUsers = async (req, res) => {
   }
   catch (error) {
     res.status(500).send(error)
+  }
+}
+
+const addFriend = async (req, res) => {
+  try {
+    const user1 = await User.findOne({username: req.body.username1});
+    const user2 = await User.findOne({username: req.body.username2});
+    User.updateOne({username:user1.username}, {
+      $push : {friends: user2._id},
+      $inc : {numFriends: 1}})
+    .then(() => {
+      console.log("success1")
+    })
+    .catch(() => {
+      console.log("success2")
+    })
+
+    User.updateOne({username:user2.username}, {
+      $push : {friends: user1._id},
+      $inc : {numFriends: 1}})
+    .then(() => {
+      console.log("success1")
+    })
+    .catch(() => {
+      console.log("success2")
+    })
+
+    res.status(200).send("success");
+  }
+  catch (error){
+    res.status(500).send(error);
   }
 }
 /**const postUpload = async (req, res) => {
@@ -239,4 +282,4 @@ const testing = (req, res) => {
   ]
 }
 
-module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers}
+module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend}

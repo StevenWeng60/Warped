@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers } = require('../controllers/controllers.js')
+const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -33,3 +33,5 @@ router.route("/postmongodb").get(getPosts);
 router.route("/usersposts").get(getUsersPosts)
 module.exports = router
 
+// for adding friends
+router.route("/addfriend").post(addFriend)

@@ -7,6 +7,11 @@ import axios from 'axios'
 
 function ProfileTop({userInfo}) {
 
+  console.log(localStorage.getItem("Username"));
+  console.log(userInfo.username);
+  console.log(`are friends: ${userInfo.areFriends}`);
+  const [isFriend, setIsFriend] = useState(userInfo.areFriends === "y");
+
   const inputFileRef = useRef(null);
 
   const [postData, setPostData] = useState(userInfo.avatarData);
@@ -68,13 +73,23 @@ function ProfileTop({userInfo}) {
     });
   }
 
-  // used for simluating loading since async operations isnt fast enough
-  // const [loading, setLoading] = useState(true);
+  // Add a friend 
 
+  const handleAddFriend = async () => {
+    const requestBody = {
+      username1: localStorage.getItem("Username"),
+      username2: userInfo.username 
+    }
+    axios.post("http://localhost:3001/addfriend", requestBody)
+    .then((response) => {
+      setIsFriend(true);
+      console.log("route works!");
 
-  // if (loading) {
-  //   return <div>Loading</div>;
-  // }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
 
   return (
     <>
@@ -82,8 +97,12 @@ function ProfileTop({userInfo}) {
         <div className="pfp">
           <form encType="multipart/form-data" method="post">
             <div className="form-group">
-                <img
-                src={postData} onClick={handleImageClick} className="avatar"/>
+                { userInfo.areFriends === 'me'
+                  ? <img
+                    src={postData} onClick={handleImageClick} className="avatar"/>
+                  : <img
+                    src={postData} className="avatar"/>
+                }
               <input className="imageInput" type="file"  name="uploaded_file" style ={{display: "none"}} ref={inputFileRef} onChange={handleFileUpload}/> 
             </div>
           </form>
@@ -92,7 +111,12 @@ function ProfileTop({userInfo}) {
           <div className="pfdescriptionflex">
             <div className="name">
               <h1>{userInfo.username}</h1>
-              <h3>Edit profile</h3>
+                { localStorage.getItem("Username") === userInfo.username 
+                ? <h3 className="editprofile">Edit profile</h3>
+                : isFriend 
+                  ? <h3 className="friends">friends</h3>
+                  : <h3 className="addfriend" onClick={handleAddFriend}>Add friend</h3>
+                }
             </div>
             <div className="followerstats">
               <div className="followerstats2">
@@ -101,9 +125,6 @@ function ProfileTop({userInfo}) {
                   <h4>{userInfo.numFriends} followers</h4>
                   <h4>{userInfo.numFriends} following</h4>
                 </div>
-              </div>
-              <div className="filler">
-                <h3>Edit profile</h3>
               </div>
             </div>
             <div className="bio">

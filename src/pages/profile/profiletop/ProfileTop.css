@@ -96,3 +96,7 @@
   width: 100%;
   word-wrap: break-word;
 }
+
+.addfriend:hover {
+  cursor:pointer;
+}

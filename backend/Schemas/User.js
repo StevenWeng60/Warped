@@ -81,8 +81,7 @@ const userSchema = new mongoose.Schema({
     default: 0
   },
   friends: {
-    type: [mongoose.SchemaTypes.ObjectId],
-    default: [],
+    type: [mongoose.Schema.Types.ObjectId],
     ref: 'User'
   },
   age: {

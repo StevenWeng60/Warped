@@ -34,23 +34,17 @@ connect();
 
 async function run() {
   try{
-    // const user = await User.create({ 
-    //   username: "Steven",
-    //   age: 21,
-    //   email: "test@test.com",
-    //   hobbies: ["Weight Lifting", "Bowling"],
-    //   address: {
-    //     street: "Main street",
-    //     city: "houston"
-    //   },
-    // }
-    // )
+    const user = await User.create({ 
+      username: "rixslayer",
+      password: "rixslayer"
+    }
+    )
 
     // const message = await Message.create({
     //   text: "this is my second message hooray!",
     //   user: "64679e8ec410342a6b763959",
     // })
-    const user = await User.findOne().where({username: 'bobthebuilder'}).populate('posts')
+    // const user = await User.findOne().where({username: 'bobthebuilder'}).populate('posts')
     console.log(user)
   } catch (e){
     console.log(e.message);
