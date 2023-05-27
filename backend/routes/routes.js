@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend } = require('../controllers/controllers.js')
+const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -35,3 +35,6 @@ module.exports = router
 
 // for adding friends
 router.route("/addfriend").post(addFriend)
+
+// get main feed
+router.route("/mainfeed").get(getMainFeed);

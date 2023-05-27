@@ -33,7 +33,9 @@ const postSchema = new mongoose.Schema({
   // images
   data: Buffer,
   contentType: String,
-  user: mongoose.SchemaTypes.ObjectId,
+  user: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'User'},
   description: String,
   likes: {
     type: Number,

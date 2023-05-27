@@ -136,7 +136,7 @@ const singlePostUpload = async (req, res) => {
       try {
         // Create the post and save it to the database
         const post = new Post({
-          name: user.username,
+          user: user._id,
           data: buffer,
           contentType: mimetype,
           description: req.body.caption,
@@ -253,6 +253,44 @@ const addFriend = async (req, res) => {
     res.status(500).send(error);
   }
 }
+
+const getMainFeed = async (req, res) => {
+  try{
+    const user = await User.findOne({username: req.query.username}).populate({
+      path: 'friends',
+      populate: {
+        path: 'posts',
+        options: { limit: 5, sort: {createdAt: -1}, populate: {
+          path: 'user'
+        }}
+      }
+    });
+    const posts = user.friends.reduce((allPosts, friend) => {
+      return allPosts.concat(friend.posts);
+    }, []);
+
+    posts.sort((a, b) => b.createdAt - a.createdAt);
+
+    posts.forEach((post) => {
+      console.log(post);
+      console.log(post.description);
+      console.log(post.user.username);
+    });
+    res.status(200).send(posts);
+  }
+  catch (error) {
+
+  }
+  console.log(req.query.username);
+
+  // first get the users list of friends with the data being populated
+  // Then get up to 10 post from each friend with the posts being populated
+  // This is stored in a 2d array using the map function
+  // Then use the flat function so that the array is 1d
+  // Then sort the array by when the posts were created (with the newest posts being at the top)
+  // Then return the sorted array
+}
+
 /**const postUpload = async (req, res) => {
   const { originalname, buffer, mimetype } = req.file;
   console.log(originalname);
@@ -282,4 +320,4 @@ const testing = (req, res) => {
   ]
 }
 
-module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend}
+module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed}
