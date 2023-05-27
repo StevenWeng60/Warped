@@ -13,22 +13,26 @@ function Search() {
   const [qBtnVisibility, setQBtnVisibility] = useState(false);
   const [listOfData, setListOfData] = useState([]);
   const [labelIsUser, setLabelIsUser] = useState(true);
+  const [listOfFriends, setListOfFriends] = useState([]);
 
   const navigate = useNavigate();
   
+  // returns a list of users/posts from the given parameters
   const searchUser = async (e) => {
     e.preventDefault();
 
     // Step one - send request
     axios.get("http://localhost:3001/findusers", {
       params: {
+        requser: localStorage.getItem("Username"),
         username: searchBarRef.current.value,
         queryItem: currLabelVal
       },
     })
     // Step two - parse request
     .then(function (response) {
-      setListOfData(response.data);
+      setListOfData(response.data[1]);
+      console.log(`response: ${response.data[1]}`);
       // const listOfUsers = response.data.map((user) => {
       //   return(<div className="searchUser" key={user._id}>
       //     <h1>{user.username}</h1>
@@ -40,7 +44,11 @@ function Search() {
       else {
         setLabelIsUser(false);
       }
-      // Step three - load page with props
+      
+      // Get a list of friends
+      setListOfFriends(response.data[0]);
+      // Check to see if any of the users in the search are friends with each other
+      // If they are, pass that fact to the profileTop component and then have it render "Add friend" or "Friend" based on what was passed
     })
     .catch(function (error) {
       console.log(error);
@@ -69,7 +77,13 @@ function Search() {
 
   // user clicked -> go to their profile
   const userClicked = (username) => {
-    const userroute = '/profile/' + username;
+    let userroute;
+    if(listOfFriends.includes(username)){
+      userroute = '/profile/' + username + '/y';
+    }
+    else {
+      userroute = '/profile/' + username + "/n";
+    }
     navigate(userroute);
   }
 
@@ -105,9 +119,16 @@ function Search() {
       <div className="searchResults">
         { labelIsUser ?
           <Searchresults data={listOfData.map((data) => {
+            if(data.username === localStorage.getItem("Username")){
+              return null;
+            }
             return(<div className="searchUser" key={data._id} onClick={() => userClicked(data.username)}>
-              <h1>{data.username}</h1>
-            </div>);
+              {listOfFriends.includes(data.username) 
+                ? <h1>{data.username} (friends)</h1>
+                : <h1>{data.username}</h1>
+              }
+            </div>
+            );
           })}/>
           :
           <Searchresults data = {listOfData.map((data) => {

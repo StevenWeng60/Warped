@@ -9,14 +9,13 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 function Profile() {
-  const { username } = useParams();
-
+  const { username, friends } = useParams();
   const [usersPosts, setUsersPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
-  // will run win rendered
+  // will run when rendered
   useEffect(() => {
     getPosts();
-  }, [])
+  }, [username])
 
   // One get request that grabs all of a users information and their posts history
   const getPosts = async () => {
@@ -34,13 +33,17 @@ function Profile() {
       // Create object for profileTop component
       const dataUrl = `data:${data['avatarContentType']};base64,${Buffer.from(data.avatar, 'binary').toString('base64')}`;
       console.log(dataUrl);
+      
 
+      // areFriends represent is a user is friends with the user's profile
+      // this field is useless if its the same user since it won't be used
       setUserInfo({
         username: data.username,
         numFriends: data.numFriends,
         numPosts: arrayOfPosts.length,
         avatarData: dataUrl,
         profileDescription: data.profileDescription,
+        areFriends: friends,
       })
 
       const imageObjects = arrayOfPosts.map((imageData) => {

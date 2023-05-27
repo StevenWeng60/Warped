@@ -5,7 +5,7 @@ import { Link, Route, Routes } from "react-router-dom"
 import axios from 'axios';
 
 function Sidebar() {
-  const profileRoute = '/profile/' + localStorage.getItem("Username");
+  const profileRoute = '/profile/' + localStorage.getItem("Username") + "/me";
 
   return (
     <div className="Sidebar">
