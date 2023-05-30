@@ -291,6 +291,10 @@ const getMainFeed = async (req, res) => {
   // Then return the sorted array
 }
 
+const getFriendsList = async (req, res) => {
+  res.status(200).send("getFrindsList route works");
+}
+
 /**const postUpload = async (req, res) => {
   const { originalname, buffer, mimetype } = req.file;
   console.log(originalname);
@@ -320,4 +324,4 @@ const testing = (req, res) => {
   ]
 }
 
-module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed}
+module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList}
