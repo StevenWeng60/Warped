@@ -16,17 +16,18 @@ const messageSchema = new mongoose.Schema({
 const chatSchema = new mongoose.Schema({
   listOfTexts: {
     type: [mongoose.SchemaTypes.ObjectId],
+    default: [],
     ref: 'Message'
   },
   messageBetween: {
     type: [mongoose.SchemaTypes.ObjectID],
     ref: 'User',
-    required: true,
-    validate: {
-      validator: (arr) => arr.length == 2,
-      message: "There can only be a message between 2 users" 
-    }
-  }
+    // validate: {
+    //   validator: (arr) => arr.length == 2,
+    //   message: "There can only be a message between 2 users" 
+    // }
+  },
+  room: String,
 })
 
 const postSchema = new mongoose.Schema({

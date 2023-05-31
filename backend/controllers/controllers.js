@@ -1,4 +1,4 @@
-const { User, Post } = require('../Schemas/User.js');
+const { User, Post, Chat } = require('../Schemas/User.js');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const path = require('path');
@@ -295,6 +295,59 @@ const getFriendsList = async (req, res) => {
   res.status(200).send("getFrindsList route works");
 }
 
+const connectChat = async (req, res) => {
+  const roomName = req.body.chatRoom;
+  console.log(`\n\n${req.body.chatRoom}\n\n`);
+  try{
+    console.log("a")
+    const chatFound = await Chat.findOne({room: roomName});
+    if (chatFound){
+      const chat = await Chat.aggregate([
+        {$match: {room: roomName}},
+        {
+          $lookup: {
+            from: "messages",
+            localField: "listOfTexts",
+            foreignField: "_id",
+            as: "listOfTexts",
+          },
+        },
+        {
+          $unwind: "$listOfTexts"
+        },
+        {
+          $sort: {"listOfTexts.createdAt": 1}
+        },
+        {
+          $group: {
+            _id: "$_id",
+            room: {$first: "$room"},
+            listOfTexts: {$push: "$listOfTexts"},
+          },
+        },
+        {$project: {_id: 0}},
+        { $limit: 50},
+      ]);
+      console.log(chat[0]);
+      res.status(200).send(chat[0]);
+    } else {
+      const chatInstance = new Chat({
+        room: roomName,
+      })
+  
+      chatInstance.save();
+  
+      console.log(`chat instance = ${chatInstance}`);
+  
+      res.status(200).send(chatInstance);
+    }
+  }
+  catch (error) {
+    console.log(error.message);
+    res.status(500).send(error);
+  }
+}
+
 /**const postUpload = async (req, res) => {
   const { originalname, buffer, mimetype } = req.file;
   console.log(originalname);
@@ -324,4 +377,5 @@ const testing = (req, res) => {
   ]
 }
 
-module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList}
+module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
+connectChat,}

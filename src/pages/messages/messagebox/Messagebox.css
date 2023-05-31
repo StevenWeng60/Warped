@@ -58,6 +58,7 @@
   width: 100%;
   height: 83%;
   background: gray;
+  overflow:scroll;
 }
 .mchatbottom {
   display:flex;
