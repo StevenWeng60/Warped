@@ -7,48 +7,6 @@ import { socket } from '../../../components/socket.js';
 
 
 function Messagebox({friends}) {
-  const [isConnected, setIsConnected] = useState(socket.connected);
-  const [fooEvents, setFooEvents] = useState([]);
-
-  useEffect(() => {
-    function handleSocketMessage(message, user, sentid) {
-      console.log('%c YO?!', 'color: orange')
-      console.log(`${user} sent message: ${message}`)
-      // let messageSender = friends.find(obj => obj.username === user)
-      // console.log(`Message sender: ${messageSender}`);
-      console.log(`id of sender ${sentid}`);
-      const appendedMessage = {
-        text: message,
-        createdAt: Date.now(),
-        user: sentid,
-      }
-      console.log(appendedMessage);
-      setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
-    }
-    function onConnect() {
-      setIsConnected(true);
-    }
-    function onDisconnect() {
-      setIsConnected(false);
-    }
-    function onFooEvent(value){
-      setFooEvents(previous => [...previous, value])
-    }
-
-    socket.on('connect', onConnect)
-    socket.on('disconnect', onDisconnect);
-    socket.on('foo', onFooEvent);
-    socket.on('receive-message', handleSocketMessage);
-
-    return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-      socket.off('foo', onFooEvent);
-      socket.off('receive-message', handleSocketMessage);
-    }
-  }, [])
-
-
   const [currPerson, setCurrPerson] = useState({});
   // New message popup
   const [mCreatePoppedUp, setMCreatePoppedUp] = useState(false);
@@ -65,10 +23,43 @@ function Messagebox({friends}) {
 
   const messageRef = useRef(null);
 
+  const chatRef = useRef(null);
+
+  useEffect(() => {
+    if(chatRef.current){      
+      const container = chatRef.current;
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [currChatMessages]);
+
+  useEffect(() => {
+    function handleSocketMessage(message, user, sentid) {
+      console.log('%c YO?!', 'color: orange')
+      console.log(`${user} sent message: ${message}`)
+      // let messageSender = friends.find(obj => obj.username === user)
+      // console.log(`Message sender: ${messageSender}`);
+      console.log(`id of sender ${sentid}`);
+      const appendedMessage = {
+        text: message,
+        createdAt: Date.now(),
+        user: sentid,
+      }
+      console.log(appendedMessage);
+      setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
+    }
+
+    socket.on('receive-message', handleSocketMessage);
+
+    return () => {
+      socket.off('receive-message', handleSocketMessage);
+    }
+  }, [])
+
+
       // test to see if we connect to server
-  socket.on('connect', () => {
-    console.log(`you connected with id: ${socket.id}`)
-  })
+  // socket.on('connect', () => {
+  //   console.log(`you connected with id: ${socket.id}`)
+  // })
 
   // Load the previous messages with the clicked user
   const loadCurrPerson = (friend) => {
@@ -265,7 +256,7 @@ function Messagebox({friends}) {
               <h4 className="fusername">{currPerson.username}</h4>
             </div>
           </div>
-          <div className="mchatmid">
+          <div className="mchatmid" ref={chatRef}>
             <ul style={{ alignItems: 'flex-start' }}>
               {currChatMessages.map((message) => {
                 // if its not your user id then add avatar to message
