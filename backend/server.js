@@ -38,17 +38,18 @@ app.use(express.json());
 // for io connections
 io.on('connection', socket => {
   console.log(socket.id);
-  socket.on("send-message", (message, room, usersending) => {
+  socket.on("send-message", (message, room, usersending, userid) => {
     console.log(message)
     console.log(room)
-    console.log(usersending)
+    console.log(`sent by ${userid}`)
 
     // io.emit('receive-message', message, usersending);
     if (room === ""){
       socket.broadcast.emit('receive-message', message, usersending);
     } else {
-      io.in(room).emit('receive-message', message);
+      io.in(room).emit('receive-message', message, usersending, userid);
     }
+    saveMessage(message, room, userid);
   })
 
   socket.on('join-room', room => {
@@ -149,3 +150,25 @@ async function createChat() {
   }
 }
 
+// save message from chat room to database
+const saveMessage = async(cmessage, room, userid) => {
+  try{
+    const chatRoom = await Chat.findOne({room: room})
+  
+    if (!chatRoom) {
+      console.log(`error, chat room is not found`)
+    }
+    else{
+      const message = await Message.create({
+        text: cmessage,
+        user: userid,
+      })
+      chatRoom.listOfTexts.push(message._id)
+      await chatRoom.save();
+    }
+    console.log("message saved");
+  }
+  catch (e) {
+    console.log(e.message);
+  }
+}

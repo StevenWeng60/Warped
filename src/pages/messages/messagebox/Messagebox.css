@@ -65,6 +65,17 @@
   list-style: none;
 }
 
+.mchatmid ul li {
+  display:flex;
+  margin-right: 2em;  
+}
+
+.mchatmid ul li div {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
 .message {
   padding: 0.5em;
 }
@@ -91,11 +102,19 @@
 }
 
 .actualmessage {
+  display:inline-block;
   margin-left: 2em;
   max-width: 80%;
   background: peachpuff;
   border-radius: .5em;
-  padding: .2em;
+  padding: 1em;
+  word-wrap: break-word;
+}
+.messageavatar{
+  height: 3em;
+  width: 3em;
+  border-radius: 2em;
+  border: 2px solid black;
 }
 
 .submitmessagef{

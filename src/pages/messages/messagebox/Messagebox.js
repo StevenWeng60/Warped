@@ -11,21 +11,16 @@ function Messagebox({friends}) {
   const [fooEvents, setFooEvents] = useState([]);
 
   useEffect(() => {
-    function handleSocketMessage(message, user) {
+    function handleSocketMessage(message, user, sentid) {
+      console.log('%c YO?!', 'color: orange')
       console.log(`${user} sent message: ${message}`)
-      let messageSender = friends.find(obj => obj.username === user)
-      console.log(`Message sender: ${messageSender}`);
-      let id;
-      if (!messageSender){
-        id = localStorage.getItem("Id");
-      }
-      else {
-        id = messageSender.id;
-      }
+      // let messageSender = friends.find(obj => obj.username === user)
+      // console.log(`Message sender: ${messageSender}`);
+      console.log(`id of sender ${sentid}`);
       const appendedMessage = {
         text: message,
         createdAt: Date.now(),
-        user: id,
+        user: sentid,
       }
       console.log(appendedMessage);
       setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
@@ -69,40 +64,6 @@ function Messagebox({friends}) {
   const [currChatMessages, setCurrChatMessages] = useState([]);
 
   const messageRef = useRef(null);
-
-  // connect to socket.io server
-  // const socket = io("http://localhost:3001", {
-  //   cors: {
-  //     origin: "*",
-  //   },
-  // })
-
-
-
-  // socket.on('receive-message', (message, user) => {
-  //   // console.log('received message')
-  //   // console.log(`current chat messages: ${currChatMessages}`)
-  //   // console.log([...currChatMessages, message])
-  //   // console.log("hi")
-  //   // find the message sender if its not found then its from this user
-  //   console.log(`${user} sent message: ${message}`)
-  //   let messageSender = friends.find(obj => obj.username === user)
-  //   console.log(`Message sender: ${messageSender}`);
-  //   let id;
-  //   if (!messageSender){
-  //     id = localStorage.getItem("Id");
-  //   }
-  //   else {
-  //     id = messageSender.id;
-  //   }
-  //   const appendedMessage = {
-  //     text: message,
-  //     createdAt: Date.now(),
-  //     user: id,
-  //   }
-  //   console.log(appendedMessage);
-  //   setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
-  // })
 
       // test to see if we connect to server
   socket.on('connect', () => {
@@ -198,7 +159,7 @@ function Messagebox({friends}) {
     const message = "hello world"
     const room = getRoomName(localStorage.getItem("Username"), currPerson.username)
     console.log(`sendong message: ${currChatMessages}`)
-    socket.emit("send-message", messageRef.current.value, room, localStorage.getItem("Username"))
+    socket.emit("send-message", messageRef.current.value, room, localStorage.getItem("Username"), localStorage.getItem("Id"))
   }
 
   const toUserClicked = (user) => {
@@ -305,11 +266,23 @@ function Messagebox({friends}) {
             </div>
           </div>
           <div className="mchatmid">
-            <ul>
+            <ul style={{ alignItems: 'flex-start' }}>
               {currChatMessages.map((message) => {
+                // if its not your user id then add avatar to message
+                const notHostUser = (message.user !== localStorage.getItem("Id"));
+                console.log(`message ${message.text} \nmessage user id = ${message.user}\nlocal user id = ${localStorage.getItem("Id")}`)
+                console.log(`currPerson is ${currPerson.username} correct = ${notHostUser}`);
+                // style={{justifyContent: notHostUser ? '': 'flex-end'}}
                 return( 
-                <li className="message">
-                  <h4>{message.text}</h4>
+                <li>
+                  <div>
+                    {
+                      notHostUser
+                      &&
+                      <img src={currPerson.imageUrl} className="messageavatar"/>
+                    }
+                    <h4 className="actualmessage" style={{background: notHostUser ? 'cyan' : 'lightblue'}}>{message.text}</h4>
+                  </div>
                 </li>);
               })}
             </ul>
