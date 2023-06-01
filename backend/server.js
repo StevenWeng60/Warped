@@ -3,15 +3,24 @@ const mongoose = require("mongoose");
 const routes = require("./routes/routes.js");
 const uploadroutes = require("./routes/uploadroute.js")
 require('dotenv').config();
+const { instrument } = require("@socket.io/admin-ui")
 const {User, Chat, Message, Post} = require("./Schemas/User")
+const { createServer } = require("http");
 
 const app = express();
 const http=require('http').createServer(app);
 const io = require('socket.io')(http, {
   cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST']
+    origin: ['http://localhost:3000','https://admin.socket.io'],
+    methods: ['GET', 'POST'],
+    credentials:true
   },
+});
+
+// server for socket.io admin ui
+instrument(io, {
+  auth: false,
+  mode: "development"
 });
 
 
@@ -32,14 +41,16 @@ io.on('connection', socket => {
   socket.on("send-message", (message, room, usersending) => {
     console.log(message)
     console.log(room)
+    console.log(usersending)
 
-    // io.emit('receive-message', message)
+    // io.emit('receive-message', message, usersending);
     if (room === ""){
       socket.broadcast.emit('receive-message', message, usersending);
     } else {
-      socket.to(room).emit("receive-message", message, usersending)
+      io.in(room).emit('receive-message', message);
     }
   })
+
   socket.on('join-room', room => {
     console.log(`Joined room ${room}`);
     socket.join(room)

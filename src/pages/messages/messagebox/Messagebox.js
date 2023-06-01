@@ -3,8 +3,57 @@ import { useState, useEffect, useRef } from 'react'
 import { FaPenSquare, FaRegWindowClose } from "react-icons/fa";
 import { io } from "socket.io-client"
 import axios from 'axios'
+import { socket } from '../../../components/socket.js';
+
 
 function Messagebox({friends}) {
+  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [fooEvents, setFooEvents] = useState([]);
+
+  useEffect(() => {
+    function handleSocketMessage(message, user) {
+      console.log(`${user} sent message: ${message}`)
+      let messageSender = friends.find(obj => obj.username === user)
+      console.log(`Message sender: ${messageSender}`);
+      let id;
+      if (!messageSender){
+        id = localStorage.getItem("Id");
+      }
+      else {
+        id = messageSender.id;
+      }
+      const appendedMessage = {
+        text: message,
+        createdAt: Date.now(),
+        user: id,
+      }
+      console.log(appendedMessage);
+      setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
+    }
+    function onConnect() {
+      setIsConnected(true);
+    }
+    function onDisconnect() {
+      setIsConnected(false);
+    }
+    function onFooEvent(value){
+      setFooEvents(previous => [...previous, value])
+    }
+
+    socket.on('connect', onConnect)
+    socket.on('disconnect', onDisconnect);
+    socket.on('foo', onFooEvent);
+    socket.on('receive-message', handleSocketMessage);
+
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+      socket.off('foo', onFooEvent);
+      socket.off('receive-message', handleSocketMessage);
+    }
+  }, [])
+
+
   const [currPerson, setCurrPerson] = useState({});
   // New message popup
   const [mCreatePoppedUp, setMCreatePoppedUp] = useState(false);
@@ -22,36 +71,38 @@ function Messagebox({friends}) {
   const messageRef = useRef(null);
 
   // connect to socket.io server
-  const socket = io("http://localhost:3001", {
-    cors: {
-      origin: "*",
-    },
-  })
+  // const socket = io("http://localhost:3001", {
+  //   cors: {
+  //     origin: "*",
+  //   },
+  // })
 
-  socket.on('receive-message', (message, user) => {
-    // console.log('received message')
-    // console.log(`current chat messages: ${currChatMessages}`)
-    // console.log([...currChatMessages, message])
-    // console.log("hi")
-    // find the message sender if its not found then its from this user
-    console.log(`${user} sent message: ${message}`)
-    let messageSender = friends.find(obj => obj.username === user)
-    console.log(`Message sender: ${messageSender}`);
-    let id;
-    if (!messageSender){
-      id = localStorage.getItem("Id");
-    }
-    else {
-      id = messageSender.id;
-    }
-    const appendedMessage = {
-      text: message,
-      createdAt: Date.now(),
-      user: id,
-    }
-    console.log(appendedMessage);
-    setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
-  })
+
+
+  // socket.on('receive-message', (message, user) => {
+  //   // console.log('received message')
+  //   // console.log(`current chat messages: ${currChatMessages}`)
+  //   // console.log([...currChatMessages, message])
+  //   // console.log("hi")
+  //   // find the message sender if its not found then its from this user
+  //   console.log(`${user} sent message: ${message}`)
+  //   let messageSender = friends.find(obj => obj.username === user)
+  //   console.log(`Message sender: ${messageSender}`);
+  //   let id;
+  //   if (!messageSender){
+  //     id = localStorage.getItem("Id");
+  //   }
+  //   else {
+  //     id = messageSender.id;
+  //   }
+  //   const appendedMessage = {
+  //     text: message,
+  //     createdAt: Date.now(),
+  //     user: id,
+  //   }
+  //   console.log(appendedMessage);
+  //   setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
+  // })
 
       // test to see if we connect to server
   socket.on('connect', () => {
@@ -68,7 +119,12 @@ function Messagebox({friends}) {
     //   console.log(f.text);
     // })
     // set list of texts equal to the users list of texts
-    setCurrChatMessages(friend.listOfTexts)
+    if(!friend.listOfTexts){
+      setCurrChatMessages([]);
+    }
+    else {
+      setCurrChatMessages(friend.listOfTexts)
+    }
 
     // create algorithm for creating a room
     const username1 = localStorage.getItem("Username");
@@ -189,19 +245,6 @@ function Messagebox({friends}) {
     }
     exitCreateMessage();
   }
-
-  const listitems2 = friends.map(friend =>
-    <li key={friend.id} onClick={() => loadCurrPerson(friend)}>
-      <div className="messagefriends">
-        <img
-          className="messagefpfp"
-          src={friend.imageUrl}
-          alt={friend.username}
-        />
-        <h4 className="fusername">{friend.username}</h4>
-      </div>
-    </li>
-  );
 
   return (
     <>
