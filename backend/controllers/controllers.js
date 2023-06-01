@@ -57,7 +57,7 @@ const userLogin = async (req, res) => {
           // generate access token for user
           const accessToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET);
           // return the access token as the response
-          res.json({ accessToken: accessToken });
+          res.json({ accessToken: accessToken, id: user._id });
         } catch (error) {
           console.error(error);
           res.status(500).send('Internal server error');

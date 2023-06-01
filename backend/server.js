@@ -29,18 +29,19 @@ app.use(express.json());
 // for io connections
 io.on('connection', socket => {
   console.log(socket.id);
-  socket.on("send-message", (message, room) => {
+  socket.on("send-message", (message, room, usersending) => {
     console.log(message)
     console.log(room)
 
     // io.emit('receive-message', message)
     if (room === ""){
-      socket.broadcast.emit('receive-message', message);
+      socket.broadcast.emit('receive-message', message, usersending);
     } else {
-      socket.to(room).emit("receive-message", message)
+      socket.to(room).emit("receive-message", message, usersending)
     }
   })
   socket.on('join-room', room => {
+    console.log(`Joined room ${room}`);
     socket.join(room)
   })
 })

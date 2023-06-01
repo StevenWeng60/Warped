@@ -60,6 +60,23 @@
   background: gray;
   overflow:scroll;
 }
+.mchatmid ul {
+  padding-left: 0.5em;
+  list-style: none;
+}
+
+.message {
+  padding: 0.5em;
+}
+
+.message h4 {
+  display:inline-block;
+  padding: 0.5em;
+  border: 1px solid black;
+  border-radius: 0.5em; 
+  margin:0.2em;
+}
+
 .mchatbottom {
   display:flex;
   width: 100%;

@@ -32,6 +32,7 @@ function Login() {
       .then (function (response) {
         localStorage.setItem('accessToken', response.data.accessToken);
         localStorage.setItem('Username', usernameRef.current.value);
+        localStorage.setItem('Id', response.data.id);
 
         // navigate to home page after successful authentication
         routeChange();

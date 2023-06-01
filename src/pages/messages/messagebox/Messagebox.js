@@ -1,5 +1,5 @@
 import './Messagebox.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FaPenSquare, FaRegWindowClose } from "react-icons/fa";
 import { io } from "socket.io-client"
 import axios from 'axios'
@@ -19,6 +19,8 @@ function Messagebox({friends}) {
   // the current chat messages
   const [currChatMessages, setCurrChatMessages] = useState([]);
 
+  const messageRef = useRef(null);
+
   // connect to socket.io server
   const socket = io("http://localhost:3001", {
     cors: {
@@ -26,9 +28,34 @@ function Messagebox({friends}) {
     },
   })
 
-  socket.on('receive-message', message => {
-    console.log('hi');
-    console.log(message);
+  socket.on('receive-message', (message, user) => {
+    // console.log('received message')
+    // console.log(`current chat messages: ${currChatMessages}`)
+    // console.log([...currChatMessages, message])
+    // console.log("hi")
+    // find the message sender if its not found then its from this user
+    console.log(`${user} sent message: ${message}`)
+    let messageSender = friends.find(obj => obj.username === user)
+    console.log(`Message sender: ${messageSender}`);
+    let id;
+    if (!messageSender){
+      id = localStorage.getItem("Id");
+    }
+    else {
+      id = messageSender.id;
+    }
+    const appendedMessage = {
+      text: message,
+      createdAt: Date.now(),
+      user: id,
+    }
+    console.log(appendedMessage);
+    setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
+  })
+
+      // test to see if we connect to server
+  socket.on('connect', () => {
+    console.log(`you connected with id: ${socket.id}`)
   })
 
   // Load the previous messages with the clicked user
@@ -43,11 +70,6 @@ function Messagebox({friends}) {
     // set list of texts equal to the users list of texts
     setCurrChatMessages(friend.listOfTexts)
 
-    // test to see if we connect to server
-    socket.on('connect', () => {
-      console.log(`you connected with id: ${socket.id}`)
-    })
-
     // create algorithm for creating a room
     const username1 = localStorage.getItem("Username");
     const username2 = friend.username;
@@ -56,9 +78,7 @@ function Messagebox({friends}) {
     // the usernames will be added in sorted order for consistency
     const room = getRoomName(username1, username2);
 
-    socket.emit("join-room", "leafsroom")
-    console.log(`in room ${room}`)
-
+    socket.emit("join-room", room)
   }
 
   const getRoomName = (username1, username2) => {
@@ -120,8 +140,9 @@ function Messagebox({friends}) {
     console.log('sending message...')
     // joing a room and sending a message
     const message = "hello world"
-    const room = "leafsroom"
-    socket.emit("send-message", message, room)
+    const room = getRoomName(localStorage.getItem("Username"), currPerson.username)
+    console.log(`sendong message: ${currChatMessages}`)
+    socket.emit("send-message", messageRef.current.value, room, localStorage.getItem("Username"))
   }
 
   const toUserClicked = (user) => {
@@ -241,13 +262,18 @@ function Messagebox({friends}) {
             </div>
           </div>
           <div className="mchatmid">
-            {currChatMessages.map((message) => {
-              return <h1>{message.text}</h1>;
-            })}
+            <ul>
+              {currChatMessages.map((message) => {
+                return( 
+                <li className="message">
+                  <h4>{message.text}</h4>
+                </li>);
+              })}
+            </ul>
           </div>
           <div className="mchatbottom">
-            <form className="submitmessagef" onClick={e => sendingMessage(e)}>
-              <input type="text"></input>
+            <form className="submitmessagef" onSubmit={e => sendingMessage(e)}>
+              <input type="text" ref={messageRef}></input>
               <button type="submit">send</button>
             </form>
           </div>
