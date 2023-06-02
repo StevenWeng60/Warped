@@ -184,18 +184,21 @@ function Messagebox({friends}) {
   const chatBtnClicked = async (e) => {
     e.preventDefault();
     console.log('chat button clicked')
-    setMCreatePoppedUp(false);
-    
-    // see if the chat instance with the user is already popped up
-    // if not, add user and chat messages to side bar
-    const instanceFound = chatList.find(obj => obj.username === toUser)
-    if (!instanceFound) {
-      const user = friends.find(obj => obj.username === toUser)
-      const chatRoom = await getChatRoom(localStorage.getItem("Username"), toUser);
-      const chatListInstance = Object.assign({}, user, chatRoom);
-      setChatList(prevArr => [...chatList, chatListInstance]);
+    // make sure that a user is clicked
+    if (toUser !== ''){
+      setMCreatePoppedUp(false);
+      
+      // see if the chat instance with the user is already popped up
+      // if not, add user and chat messages to side bar
+      const instanceFound = chatList.find(obj => obj.username === toUser)
+      if (!instanceFound) {
+        const user = friends.find(obj => obj.username === toUser)
+        const chatRoom = await getChatRoom(localStorage.getItem("Username"), toUser);
+        const chatListInstance = Object.assign({}, user, chatRoom);
+        setChatList(prevArr => [...chatList, chatListInstance]);
+      }
+      exitCreateMessage();
     }
-    exitCreateMessage();
   }
 
   return (
