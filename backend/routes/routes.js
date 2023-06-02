@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed } = require('../controllers/controllers.js')
+const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
+connectChat } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -38,3 +39,11 @@ router.route("/addfriend").post(addFriend)
 
 // get main feed
 router.route("/mainfeed").get(getMainFeed);
+
+// get list of friends
+router.route("getfriendslist").get(getFriendsList);
+
+// Check if chat room instance exists
+// if it does, then return the previous chats
+// if it doesn't, create an instance and return the instance
+router.route("/connectChat").post(connectChat)
