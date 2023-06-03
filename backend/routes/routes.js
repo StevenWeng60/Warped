@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat } = require('../controllers/controllers.js')
+connectChat, allowAccess } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -47,3 +47,6 @@ router.route("getfriendslist").get(getFriendsList);
 // if it does, then return the previous chats
 // if it doesn't, create an instance and return the instance
 router.route("/connectChat").post(connectChat)
+
+// Check to see if user can access a component in react (they have to be logged in)
+router.route("/allowAccess").get(allowAccess)

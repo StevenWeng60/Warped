@@ -1,14 +1,14 @@
 import "./Sidebar.css"
 import {React, useRef, useState, useEffect} from 'react';
 import { FaHome, FaUserCircle, FaMailBulk, FaRegPlusSquare, FaToriiGate, FaSearch } from "react-icons/fa";
-import { Link, Route, Routes } from "react-router-dom"
+import { Link, Route, Routes, useNavigate } from "react-router-dom"
 import axios from 'axios';
 import IconSidebar from "./iconsidebar/IconSidebar";
 
 function Sidebar() {
   // Get viewport width
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-
+  const navigate = useNavigate();
   useEffect(() => {
     function handleResize() {
       setViewportWidth(window.innerWidth)
@@ -20,6 +20,11 @@ function Sidebar() {
     }
   }, [])
   const profileRoute = '/profile/' + localStorage.getItem("Username") + "/me";
+
+  const handleLogOut = () => {
+    localStorage.removeItem('accessToken');
+    navigate("/login");
+  }
 
   return (
     <div>
@@ -79,7 +84,7 @@ function Sidebar() {
           </li>
           <li className="logoutbtn">
             <h4>{localStorage.getItem("Username")}</h4>
-            <h4>Log out</h4>
+            <h4 onClick={handleLogOut}>Log out</h4>
           </li>
         </ul>
       </div>

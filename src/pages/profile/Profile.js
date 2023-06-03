@@ -7,6 +7,7 @@ import { Buffer } from 'buffer'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import withAuth from '../../components/authenticate';
 
 function Profile() {
   const { username, friends } = useParams();
@@ -86,4 +87,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default withAuth(Profile);

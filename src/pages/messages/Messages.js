@@ -5,6 +5,7 @@ import Messagebox from './messagebox/Messagebox.js'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Buffer } from 'buffer'
+import withAuth from '../../components/authenticate';
 
 function Messages() {
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
@@ -52,4 +53,4 @@ function Messages() {
   );
 }
 
-export default Messages;
+export default withAuth(Messages);

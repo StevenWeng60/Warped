@@ -3,6 +3,7 @@ import './Home.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import FriendIcons from './friendicons/FriendIcons.js';
 import Main from './mainfeed/Main.js';
+import withAuth from '../../components/authenticate';
 
 function Home() {
   return (
@@ -22,4 +23,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default withAuth(Home);

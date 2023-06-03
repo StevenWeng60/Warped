@@ -3,6 +3,7 @@ import './Post.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import { useState, useRef } from 'react'
 import axios from 'axios'
+import withAuth from '../../components/authenticate';
 
 function Post() {
   const [file, setFile] = useState(null);
@@ -78,4 +79,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default withAuth(Post);

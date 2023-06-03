@@ -4,6 +4,7 @@ import Searchresults from './searchresults/Searchresults.js';
 import { useRef, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import withAuth from '../../components/authenticate';
 
 function Search() {
   const searchBarRef = useRef(null);
@@ -144,4 +145,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default withAuth(Search);
