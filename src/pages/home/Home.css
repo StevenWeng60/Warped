@@ -15,22 +15,5 @@
   grid-row: 1;
 }
 
-.sidebar {
-  position: fixed;
-  height: 100%;
-  width: 18vw;
-  background: #4F4557;
-  grid-column: 1;
-  grid-row: 1 / 9;
-}
 
-.friendicons {
-  background: blue;
-  grid-column: 2 / 6;
-  grid-row: 1;
-}
-
-.mainfeed {
-  grid-column: 2 / 6;
-  grid-row: 2 / 9;
-}
+/*  Media queries */

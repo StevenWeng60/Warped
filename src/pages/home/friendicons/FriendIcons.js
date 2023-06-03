@@ -38,10 +38,10 @@ function FriendIcons() {
   }
 
   // There is no empty space, always have friend icons full
-  const handleLeftClick = () => {
+  const handleRightClick = () => {
     const numFriends = listOfFriendsInfo.length;
-    let newListEnd = listEnd + 4;
-    let newListStart = listStart + 4;
+    let newListEnd = listEnd + 2;
+    let newListStart = listStart + 2;
     
     // If adding 4 to the listEnd is greater than the num of friends
     // set new ListEnd to numFriends
@@ -57,9 +57,9 @@ function FriendIcons() {
 
   }
   // There is no empty space, always have friend icons full
-  const handleRightClick = () => {
-    let newListEnd = listEnd - 4;
-    let newListStart = listStart - 4;
+  const handleLeftClick = () => {
+    let newListEnd = listEnd - 2;
+    let newListStart = listStart - 2;
     
     // If subtracting 4 to the listStart is less than 0
     // set new list start to 0
@@ -75,23 +75,31 @@ function FriendIcons() {
 
   return (
   <ul className="friendsul">
-    {listOfFriendsInfo.map((friend, index) => {
-      if (index >= listStart && index < listEnd){
-        return (
-          <li key={friend._id}>
-            <img 
-              src={friend.imageUrl}
-              alt={friend.username}
-            />
-            <p>{friend.username}</p>
-          </li>
-        )
-      }
+    {listOfFriendsInfo.map((friend) => {
+      // if (index >= listStart && index < listEnd){
+      //   return (
+      //     <li key={friend._id}>
+      //       <img 
+      //         src={friend.imageUrl}
+      //         alt={friend.username}
+      //       />
+      //       <p>{friend.username}</p>
+      //     </li>
+      //   )
+      // }
 
-      return;
+      return (
+        <li key={friend._id}>
+          <img 
+            src={friend.imageUrl}
+            alt={friend.username}
+          />
+          <p>{friend.username}</p>
+        </li>
+      )
     })}
-    <button className="left" onClick={handleLeftClick}> Left </button>
-    <button className="right" onClick={handleRightClick}> Right </button>
+    <button className="right" style={{visibility: 'hidden'}} onClick={handleRightClick}> Right </button>
+    <button className="left" style={{visibility: 'hidden'}} onClick={handleLeftClick}>Left </button>
   </ul>
   );
 }

@@ -1,13 +1,21 @@
 .feedimg{
+  max-height: 45em;
   height: 30px;
   width: 30px;
+  border-radius: 2px;
+  background: #F4EEE0;
 }
 .mainfeedul li{
   margin: 4em auto;
-  height: 100%;
-  width: 50%;
-  outline: 5px solid white;
-  background: yellow;
+  /* height: 50em; */
+  /* 600 px? */
+  /* max-height: 60em; */
+  width: 38em;
+  box-shadow: 0 1px 0 #F4EEE0;
+  /* outline-top: 2px solid #4F4557; */
+  /* background: #F4EEE0; */
+  color: #F4EEE0;
+  border-radius: 5px;
 }
 .mainfeedul {
   height: 90%;
@@ -38,11 +46,13 @@
   height: 3em;
   width: 3em;
   border-radius: 50px;
-  outline: 2px solid black;
+  /* outline: 2px solid black; */
   margin: .5em;
 }
 
 .postusername{
   display: inline-block;
   margin-bottom: 2em;
+  padding-left:.75em;
 }
+
