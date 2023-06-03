@@ -1,11 +1,12 @@
 import './CreateAcc.css'
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 function CreateAcc() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+  const [success, setSuccess] = useState(false);
 
   const navigate = useNavigate();
 
@@ -25,8 +26,11 @@ function CreateAcc() {
         console.log(response);
         localStorage.setItem('accessToken', response.data.accessToken);
         localStorage.setItem('Username', usernameRef.current.value);
-        const path = "/";
-        navigate(path);
+        setSuccess(true);
+        setTimeout(() =>{
+          const path = "/login";
+          navigate(path);
+        }, 2000)
       })
       .catch (function (error) {
         console.log(error);
@@ -56,6 +60,7 @@ function CreateAcc() {
         <Link to="/login" className="link">
           <h2>Log in</h2>
         </Link>
+        { success && <h2 style={{color: 'green'}}>Success! Redirecting you to login page</h2>}
       </div>
     </div>
   );
