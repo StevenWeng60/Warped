@@ -65,25 +65,15 @@
     grid-column: 1 / 6;
   }
 
-  .mainfeed {
-    grid-column: 1 / 6;
-  }
-
-  .topofprofile {
-    grid-column: 1 / 6 !important;
-  }
-
-  .bottomofprofile {
-    grid-column: 1 / 6 !important;
-  }
-  .messagesbox {
-    grid-column: 1 / 6 !important;
-  }
-  .addpost {
+  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost {
     grid-column: 1 / 6 !important;
   }
   .CreatePostTag {
     font-size: 1.5em;
+  }
+  .logincontainer, .createcontainer {
+    width: 70% !important;
+    height: 70% !important;
   }
 }
 
@@ -165,6 +155,15 @@
 /* LAPTOP L(1440 PX)*/
 
 /* Range queries */
+@media (min-width: 550px) and (max-width: 769px) {
+  .addpostform {
+    width: 45% !important;
+  }
+  .logincontainer, .createcontainer {
+    width: 60% !important;
+    height: 60% !important;
+  }
+}
 @media (min-width: 769px) and (max-width: 1024px) {
   .addpostform {
     width: 45% !important;

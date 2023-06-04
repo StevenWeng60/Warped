@@ -30,16 +30,19 @@ function Login() {
         password: passwordRef.current.value
       })
       .then (function (response) {
-        localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('Username', usernameRef.current.value);
-        localStorage.setItem('Id', response.data.id);
-
-        // navigate to home page after successful authentication
-        routeChange();
+        if (response.data !== "Not allowed"){
+          localStorage.setItem('accessToken', response.data.accessToken);
+          localStorage.setItem('Username', usernameRef.current.value);
+          localStorage.setItem('Id', response.data.id);
+          // navigate to home page after successful authentication
+          routeChange();
+        }
+        else {
+          setErrorPopup(true);
+        }
       })
       .catch (function (error) {
         console.log(error);
-        setErrorPopup(true);
       })
     }
     catch {
