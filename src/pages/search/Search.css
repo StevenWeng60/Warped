@@ -45,7 +45,7 @@ button[type="submit"]:hover {
 .searchResults {
   grid-column: 2 / 6;
   grid-row: 2 / 9;
-  background: pink;
+  /* background: #F4EEE0; */
 }
 
 .dropDown {

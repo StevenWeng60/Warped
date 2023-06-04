@@ -9,8 +9,12 @@ function ProfileTop({userInfo}) {
 
   console.log(localStorage.getItem("Username"));
   console.log(userInfo.username);
+  console.log(userInfo.areFriends)
   console.log(`are friends: ${userInfo.areFriends}`);
-  const [isFriend, setIsFriend] = useState(userInfo.areFriends === "y");
+  const [isFriend, setIsFriend] = useState(userInfo.areFriends == 'y');
+  
+  // Check to see if areFriends is y
+  // This is because initalizing using an expression isn't working?
 
   const inputFileRef = useRef(null);
 
@@ -90,6 +94,8 @@ function ProfileTop({userInfo}) {
       console.log(error);
     })
   }
+
+  console.log(isFriend);
 
   return (
     <>

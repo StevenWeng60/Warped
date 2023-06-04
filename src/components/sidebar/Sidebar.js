@@ -35,52 +35,52 @@ function Sidebar() {
         </div>
         <ul className="sidebarOptions">
           <li>
-              <div className="sideIcon">
-                <Link to={profileRoute} className="link">
-                <FaHome className="iconStyles"/>
-                <h4 className="lih2">Profile</h4>
-                </Link>
-              </div>
+              <Link to={profileRoute} className="link">
+                <div className="sideIcon">
+                  <FaHome className="iconStyles"/>
+                  <h4 className="lih2">Profile</h4>
+                </div>
+              </Link>
           </li>
           <li>
+            <Link to="/" className="link">
               <div className="sideIcon">
-                <Link to="/" className="link">
                 <FaUserCircle className="iconStyles"/>
                 <h4 className="lih2">Home</h4>
-                </Link>
               </div>
+            </Link>
           </li>
           <li>
+            <Link to="/messages" className="link">          
               <div className="sideIcon">
-                <Link to="/messages" className="link">          
                 <FaMailBulk className="iconStyles"/>
                 <h4 className="lih2">Message</h4>
-                </Link>
               </div>
+            </Link>
           </li>
           <li>
-            <div className="sideIcon">
-              <Link to="/post" className="link">
-                <FaRegPlusSquare className="iconStyles"/>
-                <h4 className="lih2">Post</h4>
-              </Link>
-            </div>
+            <Link to="/post" className="link">
+              <div className="sideIcon">
+                  <FaRegPlusSquare className="iconStyles"/>
+                  <h4 className="lih2">Post</h4>
+              </div>
+            </Link>
           </li>
           <li>
-            <div className="sideIcon">
-              <Link to="/search" className="link">
-                <FaSearch className="iconStyles"/>
-                <h4 className="lih2">Search</h4>
-              </Link>
-            </div>
+            <Link to="/search" className="link">
+              <div className="sideIcon">
+                  <FaSearch className="iconStyles"/>
+                  <h4 className="lih2">Search</h4>
+              </div>
+            </Link>
           </li>
           <li>
-            <div className="sideIcon">
-              <Link to="/search" className="link">
-              <FaToriiGate className="iconStyles"/>
-              <h4 className="lih2">Warp</h4>
-              </Link>
-            </div>
+            <Link to="/search" className="link">
+              <div className="sideIcon">
+                <FaToriiGate className="iconStyles"/>
+                <h4 className="lih2">Warp</h4>
+              </div>
+            </Link>
           </li>
           <li className="logoutbtn">
             <h4>{localStorage.getItem("Username")}</h4>

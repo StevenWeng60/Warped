@@ -199,8 +199,9 @@ const findUsers = async (req, res) => {
     if (req.query.queryItem === "User") {
       console.log("asdf")
       // Find the request user
-      const requestUser = await User.findOne({username: req.query.requser}).select("friends").populate("friends");
-
+      const requestUser = await User.findOne({username: req.query.requser}).select("friends")
+      .populate("friends");
+      
       const friends = requestUser.friends.map((friend) => {
         console.log("mapped")
         return friend.username;
@@ -208,7 +209,7 @@ const findUsers = async (req, res) => {
 
       // Find the list of users that contain the the search parameter
       const regex = new RegExp(req.query.username, 'i')
-      const user = await User.find({username: {$regex:regex}})
+      const user = await User.find({username: {$regex:regex}}).limit(40);
 
       const response = [friends, user]
       res.status(200).send(response)
