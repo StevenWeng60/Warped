@@ -77,7 +77,7 @@ function Profile() {
         <ProfileBottom posts = {  usersPosts.map((post) => {
           return (
           <div className="post" key={post._id}>
-            <img src={post.imageUrl}></img>
+            <img src={post.imageUrl} className="pfpPostImage"></img>
           </div>
           );
         })}/>

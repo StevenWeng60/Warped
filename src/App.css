@@ -47,9 +47,10 @@
     font-size: 2em;
   }
 
-  .post {
-    flex-basis: calc(95% / 2) !important;
-    max-width: calc(95% / 2) !important;
+  .postflexcontainer {
+    grid-template-columns: repeat(2, 1fr) !important;
+    /* flex-basis: calc(95% / 2) !important;
+    max-width: calc(95% / 2) !important; */
   }
 }
 
