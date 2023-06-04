@@ -125,8 +125,8 @@ function Search() {
             }
             return(<div className="searchUser" key={data._id} onClick={() => userClicked(data.username)}>
               {listOfFriends.includes(data.username) 
-                ? <h1 style={{color: '#6D5D6E'}}>{data.username}</h1>
-                : <h1>{data.username}</h1>
+                ? <h4 className="usernameh4"style={{color: '#6D5D6E'}}>{data.username}</h4>
+                : <h4 className="usernameh4">{data.username}</h4>
               }
             </div>
             );
