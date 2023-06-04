@@ -110,9 +110,9 @@ function ProfileTop({userInfo}) {
         <div className="pfdescription">
           <div className="pfdescriptionflex">
             <div className="name">
-              <h1>{userInfo.username}</h1>
+              <h1 style={{color: '#F4EEE0'}}>{userInfo.username}</h1>
                 { localStorage.getItem("Username") === userInfo.username 
-                ? <h3 className="editprofile">Edit profile</h3>
+                ? <h3 className="editprofile">Edit</h3>
                 : isFriend 
                   ? <h3 className="friends">friends</h3>
                   : <h3 className="addfriend" onClick={handleAddFriend}>Add friend</h3>

@@ -46,6 +46,11 @@
   .sidebarOptions {
     font-size: 2em;
   }
+
+  .post {
+    flex-basis: calc(95% / 2) !important;
+    max-width: calc(95% / 2) !important;
+  }
 }
 
 /* MOBILE L (425 PX)*/
@@ -62,7 +67,16 @@
   .mainfeed {
     grid-column: 1 / 6;
   }
+
+  .topofprofile {
+    grid-column: 1 / 6 !important;
+  }
+
+  .bottomofprofile {
+    grid-column: 1 / 6 !important;
+  }
 }
+
 
 
 @media (max-width: 769px) {
@@ -85,6 +99,9 @@
     margin-bottom: 0 !important;
   }
 
+  .pfdescription {
+    font-size: 0.6em !important;
+  }
 }
 /* TABLET (768 PX)*/
 @media (min-width: 769px) {
@@ -105,6 +122,14 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .pfdescription {
+    font-size: 0.8em;
+  }
+  .profiletop {
+    width: 100% !important;
+  }
+}
 /* LAPTOP (1024 PX)*/
 @media (min-width: 1024px) {
   .sidebarOptions {
