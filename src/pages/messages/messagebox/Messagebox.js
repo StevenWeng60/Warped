@@ -208,8 +208,11 @@ function Messagebox({friends}) {
           <div className="Searchbar">
             <div className="search-container">
             <form className="mSearchForm">
-              <input type="text" placeholder="Search..."/>
-              <button type="submit">Search</button>
+              <div className="searchfiller">
+                
+              </div>
+              {/* <input type="text" placeholder="Search..."/>
+              <button type="submit">Search</button> */}
               <FaPenSquare className="messageBtn" onClick={createMessage}/>
             </form>
             </div>
@@ -235,7 +238,7 @@ function Messagebox({friends}) {
           </div>
           <ul className="mfriendslist">
             {chatList.map(instance =>
-            <li key={instance.id} onClick={() => loadCurrPerson(instance)}>
+            <li key={instance.id} onClick={() => loadCurrPerson(instance)} style={{background: currPerson.username == instance.username ? '#4F4557' : ''}}>
               <div className="messagefriends">
                 <img
                   className="messagefpfp"
@@ -275,7 +278,7 @@ function Messagebox({friends}) {
                       &&
                       <img src={currPerson.imageUrl} className="messageavatar"/>
                     }
-                    <h4 className="actualmessage" style={{background: notHostUser ? 'cyan' : 'lightblue'}}>{message.text}</h4>
+                    <h4 className="actualmessage" style={{background: notHostUser ? '#D4D5D4' : '#e4d5b3'}}>{message.text}</h4>
                   </div>
                 </li>);
               })}

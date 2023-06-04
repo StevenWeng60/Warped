@@ -1,16 +1,20 @@
+:root {
+  --chatBGcolor: #F4EEE0;
+}
+
 .messagecontainer {
   display:flex;
   height:100%;
 }
 
 .messagesidebar {
-  background:blue;
+  background:#6D5D6E;
   width:30%;
   overflow-y: scroll;
 }
 
 .messagechat{
-  background:green;
+  background:#393646;
   width:70%;
   height:100%;
 }
@@ -18,19 +22,24 @@
 .mfriendslist {
   list-style-type: none;
   vertical-align: center;
+  padding: 0;
+}
+
+.mfriendslist li {
+  padding-left: 1em;
 }
 
 .messagefriends {
   display:flex;
   align-items:center;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  /* border-top: 1px solid black;
+  border-bottom: 1px solid black; */
   margin-right: 1em;
   padding-left: 0.5em;
 }
 
 .messagefriends:hover {
-  background: white;
+  opacity: 0.7;
   cursor:pointer;
 }
 
@@ -52,13 +61,14 @@
 .mchattop {
   width: 100%;
   height: 10%;
-  background: red;
+  background: var(--chatBGcolor);
 }
 .mchatmid {
   width: 100%;
   height: 83%;
-  background: gray;
+  background: var(--chatBGcolor);
   overflow:scroll;
+  overflow-x: hidden;
 }
 .mchatmid ul {
   padding-left: 0.5em;
@@ -92,7 +102,7 @@
   display:flex;
   width: 100%;
   height: 7%;
-  background: white;
+  background: var(--chatBGcolor);
 }
 
 .messagebubble {
@@ -181,7 +191,7 @@ button[type="submit"]:hover {
 }
 
 .messageBtn:hover {
-  background: white;
+  background: #393646;
   cursor: pointer;
 }
 
@@ -240,18 +250,32 @@ button[type="submit"]:hover {
   width: 60;
   align-items: center;
   margin: 0;
-  margin: auto;
-  padding: 0 1em;
-  background: grey;
-  list-style: none;
+  padding: 0;
+  background: var(--chatBGcolor);
+  list-style-type: none;
   position: absolute;
   z-index: 2;
 }
 
 .toUserLi {
+  padding: 0.3em 1em;
+  margin: 0;
+  box-sizing: border-box;
   font-size: '0.75em'
 }
 
 .toUserLi:hover {
   cursor: pointer;
+  background:#D4D5D4;
+}
+
+.toUserLi p {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.searchfiller {
+  width: 80%;
+  background: #393646;
 }

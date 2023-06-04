@@ -75,6 +75,9 @@
   .bottomofprofile {
     grid-column: 1 / 6 !important;
   }
+  .messagesbox {
+    grid-column: 1 / 6 !important;
+  }
 }
 
 
@@ -101,6 +104,10 @@
 
   .pfdescription {
     font-size: 0.6em !important;
+  }
+
+  .mCreatePopUp {
+    width: 50% !important;
   }
 }
 /* TABLET (768 PX)*/
