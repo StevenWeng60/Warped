@@ -377,55 +377,23 @@ const allowAccess = async (req, res) => {
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403)
+    if (err) return res.status(200).send("not allowed")
+      res.status(200).send("yes")
   })
-  // const token = req.query.accessToken;
-
-  // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-  //   if (err) return res.status(200).send("not allowed")
-  //   res.status(200).send("yes")
-  // })
-  res.status(200).send("yes")
 }
 
-/*
-
-const userLogin = async (req, res) => {
-  const user = await User.findOne().where({username: req.body.username})
-  // Check to see if we can find the user
-  if (user === null) {
-    res.status(400).send('Cannot find user')
-  }
-  // Check to see if user has correct password
-  else {
-    try{
-      console.log(user)
-      // If user has corret password generate jwt web token
-      if(await bcrypt.compare(req.body.password, user.password)){
-        try {
-          // convert mongoose document to plain object
-          const userObject = user.toObject();
-          // generate access token for user
-          const accessToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET);
-          // return the access token as the response
-          res.json({ accessToken: accessToken, id: user._id });
-        } catch (error) {
-          console.error(error);
-          res.status(500).send('Internal server error');
-        }
-      }
-      else {
-        res.send('Not allowed')
-      }
-    }
-    catch {
-      res.status(500).send()
-    }
-  }
+const changeBio = async (req, res) => {
+  User.findOneAndUpdate(
+    { username: req.body.username },
+    { profileDescription: req.body.biodescription } 
+  )
+  .then(updatedUser => {
+    res.status(200).send("completed");
+  })
+  .catch((error) => {
+    res.status(201).send(error.message);
+  })
 }
-
-
-*/
 
 const testing = (req, res) => {
   const posts = [
@@ -437,4 +405,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess}
+connectChat, allowAccess, changeBio}

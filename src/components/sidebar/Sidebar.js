@@ -1,6 +1,6 @@
 import "./Sidebar.css"
 import {React, useRef, useState, useEffect} from 'react';
-import { FaHome, FaUserCircle, FaMailBulk, FaRegPlusSquare, FaToriiGate, FaSearch } from "react-icons/fa";
+import { FaHome, FaUserCircle, FaMailBulk, FaRegPlusSquare, FaToriiGate, FaSearch, FaCog } from "react-icons/fa";
 import { Link, Route, Routes, useNavigate } from "react-router-dom"
 import axios from 'axios';
 import IconSidebar from "./iconsidebar/IconSidebar";
@@ -21,10 +21,7 @@ function Sidebar() {
   }, [])
   const profileRoute = '/profile/' + localStorage.getItem("Username") + "/me";
 
-  const handleLogOut = () => {
-    localStorage.removeItem('accessToken');
-    navigate("/login");
-  }
+
 
   return (
     <div>
@@ -75,16 +72,12 @@ function Sidebar() {
             </Link>
           </li>
           <li>
-            <Link to="/search" className="link">
+            <Link to="/settings" className="link">
               <div className="sideIcon">
-                <FaToriiGate className="iconStyles"/>
-                <h4 className="lih2">Warp</h4>
+                <FaCog className="iconStyles"/>
+                <h4 className="lih2">Settings</h4>
               </div>
             </Link>
-          </li>
-          <li className="logoutbtn">
-            <h4>{localStorage.getItem("Username")}</h4>
-            <h4 onClick={handleLogOut}>Log out</h4>
           </li>
         </ul>
       </div>

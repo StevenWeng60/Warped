@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess } = require('../controllers/controllers.js')
+connectChat, allowAccess, changeBio } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -49,5 +49,8 @@ router.route("/connectChat").post(connectChat)
 
 // Check to see if user can access a component in react (they have to be logged in)
 router.route("/allowAccess").get(allowAccess)
+
+// allow user to change their bio
+router.route("/changebio").post(changeBio)
 
 module.exports = router
