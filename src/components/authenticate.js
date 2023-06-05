@@ -13,9 +13,9 @@ const withAuth = (Component) => {
 
         try {
           const response = await axios.get('http://localhost:3001/allowAccess', {
-            params: {
-              accessToken: token,
-            },
+            headers: {
+              Authorization:`Bearer ${token}`,
+            }
           });
 
           console.log(response.data);

@@ -53,9 +53,11 @@ const userLogin = async (req, res) => {
       if(await bcrypt.compare(req.body.password, user.password)){
         try {
           // convert mongoose document to plain object
-          const userObject = user.toObject();
+          const userObject = user.username;
           // generate access token for user
           const accessToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET);
+          // generate refresh token for user
+          // const refreshToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d'})
           // return the access token as the response
           res.json({ accessToken: accessToken, id: user._id });
         } catch (error) {
@@ -370,12 +372,20 @@ const connectChat = async (req, res) => {
 } */
 
 const allowAccess = async (req, res) => {
-  const token = req.query.accessToken;
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(200).send("not allowed")
-    res.status(200).send("yes")
+    if (err) return res.sendStatus(403)
   })
+  // const token = req.query.accessToken;
+
+  // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+  //   if (err) return res.status(200).send("not allowed")
+  //   res.status(200).send("yes")
+  // })
+  res.status(200).send("yes")
 }
 
 /*

@@ -32,7 +32,6 @@ router.route("/postmongodb").get(getPosts);
 
 // get all of the users posts
 router.route("/usersposts").get(getUsersPosts)
-module.exports = router
 
 // for adding friends
 router.route("/addfriend").post(addFriend)
@@ -50,3 +49,5 @@ router.route("/connectChat").post(connectChat)
 
 // Check to see if user can access a component in react (they have to be logged in)
 router.route("/allowAccess").get(allowAccess)
+
+module.exports = router
