@@ -7,6 +7,7 @@ import CreateAcc from './pages/login/CreateAcc.js';
 import Post from './pages/post/Post.js';
 import Test from './Test.js';
 import Search from './pages/search/Search.js';
+import Settings from './pages/settings/Settings';
 import { Route, Routes } from "react-router-dom"
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/post" element={<Post />}/>
         <Route path="/test" element={<Test/>}/>
         <Route path="/search" element={<Search/>}/>
+        <Route path="/settings" element={<Settings/>}/>
       </Routes>
     </>
   );

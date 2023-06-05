@@ -45,7 +45,7 @@ button[type="submit"]:hover {
 .searchResults {
   grid-column: 2 / 6;
   grid-row: 2 / 9;
-  background: pink;
+  /* background: #F4EEE0; */
 }
 
 .dropDown {
@@ -94,3 +94,11 @@ button[type="submit"]:hover {
   border-radius: 5px 0 0 5px;
   outline: none;
 } */
+
+#topSearchBar {
+  border-radius: 0;
+}
+
+.usernameh4 {
+  font-size: 2em;
+}

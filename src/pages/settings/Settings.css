@@ -1,0 +1,15 @@
+.mainsettings {
+  grid-row: 2 / 8;
+  grid-column: 2 / 6;
+  width: 100%;
+}
+
+.maineditfeed {
+  background: #F4EEE0;
+  padding: 3em;
+  width: 50%;
+  height: 100%;
+  margin: auto;
+  text-align:center;
+  position:relative;
+}

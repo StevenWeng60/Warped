@@ -2,14 +2,17 @@
   display:flex;
   width: 70%;
   margin:auto;
-  background:lightcoral;
+  background:#F4EEE0;
   flex-direction:column;
 }
 
 .searchUser {
-  flex-grow:1;
+  /* flex-grow:1; */
+  width: 50%;
+  text-align:center;
   padding: 1em;
   font-size: 0.75em;
+  margin:auto;
 }
 
 .searchUser:hover {

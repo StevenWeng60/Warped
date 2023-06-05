@@ -3,6 +3,7 @@ import './Post.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import { useState, useRef } from 'react'
 import axios from 'axios'
+import withAuth from '../../components/authenticate';
 
 function Post() {
   const [file, setFile] = useState(null);
@@ -63,14 +64,17 @@ function Post() {
       </div>
       <div className="addpost">
         <form className="addpostform" onSubmit={handleFormSubmit} encType="multipart/form-data">
+          <h1 className="CreatePostTag">Create Post</h1>
           <div className="postfile-input-container">
             {preview ? (<img src={preview} style={{width: '100%', height: '100%'}}></img>) : (<label htmlFor="postfile-input" className="file-input-label">
               Choose a file
             </label>)}
             <input type="file" id="postfile-input" className="postfile-input" onChange={handleDrop} ref={inputFileRef}/>
           </div>
-          <textarea rows="4" cols="50" type="textarea" id="postcaptions" value={text} onChange={handleTextChange}></textarea>
-          <button type="submit" >Submit</button>
+          <textarea rows="4" cols="25" type="textarea" id="postcaptions" value={text} onChange={handleTextChange} style={{width: '100%'}}></textarea>
+          <div style={{textAlign: 'center'}}>
+            <button type="submit" style={{borderRadius: '5px'}}>Create</button>
+          </div>
         </form>
       </div>
     </div>
@@ -78,4 +82,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default withAuth(Post);

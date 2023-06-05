@@ -25,12 +25,147 @@
 }
 
 .friendicons {
-  background:blue;
+  background:393646;
   grid-column: 2 / 6;
-  grid-row: 2;
+  grid-row: 1;
+  color: #F4EEE0;
 }
 
 .mainfeed {
   grid-column: 2 / 6;
-  grid-row: 3 / 9;
+  grid-row: 2 / 9;
+}
+
+/* Media queries */
+
+/* MOBILE S (320 PX)*/
+
+@media (max-width: 425px) {
+
+  /* Hide side bar*/
+  .sidebarOptions {
+    font-size: 2em;
+  }
+
+  .postflexcontainer {
+    grid-template-columns: repeat(2, 1fr) !important;
+    /* flex-basis: calc(95% / 2) !important;
+    max-width: calc(95% / 2) !important; */
+  }
+}
+
+/* MOBILE L (425 PX)*/
+/* Get rid of sidebar see expand columns for friend icons and posts */
+@media (max-width: 550px) {
+  .sidebar {
+    display:none;
+  }
+  .friendicons {
+    width: 100%;
+    grid-column: 1 / 6;
+  }
+
+  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings {
+    grid-column: 1 / 6 !important;
+  }
+  .CreatePostTag {
+    font-size: 1.5em;
+  }
+  .logincontainer, .createcontainer {
+    width: 70% !important;
+    height: 70% !important;
+  }
+}
+
+
+
+@media (max-width: 769px) {
+
+  /* Hide side bar*/
+  .sidebarOptions {
+    font-size: 2.5em;
+  }
+  .sideIcon {
+    margin: auto;
+    justify-content:center;
+  }
+  /* reduce padding to prevent overflow */
+  .websiteTitle {
+    padding:0 !important;
+    display:flex;
+    align-content:center;
+    text-align:center;
+    justify-content:center;
+    margin-bottom: 0 !important;
+  }
+
+  .pfdescription {
+    font-size: 0.6em !important;
+  }
+
+  .mCreatePopUp {
+    width: 50% !important;
+  }
+
+  .addpostform {
+    width: 55% !important;
+  }
+}
+/* TABLET (768 PX)*/
+@media (min-width: 769px) {
+  .sidebarOptions {
+    font-size: 0.9em;
+  }
+  .websiteTitle{
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 856px) {
+
+  /* Turn posts to 90% width to fill screen */
+  .mainfeedul li {
+    width: 95% !important;
+    margin: 1em 0 !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .pfdescription {
+    font-size: 0.8em;
+  }
+  .profiletop {
+    width: 100% !important;
+  }
+}
+
+/* LAPTOP (1024 PX)*/
+@media (min-width: 1024px) {
+  .sidebarOptions {
+    font-size: 1.3em;
+  }
+}
+
+@media (min-width: 1400px){
+  .sidebarOptions {
+    font-size: 1.75em;
+  }
+}
+
+/* LAPTOP L(1440 PX)*/
+
+/* Range queries */
+@media (min-width: 550px) and (max-width: 769px) {
+  .addpostform {
+    width: 45% !important;
+  }
+  .logincontainer, .createcontainer {
+    width: 60% !important;
+    height: 60% !important;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .addpostform {
+    width: 45% !important;
+  }
 }

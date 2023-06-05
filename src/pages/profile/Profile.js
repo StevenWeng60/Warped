@@ -7,6 +7,7 @@ import { Buffer } from 'buffer'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import withAuth from '../../components/authenticate';
 
 function Profile() {
   const { username, friends } = useParams();
@@ -76,7 +77,7 @@ function Profile() {
         <ProfileBottom posts = {  usersPosts.map((post) => {
           return (
           <div className="post" key={post._id}>
-            <img src={post.imageUrl}></img>
+            <img src={post.imageUrl} className="pfpPostImage"></img>
           </div>
           );
         })}/>
@@ -86,4 +87,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default withAuth(Profile);

@@ -53,9 +53,11 @@ const userLogin = async (req, res) => {
       if(await bcrypt.compare(req.body.password, user.password)){
         try {
           // convert mongoose document to plain object
-          const userObject = user.toObject();
+          const userObject = user.username;
           // generate access token for user
           const accessToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET);
+          // generate refresh token for user
+          // const refreshToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d'})
           // return the access token as the response
           res.json({ accessToken: accessToken, id: user._id });
         } catch (error) {
@@ -199,8 +201,9 @@ const findUsers = async (req, res) => {
     if (req.query.queryItem === "User") {
       console.log("asdf")
       // Find the request user
-      const requestUser = await User.findOne({username: req.query.requser}).select("friends").populate("friends");
-
+      const requestUser = await User.findOne({username: req.query.requser}).select("friends")
+      .populate("friends");
+      
       const friends = requestUser.friends.map((friend) => {
         console.log("mapped")
         return friend.username;
@@ -208,7 +211,7 @@ const findUsers = async (req, res) => {
 
       // Find the list of users that contain the the search parameter
       const regex = new RegExp(req.query.username, 'i')
-      const user = await User.find({username: {$regex:regex}})
+      const user = await User.find({username: {$regex:regex}}).limit(40);
 
       const response = [friends, user]
       res.status(200).send(response)
@@ -368,6 +371,30 @@ const connectChat = async (req, res) => {
   }
 } */
 
+const allowAccess = async (req, res) => {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(200).send("not allowed")
+      res.status(200).send("yes")
+  })
+}
+
+const changeBio = async (req, res) => {
+  User.findOneAndUpdate(
+    { username: req.body.username },
+    { profileDescription: req.body.biodescription } 
+  )
+  .then(updatedUser => {
+    res.status(200).send("completed");
+  })
+  .catch((error) => {
+    res.status(201).send(error.message);
+  })
+}
+
 const testing = (req, res) => {
   const posts = [
     {
@@ -378,4 +405,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat,}
+connectChat, allowAccess, changeBio}

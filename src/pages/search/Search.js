@@ -4,6 +4,7 @@ import Searchresults from './searchresults/Searchresults.js';
 import { useRef, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import withAuth from '../../components/authenticate';
 
 function Search() {
   const searchBarRef = useRef(null);
@@ -124,8 +125,8 @@ function Search() {
             }
             return(<div className="searchUser" key={data._id} onClick={() => userClicked(data.username)}>
               {listOfFriends.includes(data.username) 
-                ? <h1>{data.username} (friends)</h1>
-                : <h1>{data.username}</h1>
+                ? <h4 className="usernameh4"style={{color: '#6D5D6E'}}>{data.username}</h4>
+                : <h4 className="usernameh4">{data.username}</h4>
               }
             </div>
             );
@@ -144,4 +145,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default withAuth(Search);

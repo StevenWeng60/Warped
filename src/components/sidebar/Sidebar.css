@@ -1,18 +1,27 @@
 .Sidebar {
   text-align:center;
+  height:100vh;
 }
 
 .websiteTitle {
   background: #F4EEE0;
-  border: 5px solid black;
   border-radius: 6px;
-  width: 70%;
+  height: 10%;
+  width:70%;
+  /* width: clamp(20px, 70%, 800px); */
+  padding: 1em;
   margin:1em auto;
 }
 
+.websiteTitle h1 {
+  font-size: clamp(1.5em, 2vw, 3em);
+}
+
 .sidebarOptions{
+  position:relative;
   width: 70%;
-  font-size: 1.5em;
+  height: 90%;
+  /* font-size: 2em; */
   text-align:left;
   list-style: none;
   padding:0;
@@ -32,9 +41,30 @@
 
 .lih2 {
   display:inline;
+  padding-left: 0.5em;
+  margin: 0;
 }
 
 .link {
   text-decoration:none;
   color:inherit;
+  padding: 0;
+  margin: 0;
 }
+
+.sideIcon {
+  display:flex;
+  align-items: center;
+}
+
+.logoutbtn {
+  position: absolute;
+  bottom: 100px;
+  margin:auto;
+}
+
+/* Icon styles*/
+.iconStyles {
+  font-size: '3em'!important;
+}
+

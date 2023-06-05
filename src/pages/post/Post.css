@@ -1,7 +1,11 @@
 .addpostform {
+  display:flex;
+  flex-direction:row;
   display:block;
-  background:yellow;
-  width: 50%;
+  background:#F4EEE0;
+  padding: 3em;
+  border-radius: 5px;
+  width: 35%;
   height: 100%;
   max-width: none;
   margin:auto;
@@ -9,7 +13,7 @@
 
 
 .addpost {
-  background: red;
+  /* background: red; */
   grid-column: 2 / 6;
   grid-row: 2 / 8;
 }
@@ -17,7 +21,7 @@
 .postfile-input-container {
   position:relative;
   width: 100%;
-  height: 60%;
+  height: 70%;
   border: 2px dashed #ccc;
   background-color:aliceblue;
   display:flex;
@@ -37,6 +41,12 @@
 
 #postcaptions {
   margin:auto;
-  width:95%;
-  height:30%;
+  width:100%;
+  height:20%;
+}
+.CreatePostTag {
+  width: 100%;
+  text-align:center;
+  margin:0 auto;
+  color: #393646;
 }

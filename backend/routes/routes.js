@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat } = require('../controllers/controllers.js')
+connectChat, allowAccess, changeBio } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -32,7 +32,6 @@ router.route("/postmongodb").get(getPosts);
 
 // get all of the users posts
 router.route("/usersposts").get(getUsersPosts)
-module.exports = router
 
 // for adding friends
 router.route("/addfriend").post(addFriend)
@@ -47,3 +46,11 @@ router.route("getfriendslist").get(getFriendsList);
 // if it does, then return the previous chats
 // if it doesn't, create an instance and return the instance
 router.route("/connectChat").post(connectChat)
+
+// Check to see if user can access a component in react (they have to be logged in)
+router.route("/allowAccess").get(allowAccess)
+
+// allow user to change their bio
+router.route("/changebio").post(changeBio)
+
+module.exports = router

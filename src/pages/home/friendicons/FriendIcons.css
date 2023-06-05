@@ -1,6 +1,39 @@
 .friendsul {
   list-style: none;
   white-space: nowrap;
+  overflow-x: scroll;
+  /* scrollbar-width:none; */
+  padding-top: 1.5em;
+  position: relative;
+  /* height: 100%; */
+  /* display:flex;
+  justify-content: center; */
+  scrollbar-color: blue;
+}
+
+.friendsul::-webkit-scrollbar{
+  /* display:none; */
+  scrollbar-color: blue;
+  height: 0.5em;
+}
+
+.friendsul::-webkit-scrollbar {
+  width: 10px;
+  /* Width of the vertical scrollbar */
+}
+
+.friendsul::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* Color of the track (background) */
+}
+
+.friendsul::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+
+.friendsul div {
+  margin: auto;
 }
 
 .friendsul li {
@@ -11,7 +44,7 @@
 
 .friendsul li img {
   border-radius: 50px;
-  outline: 2px solid white;
+  outline: 2px solid #F4EEE0;
   height: 5em;
   width: 5em;
 }
@@ -19,4 +52,15 @@
 .friendsul li p {
   margin: 0;
   padding: 0.5em 0 0 0 ;
+}
+
+.right {
+  position:absolute;
+  top: 50%;
+  right: 1.5%;
+}
+.left {
+  position:absolute;
+  top: 50%;
+  left: 2.5%;
 }
