@@ -15,12 +15,15 @@ function Search() {
   const [listOfData, setListOfData] = useState([]);
   const [labelIsUser, setLabelIsUser] = useState(true);
   const [listOfFriends, setListOfFriends] = useState([]);
+  const [searchClickedOnce, setSearchClickedOnce] = useState(false);
+  console.log(searchClickedOnce)
 
   const navigate = useNavigate();
   
   // returns a list of users/posts from the given parameters
   const searchUser = async (e) => {
     e.preventDefault();
+    setSearchClickedOnce(true);
 
     // Step one - send request
     axios.get("http://localhost:3001/findusers", {
@@ -130,13 +133,13 @@ function Search() {
               }
             </div>
             );
-          })}/>
+          })} searchClicked={searchClickedOnce}/>
           :
-          <Searchresults data = {listOfData.map((data) => {
+          <Searchresults data={listOfData.map((data) => {
             return (
               <h1>posts</h1>
             )
-          })}/>
+          })} searchClicked={searchClickedOnce}/>
         }
 
       </div>

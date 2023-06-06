@@ -8,11 +8,13 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import withAuth from '../../components/authenticate';
+import Loading from '../../components/Loading';
 
 function Profile() {
   const { username, friends } = useParams();
   const [usersPosts, setUsersPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   // will run when rendered
   useEffect(() => {
     getPosts();
@@ -56,7 +58,7 @@ function Profile() {
       })
 
       setUsersPosts(imageObjects);
-
+      setIsLoading(false);
       console.log(imageObjects);
     })
     .catch(function (error){
@@ -70,21 +72,45 @@ function Profile() {
       <div className="sidebar">
         <Sidebar/>
       </div>
-      <div className="topofprofile">
-        <ProfileTop userInfo = {userInfo}/>
-      </div>
-      <div className="bottomofprofile">
-        <ProfileBottom posts = {  usersPosts.map((post) => {
-          return (
-          <div className="post" key={post._id}>
-            <img src={post.imageUrl} className="pfpPostImage"></img>
+      {
+        isLoading
+        ? <Loading/>
+        : (<div className="homecontainer">
+            <div className="topofprofile">
+              <ProfileTop userInfo = {userInfo}/>
+            </div>
+            <div className="bottomofprofile">
+              <ProfileBottom posts = {  usersPosts.map((post) => {
+                return (
+                <div className="post" key={post._id}>
+                  <img src={post.imageUrl} className="pfpPostImage"></img>
+                </div>
+                );
+              })}/>
+            </div>
           </div>
-          );
-        })}/>
-      </div>
+          )
+      }
     </div>
   </div>
   );
 }
 
 export default withAuth(Profile);
+
+/*
+
+      {
+        isLoading
+        ? <Loading/>
+        : (<div className="homecontainer">
+            <div className="friendicons">
+              <FriendIcons friendslist={listOfFriendsInfo}/>
+            </div>
+            <div className="mainfeed">
+              <Main listofposts={posts}/>
+            </div>
+          </div>)
+      }
+
+*/ 

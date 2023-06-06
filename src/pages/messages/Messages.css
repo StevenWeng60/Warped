@@ -2,4 +2,12 @@
   grid-column: 2 / 6;
   grid-row: 1 / 9;
   background: #F4EEE0;
+  height: 100%;
+}
+
+.messageboxcontainer {
+  height: 100%;
+  width: 100%;
+  grid-column: 2 / 6;
+  grid-row: 1 / 9;
 }

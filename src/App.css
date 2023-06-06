@@ -65,7 +65,7 @@
     grid-column: 1 / 6;
   }
 
-  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings {
+  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings, .homecontainer {
     grid-column: 1 / 6 !important;
   }
   .CreatePostTag {

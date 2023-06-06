@@ -6,47 +6,47 @@ import { Buffer } from 'buffer'
 import axios from 'axios'
 import './Main.css'
 
-function Main() {
+function Main({listofposts}) {
 
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(listofposts);
 
-  useEffect(() => {
-    getMainFeed();
-  }, [])
+  // useEffect(() => {
+  //   getMainFeed();
+  // }, [])
 
-  const getMainFeed = async () => {
-    axios.get("http://localhost:3001/mainfeed",
-    {
-      params: {
-        username: localStorage.getItem("Username"),
-      }
-    }
-    )
-    .then((response) => {
-      console.log(response);
+  // const getMainFeed = async () => {
+  //   axios.get("http://localhost:3001/mainfeed",
+  //   {
+  //     params: {
+  //       username: localStorage.getItem("Username"),
+  //     }
+  //   }
+  //   )
+  //   .then((response) => {
+  //     console.log(response);
 
-      const postObjects = response.data.map((post) => {
-        const postUrl = `data:${post['contentType']};base64,${Buffer.from(post.data, 'binary').toString('base64')}`;
+  //     const postObjects = response.data.map((post) => {
+  //       const postUrl = `data:${post['contentType']};base64,${Buffer.from(post.data, 'binary').toString('base64')}`;
 
-        const avatarUrl = `data:${post.user['avatarContentType']};base64,${Buffer.from(post.user.avatar, 'binary').toString('base64')}`;
+  //       const avatarUrl = `data:${post.user['avatarContentType']};base64,${Buffer.from(post.user.avatar, 'binary').toString('base64')}`;
 
-        return {
-          id: post.user._id,
-          username: post.user.username,
-          description: post.description,
-          postImage: postUrl,
-          avatarImage: avatarUrl,
-        }
-      })
+  //       return {
+  //         id: post.user._id,
+  //         username: post.user.username,
+  //         description: post.description,
+  //         postImage: postUrl,
+  //         avatarImage: avatarUrl,
+  //       }
+  //     })
 
-      setPosts(postObjects);
+  //     setPosts(postObjects);
 
-      console.log("route works");
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
+  //     console.log("route works");
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   })
+  // }
 
 
   const listitems = posts.map((post) => {

@@ -6,9 +6,11 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Buffer } from 'buffer'
 import withAuth from '../../components/authenticate';
+import Loading from '../../components/Loading';
 
 function Messages() {
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getFriends();
@@ -32,6 +34,7 @@ function Messages() {
       });
       
       setListOfFriendsInfo(friendsInfo);
+      setIsLoading(false);
     })
     .catch((error) =>{
       console.log(error);
@@ -45,9 +48,17 @@ function Messages() {
       <div className="sidebar">
         <Sidebar/>
       </div>
-      <div className="messagesbox">
-        <Messagebox friends={listOfFriendsInfo}/>
-      </div>
+      {
+        isLoading
+        ? <Loading/>
+        : (
+            <div className="messageboxcontainer">
+              <div className="messagesbox">
+                <Messagebox friends={listOfFriendsInfo}/>
+              </div>
+            </div>
+          )
+      }
     </div>
   </div>
   );

@@ -15,5 +15,10 @@
   grid-row: 1;
 }
 
+.homecontainer {
+  grid-column: 2 / 6;
+  grid-row: 1 / 9;
+}
+
 
 /*  Media queries */
