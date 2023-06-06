@@ -8,6 +8,7 @@
   height: 100vh;
   width: 100vw;
   overflow-y:scroll;
+  /* overflow-x:hidden; */
 }
 
 .searchbar {
@@ -65,8 +66,11 @@
     grid-column: 1 / 6;
   }
 
-  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings {
+  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings, .homecontainer, .postSuccessPopUp, .messageboxcontainer {
     grid-column: 1 / 6 !important;
+  }
+  .messageboxcontainer {
+    grid-row: 1 / 8 !important;
   }
   .CreatePostTag {
     font-size: 1.5em;
@@ -74,6 +78,13 @@
   .logincontainer, .createcontainer {
     width: 70% !important;
     height: 70% !important;
+  }
+  .postflexcontainer {
+    height: 1000px !important;
+  }
+
+  .bottombar {
+    visibility:visible !important;
   }
 }
 
@@ -136,6 +147,7 @@
   }
   .profiletop {
     width: 100% !important;
+    margin-left:0;
   }
 }
 
@@ -163,9 +175,15 @@
     width: 60% !important;
     height: 60% !important;
   }
+  .postflexcontainer {
+    height: 1000px !important;
+  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
   .addpostform {
     width: 45% !important;
+  }
+  .postflexcontainer {
+    height: 1200px !important;
   }
 }

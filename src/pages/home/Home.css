@@ -15,5 +15,16 @@
   grid-row: 1;
 }
 
+.homecontainer {
+  grid-column: 2 / 6;
+  grid-row: 1 / 9;
+}
 
+.bottombar {
+  position:absolute;
+  bottom:0;
+  visibility:hidden;
+  height: 4em;
+  width:100%;
+}
 /*  Media queries */

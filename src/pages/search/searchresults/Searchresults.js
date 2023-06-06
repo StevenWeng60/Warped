@@ -1,10 +1,17 @@
 import './Searchresults.css'
 
-function Searchresults({ data }) {
+function Searchresults({ data, searchClicked }) {
   console.log(data);
+  console.log(searchClicked);
   return (
     <div className="searchresults-container">
-      {data}
+      {data.length !== 0
+      ? data
+      : (searchClicked 
+        ? (<h1 style={{textAlign: 'center'}}>No results</h1>)
+        : (<h1 style={{textAlign: 'center'}}>Begin searching</h1>)
+        )
+      }
     </div>
   );
 }

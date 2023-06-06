@@ -5,6 +5,7 @@ import { useRef, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import withAuth from '../../components/authenticate';
+import Bottombar from '../../components/bottombar/Bottombar';
 
 function Search() {
   const searchBarRef = useRef(null);
@@ -15,12 +16,15 @@ function Search() {
   const [listOfData, setListOfData] = useState([]);
   const [labelIsUser, setLabelIsUser] = useState(true);
   const [listOfFriends, setListOfFriends] = useState([]);
+  const [searchClickedOnce, setSearchClickedOnce] = useState(false);
+  console.log(searchClickedOnce)
 
   const navigate = useNavigate();
   
   // returns a list of users/posts from the given parameters
   const searchUser = async (e) => {
     e.preventDefault();
+    setSearchClickedOnce(true);
 
     // Step one - send request
     axios.get("http://localhost:3001/findusers", {
@@ -92,7 +96,7 @@ function Search() {
   <div className="App">
     <div className="Body">
       <div className="sidebar">
-        <Sidebar/>
+        <Sidebar currActive="Search"/>
       </div>
       <div className="searchbar">
         <div className="Searchbar">
@@ -130,15 +134,18 @@ function Search() {
               }
             </div>
             );
-          })}/>
+          })} searchClicked={searchClickedOnce}/>
           :
-          <Searchresults data = {listOfData.map((data) => {
+          <Searchresults data={listOfData.map((data) => {
             return (
               <h1>posts</h1>
             )
-          })}/>
+          })} searchClicked={searchClickedOnce}/>
         }
 
+      </div>
+      <div className="bottombar">
+        <Bottombar/>
       </div>
     </div>
   </div>

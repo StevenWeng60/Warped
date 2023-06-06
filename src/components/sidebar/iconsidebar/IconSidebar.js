@@ -17,14 +17,14 @@ function IconSidebar() {
           <li>
             <div className="sideIcon">
               <Link to={profileRoute} className="link">
-              <FaHome className="iconStyles"/>
+              <FaUserCircle className="iconStyles"/>
               </Link>
             </div>
           </li>
         <li>
             <div className="sideIcon">
               <Link to="/" className="link">
-              <FaUserCircle className="iconStyles"/>
+              <FaHome className="iconStyles"/>
               </Link>
             </div>
         </li>

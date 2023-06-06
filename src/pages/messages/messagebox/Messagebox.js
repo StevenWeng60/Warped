@@ -147,10 +147,10 @@ function Messagebox({friends}) {
     e.preventDefault();
     console.log('sending message...')
     // joing a room and sending a message
-    const message = "hello world"
     const room = getRoomName(localStorage.getItem("Username"), currPerson.username)
-    console.log(`sendong message: ${currChatMessages}`)
+
     socket.emit("send-message", messageRef.current.value, room, localStorage.getItem("Username"), localStorage.getItem("Id"))
+    messageRef.current.value = "";
   }
 
   const toUserClicked = (user) => {
