@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import withAuth from '../../components/authenticate';
 import Loading from '../../components/Loading';
+import Bottombar from '../../components/bottombar/Bottombar';
 
 function Profile() {
   const { username, friends } = useParams();
@@ -91,6 +92,9 @@ function Profile() {
           </div>
           )
       }
+      <div className="bottombar">
+        <Bottombar/>
+      </div>
     </div>
   </div>
   );

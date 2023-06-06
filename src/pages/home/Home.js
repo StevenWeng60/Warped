@@ -8,6 +8,7 @@ import Loading from '../../components/Loading.js';
 import { useState, useEffect } from 'react'
 import { Buffer } from 'buffer'
 import axios from 'axios'
+import Bottombar from '../../components/bottombar/Bottombar';
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -152,6 +153,9 @@ function Home() {
             </div>
           </div>)
       }
+      <div className="bottombar">
+        <Bottombar/>
+      </div>
     </div>
   </div>
   );

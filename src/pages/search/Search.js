@@ -5,6 +5,7 @@ import { useRef, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import withAuth from '../../components/authenticate';
+import Bottombar from '../../components/bottombar/Bottombar';
 
 function Search() {
   const searchBarRef = useRef(null);
@@ -142,6 +143,9 @@ function Search() {
           })} searchClicked={searchClickedOnce}/>
         }
 
+      </div>
+      <div className="bottombar">
+        <Bottombar/>
       </div>
     </div>
   </div>

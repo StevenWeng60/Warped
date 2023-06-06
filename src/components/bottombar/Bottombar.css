@@ -1,0 +1,29 @@
+.Bottombar {
+  /* position:absolute; */
+  z-index: 2;
+  width: 100%;
+  margin:0;
+  height: 4em;
+  background:#4F4557;
+  display:flex;
+  align-items:center;
+  box-sizing:border-box;
+  border-top: 1px solid black;
+  overflow:hidden;
+}
+
+.bottombarOptions {
+  width: 100%;
+  display:flex;
+  font-size: 2em;
+  list-style: none;
+  padding: 0;
+  margin: 1em 0;
+  justify-content:space-around;
+}
+
+.bottombarOptions div {
+  margin: .3em 0;
+  padding: .25em;
+  border-radius: 3px;
+}

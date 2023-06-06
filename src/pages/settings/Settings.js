@@ -4,6 +4,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Bottombar from "../../components/bottombar/Bottombar";
 
 
 function Settings() {
@@ -58,6 +59,9 @@ function Settings() {
           {seeSuccess && <h1 className="successPopUp">Success!</h1>}
           <button type='submit' style={{position:'absolute', bottom: '2em',left: '25%', color: 'black', background: 'red', borderRadius: '5px', width: '50%', textAlign: 'center'}} onClick={handleLogOut}>Log Out</button>
         </div>
+      </div>
+      <div className="bottombar">
+        <Bottombar/>
       </div>
     </div>
   </div>

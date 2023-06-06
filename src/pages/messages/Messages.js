@@ -7,6 +7,7 @@ import axios from 'axios'
 import { Buffer } from 'buffer'
 import withAuth from '../../components/authenticate';
 import Loading from '../../components/Loading';
+import Bottombar from '../../components/bottombar/Bottombar';
 
 function Messages() {
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
@@ -59,6 +60,9 @@ function Messages() {
             </div>
           )
       }
+      <div className="bottombar">
+        <Bottombar/>
+      </div>
     </div>
   </div>
   );

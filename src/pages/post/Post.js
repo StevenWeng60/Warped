@@ -4,6 +4,7 @@ import Sidebar from '../../components/sidebar/Sidebar.js';
 import { useState, useRef } from 'react'
 import axios from 'axios'
 import withAuth from '../../components/authenticate';
+import Bottombar from '../../components/bottombar/Bottombar';
 
 function Post() {
   const [file, setFile] = useState(null);
@@ -91,6 +92,9 @@ function Post() {
             <button type="submit" style={{borderRadius: '5px'}}>Create</button>
           </div>
         </form>
+      </div>
+      <div className="bottombar">
+        <Bottombar/>
       </div>
     </div>
   </div>
