@@ -65,7 +65,7 @@
     grid-column: 1 / 6;
   }
 
-  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings, .homecontainer {
+  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings, .homecontainer, .postSuccessPopUp {
     grid-column: 1 / 6 !important;
   }
   .CreatePostTag {
@@ -136,6 +136,7 @@
   }
   .profiletop {
     width: 100% !important;
+    margin-left:0;
   }
 }
 

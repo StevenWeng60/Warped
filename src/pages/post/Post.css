@@ -50,3 +50,26 @@
   margin:0 auto;
   color: #393646;
 }
+
+.successPopUp {
+  color: black;
+  animation-name: fade;
+  animation-duration: 3s;
+}
+.postSuccessPopUp {
+  grid-row: 1;
+  grid-column: 2 / 6;
+  color: black;
+  animation-name: fade;
+  animation-duration: 3s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

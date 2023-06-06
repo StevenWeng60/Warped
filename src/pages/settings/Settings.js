@@ -9,6 +9,7 @@ import axios from 'axios'
 function Settings() {
   const [bioText, setBioText] = useState('');
   const navigate = useNavigate();
+  const [seeSuccess, setSeeSuccess] = useState(false);
 
   function handleTextChange(e) {
     setBioText(e.target.value);
@@ -26,6 +27,15 @@ function Settings() {
     .catch((error) => {  
       console.error(error);
     })
+    setBioText('');
+    setSeeSuccess(true);
+    showSuccess();
+  }
+
+  function showSuccess() {
+    setTimeout(() => {
+      setSeeSuccess(false);
+    }, 3000)
   }
 
   const handleLogOut = () => {
@@ -45,6 +55,7 @@ function Settings() {
           <h4>Bio</h4>
           <textarea rows="8" cols="25" type="textarea" id="biodescription" value={bioText} onChange={handleTextChange} style={{width: '100%'}}></textarea>
           <button type='submit' style={{borderRadius: '5px', width: '100%'}} onClick={handleSaveClick}>Save</button>
+          {seeSuccess && <h1 className="successPopUp">Success!</h1>}
           <button type='submit' style={{position:'absolute', bottom: '2em',left: '25%', color: 'black', background: 'red', borderRadius: '5px', width: '50%', textAlign: 'center'}} onClick={handleLogOut}>Log Out</button>
         </div>
       </div>

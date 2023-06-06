@@ -34,7 +34,7 @@ function Sidebar({currActive}) {
           <li>
               <Link to={profileRoute} className={currActive === "Profile" ? "activelink" : "link"}>
                 <div className={currActive === "Profile" ? "sideIconActive" : "sideIcon"}>
-                  <FaHome className="iconStyles"/>
+                  <FaUserCircle className="iconStyles"/>
                   <h4 className="lih2">Profile</h4>
                 </div>
               </Link>
@@ -42,7 +42,7 @@ function Sidebar({currActive}) {
           <li>
             <Link to="/" className={currActive === "Home"? "activelink" : "link"}>
               <div className={currActive === "Home" ? "sideIconActive" : "sideIcon"}>
-                <FaUserCircle className="iconStyles"/>
+                <FaHome className="iconStyles"/>
                 <h4 className="lih2">Home</h4>
               </div>
             </Link>
