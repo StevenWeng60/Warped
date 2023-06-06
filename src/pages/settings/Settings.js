@@ -37,7 +37,7 @@ function Settings() {
   <div className="App">
     <div className="Body">
       <div className="sidebar">
-        <Sidebar/>
+        <Sidebar currActive="Settings"/>
       </div>
       <div className="mainsettings">
         <div className="maineditfeed">

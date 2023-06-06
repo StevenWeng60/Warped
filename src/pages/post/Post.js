@@ -60,7 +60,7 @@ function Post() {
   <div className="App">
     <div className="Body">
       <div className="sidebar">
-        <Sidebar/>
+        <Sidebar currActive="Post"/>
       </div>
       <div className="addpost">
         <form className="addpostform" onSubmit={handleFormSubmit} encType="multipart/form-data">

@@ -5,7 +5,7 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom"
 import axios from 'axios';
 import IconSidebar from "./iconsidebar/IconSidebar";
 
-function Sidebar() {
+function Sidebar({currActive}) {
   // Get viewport width
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
@@ -32,48 +32,48 @@ function Sidebar() {
         </div>
         <ul className="sidebarOptions">
           <li>
-              <Link to={profileRoute} className="link">
-                <div className="sideIcon">
+              <Link to={profileRoute} className={currActive === "Profile" ? "activelink" : "link"}>
+                <div className={currActive === "Profile" ? "sideIconActive" : "sideIcon"}>
                   <FaHome className="iconStyles"/>
                   <h4 className="lih2">Profile</h4>
                 </div>
               </Link>
           </li>
           <li>
-            <Link to="/" className="link">
-              <div className="sideIcon">
+            <Link to="/" className={currActive === "Home"? "activelink" : "link"}>
+              <div className={currActive === "Home" ? "sideIconActive" : "sideIcon"}>
                 <FaUserCircle className="iconStyles"/>
                 <h4 className="lih2">Home</h4>
               </div>
             </Link>
           </li>
           <li>
-            <Link to="/messages" className="link">          
-              <div className="sideIcon">
+            <Link to="/messages" className={currActive === "Message"? "activelink" : "link"}>          
+              <div className={currActive === "Message" ? "sideIconActive" : "sideIcon"}>
                 <FaMailBulk className="iconStyles"/>
                 <h4 className="lih2">Message</h4>
               </div>
             </Link>
           </li>
           <li>
-            <Link to="/post" className="link">
-              <div className="sideIcon">
+            <Link to="/post" className={currActive === "Post"? "activelink" : "link"}>
+              <div className={currActive === "Post" ? "sideIconActive" : "sideIcon"}>
                   <FaRegPlusSquare className="iconStyles"/>
                   <h4 className="lih2">Post</h4>
               </div>
             </Link>
           </li>
           <li>
-            <Link to="/search" className="link">
-              <div className="sideIcon">
+            <Link to="/search" className={currActive === "Search"? "activelink" : "link"}>
+              <div className={currActive === "Search" ? "sideIconActive" : "sideIcon"}>
                   <FaSearch className="iconStyles"/>
                   <h4 className="lih2">Search</h4>
               </div>
             </Link>
           </li>
           <li>
-            <Link to="/settings" className="link">
-              <div className="sideIcon">
+            <Link to="/settings" className={currActive === "Settings"? "activelink" : "link"}>
+              <div className={currActive === "Settings" ? "sideIconActive" : "sideIcon"}>
                 <FaCog className="iconStyles"/>
                 <h4 className="lih2">Settings</h4>
               </div>

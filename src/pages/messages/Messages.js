@@ -46,7 +46,7 @@ function Messages() {
   <div className="App">
     <div className="Body">
       <div className="sidebar">
-        <Sidebar/>
+        <Sidebar currActive="Message"/>
       </div>
       {
         isLoading

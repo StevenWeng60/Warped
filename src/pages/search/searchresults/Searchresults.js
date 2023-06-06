@@ -9,7 +9,7 @@ function Searchresults({ data, searchClicked }) {
       ? data
       : (searchClicked 
         ? (<h1 style={{textAlign: 'center'}}>No results</h1>)
-        : (<h1 style={{textAlign: 'center'}}>Began searching</h1>)
+        : (<h1 style={{textAlign: 'center'}}>Begin searching</h1>)
         )
       }
     </div>

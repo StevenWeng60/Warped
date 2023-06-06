@@ -95,7 +95,7 @@ function Search() {
   <div className="App">
     <div className="Body">
       <div className="sidebar">
-        <Sidebar/>
+        <Sidebar currActive="Search"/>
       </div>
       <div className="searchbar">
         <div className="Searchbar">

@@ -138,7 +138,7 @@ function Home() {
   <div className="App">
     <div className="Body">
       <div className="sidebar">
-        <Sidebar/>
+        <Sidebar currActive="Home"/>
       </div>
       {
         isLoading
