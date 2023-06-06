@@ -17,10 +17,12 @@
 } */
 
 .postflexcontainer {
+  height: 1400px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 25%);
   grid-auto-rows: 25%;
-  /* grid-template-rows: 50%; */
+  grid-auto-flow:dense;
   grid-gap: 0;
 }
 
