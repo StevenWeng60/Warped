@@ -176,7 +176,7 @@ function Main({listofposts}) {
             }
           </ul>
         </div>
-        <div className="mchatbottom">
+        <div className="postcommentbottom">
           <form className="submitmessagef" onSubmit={e => addComment(e)}>
             <input type="text" ref={commentRef}></input>
             <button type="submit">send</button>
@@ -185,6 +185,7 @@ function Main({listofposts}) {
       </div>
     </div>
     }
+    <div className="exitPostBtn">X</div>
     </div>}
   </ul>
 }

@@ -89,6 +89,16 @@
   .bottombar {
     visibility:visible !important;
   }
+
+  .poppedUpPost {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr 1fr !important;
+    overflow-y:scroll;
+  }
+
+  .imageInformation {
+    padding-bottom: 2.5em;
+  }
 }
 
 
@@ -123,6 +133,11 @@
 
   .addpostform {
     width: 55% !important;
+  }
+
+  .exitPostBtn {
+    right: 10px !important;
+    padding: 0.5em !important;
   }
 }
 /* TABLET (768 PX)*/
@@ -181,6 +196,15 @@
   .postflexcontainer {
     height: 1000px !important;
   }
+  .poppedUpPost {
+    width: 80vw !important;
+    font-size: 0.6em;
+  }
+
+  .exitPostBtn {
+    right: 5px !important;
+    padding: 0.5em !important;
+  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
   .addpostform {
@@ -189,4 +213,13 @@
   .postflexcontainer {
     height: 1200px !important;
   }
+  .poppedUpPost {
+    width: 75vw !important;
+    font-size: 0.8em;
+  }
+
+  .exitPostBtn {
+    right: 10px !important;
+  }
+
 }
