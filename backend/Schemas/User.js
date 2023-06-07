@@ -43,7 +43,8 @@ const postSchema = new mongoose.Schema({
     default: 0
   },
   comments: {
-    type: [messageSchema],
+    type: [mongoose.SchemaTypes.ObjectId],
+    default: [],
     ref: 'Message'
   },
   createdAt: {

@@ -34,8 +34,6 @@ function Home() {
     }
     )
 
-
-
     Promise.all([friends, mainfeed])
     .then(([res1, res2]) => {
       // Logic for friends
@@ -60,6 +58,7 @@ function Home() {
 
         return {
           id: post.user._id,
+          postid: post._id,
           username: post.user.username,
           description: post.description,
           postImage: postUrl,
@@ -77,63 +76,6 @@ function Home() {
       console.error(error);
     })
   }, [])
-
-  function getFriends() {
-    axios.post("http://localhost:3001/friendicons",{
-      username: localStorage.getItem("Username")
-    })
-    .then(function (response) {
-      console.log(response.data.friends);
-      const friends = response.data.friends;
-      
-      const friendsInfo = friends.map((friend) => {
-        const dataUrl = `data:${friend['avatarContentType']};base64,${Buffer.from(friend.avatar, 'binary').toString('base64')}`;
-        return {
-          username: friend.username,
-          imageUrl: dataUrl
-        }
-      });
-      
-      setListOfFriendsInfo(friendsInfo);
-    })
-    .catch((error) =>{
-      console.log(error);
-    })
-  }
-
-  const getMainFeed = async () => {
-    axios.get("http://localhost:3001/mainfeed",
-    {
-      params: {
-        username: localStorage.getItem("Username"),
-      }
-    }
-    )
-    .then((response) => {
-      console.log(response);
-
-      const postObjects = response.data.map((post) => {
-        const postUrl = `data:${post['contentType']};base64,${Buffer.from(post.data, 'binary').toString('base64')}`;
-
-        const avatarUrl = `data:${post.user['avatarContentType']};base64,${Buffer.from(post.user.avatar, 'binary').toString('base64')}`;
-
-        return {
-          id: post.user._id,
-          username: post.user.username,
-          description: post.description,
-          postImage: postUrl,
-          avatarImage: avatarUrl,
-        }
-      })
-
-      setPosts(postObjects);
-
-      console.log("route works");
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
   
   return (
   <div className="App">
