@@ -38,7 +38,7 @@ function Profile() {
       const dataUrl = `data:${data['avatarContentType']};base64,${Buffer.from(data.avatar, 'binary').toString('base64')}`;
       console.log(dataUrl);
       
-
+      console.log(response.data);
       // areFriends represent is a user is friends with the user's profile
       // this field is useless if its the same user since it won't be used
       setUserInfo({
@@ -51,10 +51,20 @@ function Profile() {
       })
 
       const imageObjects = arrayOfPosts.map((imageData) => {
-        const dataUrl = `data:${imageData['contentType']};base64,${Buffer.from(imageData.data, 'binary').toString('base64')}`;
+        const a = imageData.usersWhoLiked.find((user) => {
+          return user === localStorage.getItem("Id")
+        })
+
+        const iData = `data:${imageData['contentType']};base64,${Buffer.from(imageData.data, 'binary').toString('base64')}`;
         return {
+          id: data._id,
+          postid: imageData._id,
+          username: data.username,
           description: imageData.description,
-          imageUrl: dataUrl
+          postImage: iData,
+          avatarImage: dataUrl,
+          numlikes: imageData.usersWhoLiked.length,
+          alreadyLikedPost: a ? true : false,
         }
       })
 
@@ -81,13 +91,7 @@ function Profile() {
               <ProfileTop userInfo = {userInfo}/>
             </div>
             <div className="bottomofprofile">
-              <ProfileBottom posts = {  usersPosts.map((post) => {
-                return (
-                <div className="post" key={post._id}>
-                  <img src={post.imageUrl} className="pfpPostImage"></img>
-                </div>
-                );
-              })}/>
+              <ProfileBottom posts = {  usersPosts }/>
             </div>
           </div>
           )

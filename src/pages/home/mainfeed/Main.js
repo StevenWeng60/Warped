@@ -144,6 +144,7 @@ function Main({listofposts}) {
               </div>
               <p className="commentsp">{commentRef.current.value}</p>
             </li>);
+    
     setLatestComments(prev => [...prev, commentSent])
     commentRef.current.value = "";
   }
@@ -197,9 +198,6 @@ function Main({listofposts}) {
     });
   }
 
-  // useEffect(() => {
-  //   likeElementRefs.current = Array.from({ length: listofposts.length}, () => React.createRef())
-  // }, [listofposts.length]);
 
   return <ul className="mainfeedul">{ 
     posts.map((post, index) =>
@@ -237,6 +235,7 @@ function Main({listofposts}) {
         }
         <h4>{post.username}</h4>
         <p>{post.description}</p>
+        <p style={{opacity: "0.7", paddingTop: "0.5em"}} className='hoverable' onClick={() => handlePostPopUp(post.postid)}>View all comments</p>
       </div>
     </li>
   )

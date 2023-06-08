@@ -503,7 +503,6 @@ const likeorUnlike = async (req, res) => {
     if (action === 'like'){
       post.usersWhoLiked.push(req.body.userid)
       post.save();
-      console.log(post);
     }
     else if (action === 'unlike'){      
       const index = post.usersWhoLiked.indexOf(req.body.userid);
