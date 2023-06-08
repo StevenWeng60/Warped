@@ -489,6 +489,36 @@ const addMessageToComment = async (req, res) => {
       })
       chatRoom.listOfTexts.push(message._id)*/
 
+const likeorUnlike = async (req, res) => {
+  // Need action, userid, postid
+  const action = req.body.action;
+  console.log(req.body.userid);
+  console.log(req.body.postid);
+  console.log(req.body.action);
+
+  
+  try {
+    const post = await Post.findOne({_id: req.body.postid})
+
+    if (action === 'like'){
+      post.usersWhoLiked.push(req.body.userid)
+      post.save();
+      console.log(post);
+    }
+    else if (action === 'unlike'){      
+      const index = post.usersWhoLiked.indexOf(req.body.userid);
+      if (index > -1){
+        post.usersWhoLiked.splice(index, 1);
+      }
+      post.save();
+    }
+    res.status(200).send(`successfully ${action}d post`)
+  }
+  catch (e) {
+    res.status(500).send(e.message)
+  }
+}
+
 const testing = (req, res) => {
   const posts = [
     {
@@ -499,4 +529,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment}
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike}

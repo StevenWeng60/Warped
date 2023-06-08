@@ -148,7 +148,48 @@ function Main({listofposts}) {
     commentRef.current.value = "";
   }
 
-  function handlePostLiked(event, index) {
+  function handlePostLiked(event, index, postId) {
+    const likeAction = !likesBooleanArray[index] ? 'like' : 'unlike';
+    console.log(`Post id: ${postId}`);
+    console.log(`Index: ${index}`);
+
+
+    axios.post("http://localhost:3001/likeorunlike", {
+      action: likeAction,
+      postid: postId,
+      userid: localStorage.getItem("Id"),
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
+    setLikesBooleanArray(prev => {
+      const newArray = [...prev];
+      newArray[index] = !likesBooleanArray[index];
+      return newArray;
+    });
+  }
+
+  function handlePostAlreadyLiked(event, index, postId){
+    const likeAction = likesBooleanArray[index] ? 'like' : 'unlike';
+    console.log(`Post id: ${postId}`);
+    console.log(`Index: ${index}`);
+
+    axios.post("http://localhost:3001/likeorunlike", {
+      action: likeAction,
+      postid: postId,
+      userid: localStorage.getItem("Id"),
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
     setLikesBooleanArray(prev => {
       const newArray = [...prev];
       newArray[index] = !likesBooleanArray[index];
@@ -179,11 +220,21 @@ function Main({listofposts}) {
         onClick={() => handlePostPopUp(post.postid)}
       />
       <div className="postbottom">
-        <div style={{width: "100%", fontSize: "1.5em"}}>
-          <FaHeart className="faheart"onClick={(event) => handlePostLiked(event, index)} style={{color: likesBooleanArray[index] ? 'red' : '#F4EEE0', paddingRight: "0.75em"}}/>
-          <FaComment className="facomment" style={{paddingRight: "0.75em"}} onClick={() => handlePostPopUp(post.postid)}/>
-          <h6 style={{fontSize: ".75em", display: "inline-block", padding: '0', margin: '0'}}>{likesBooleanArray[index] ? post.numlikes + 1 : post.numlikes} likes</h6>
-        </div>
+        {
+          post.alreadyLikedPost
+          ? 
+          <div style={{width: "100%", fontSize: "1.5em"}}>
+            <FaHeart className="faheart"onClick={(event) => handlePostAlreadyLiked(event, index, post.postid)} style={{color: likesBooleanArray[index] ? '#F4EEE0' : 'red', paddingRight: "0.75em"}}/>
+            <FaComment className="facomment" style={{paddingRight: "0.75em"}} onClick={() => handlePostPopUp(post.postid)}/>
+            <h6 style={{fontSize: ".75em", display: "inline-block", padding: '0', margin: '0'}}>{likesBooleanArray[index] ? post.numlikes - 1: post.numlikes} likes</h6>
+          </div>
+          :
+          <div style={{width: "100%", fontSize: "1.5em"}}>
+            <FaHeart className="faheart"onClick={(event) => handlePostLiked(event, index, post.postid)} style={{color: likesBooleanArray[index] ? 'red' : '#F4EEE0', paddingRight: "0.75em"}}/>
+            <FaComment className="facomment" style={{paddingRight: "0.75em"}} onClick={() => handlePostPopUp(post.postid)}/>
+            <h6 style={{fontSize: ".75em", display: "inline-block", padding: '0', margin: '0'}}>{likesBooleanArray[index] ? post.numlikes + 1 : post.numlikes} likes</h6>
+          </div>
+        }
         <h4>{post.username}</h4>
         <p>{post.description}</p>
       </div>

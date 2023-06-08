@@ -58,6 +58,10 @@ function Home() {
 
         const avatarUrl = `data:${post.user['avatarContentType']};base64,${Buffer.from(post.user.avatar, 'binary').toString('base64')}`;
 
+        const a = post.usersWhoLiked.find((user) => {
+          return user === localStorage.getItem("Id")
+        })
+
         return {
           id: post.user._id,
           postid: post._id,
@@ -65,7 +69,8 @@ function Home() {
           description: post.description,
           postImage: postUrl,
           avatarImage: avatarUrl,
-          numlikes: post.likes,
+          numlikes: post.usersWhoLiked.length,
+          alreadyLikedPost: a ? true : false,
         }
       })
 
