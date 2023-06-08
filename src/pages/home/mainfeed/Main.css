@@ -133,3 +133,7 @@
 .exitPostBtn:hover {
   cursor: pointer;
 }
+
+.faheart:hover, .facomment:hover {
+  cursor:pointer;
+}

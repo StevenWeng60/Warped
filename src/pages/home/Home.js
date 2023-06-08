@@ -20,6 +20,8 @@ function Home() {
   // props for friend icons
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
 
+
+
   useEffect(() => {
     // get friends
     const friends = axios.post("http://localhost:3001/friendicons",{
@@ -63,6 +65,7 @@ function Home() {
           description: post.description,
           postImage: postUrl,
           avatarImage: avatarUrl,
+          numlikes: post.likes,
         }
       })
 

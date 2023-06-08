@@ -1,10 +1,24 @@
 import { posts } from '../../../utilities/posts.js'
 import { people } from '../../../utilities/data.js'
 import { getImageUrl } from '../../../utilities/utils.js'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef} from 'react'
+import React from 'react'
+import { FaHeart, FaComment } from "react-icons/fa";
 import { Buffer } from 'buffer'
 import axios from 'axios'
 import './Main.css'
+
+// Custom hook for keeping track of a posts likes/unlike
+const useBooleanArray = (length) => {
+  const initialArray = useRef(Array(length).fill(false));
+  const [array, setArray] = useState(initialArray.current);
+
+  useEffect(() => {
+    initialArray.current = Array(length).fill(false);
+  }, [length]);
+
+  return [array, setArray];
+}
 
 function Main({listofposts}) {
 
@@ -23,14 +37,19 @@ function Main({listofposts}) {
   //Comment ref
   const commentRef = useRef(null);
 
+  // Add comments to feed without having to make another api request
+  const [latestComments, setLatestComments] = useState([]);
+
+  // Keep track of users liking/unliking posts
+  const [hasLikedPost, setHasLikedPost] = useState(false);
+
+  // refs
+  const [likesBooleanArray, setLikesBooleanArray] = useBooleanArray(listofposts.length);
 
   const listitems = posts.map((post) => {
     return <li>{post.name}</li>
   })
 
-  const chemists = people.filter(person =>
-    person.profession === 'chemist'
-  );
 
   async function handlePostPopUp(postId) {
     const post = posts.find((post) => {
@@ -77,6 +96,7 @@ function Main({listofposts}) {
 
   function handleClickOutOfPost(){
     setPostPopUp(false);
+    setLatestComments([]);
   }
 
   function handleStayInPost(event) {
@@ -111,11 +131,37 @@ function Main({listofposts}) {
     .catch((error) => {
       console.error(error);
     })
+    
+    const commentSent =             
+              (<li>
+              <div className="posttop">
+                <img
+                  className="postuserpfp"
+                  src={""}
+                  alt={localStorage.getItem("Username")}
+                  />        
+                <h4 className="commentsh4">{localStorage.getItem("Username")}</h4>
+              </div>
+              <p className="commentsp">{commentRef.current.value}</p>
+            </li>);
+    setLatestComments(prev => [...prev, commentSent])
     commentRef.current.value = "";
   }
 
+  function handlePostLiked(event, index) {
+    setLikesBooleanArray(prev => {
+      const newArray = [...prev];
+      newArray[index] = !likesBooleanArray[index];
+      return newArray;
+    });
+  }
+
+  // useEffect(() => {
+  //   likeElementRefs.current = Array.from({ length: listofposts.length}, () => React.createRef())
+  // }, [listofposts.length]);
+
   return <ul className="mainfeedul">{ 
-    posts.map(post =>
+    posts.map((post, index) =>
     <li className="mainfeedpostli"key={post.id}>
       <div className="posttop">
         <img
@@ -133,6 +179,11 @@ function Main({listofposts}) {
         onClick={() => handlePostPopUp(post.postid)}
       />
       <div className="postbottom">
+        <div style={{width: "100%", fontSize: "1.5em"}}>
+          <FaHeart className="faheart"onClick={(event) => handlePostLiked(event, index)} style={{color: likesBooleanArray[index] ? 'red' : '#F4EEE0', paddingRight: "0.75em"}}/>
+          <FaComment className="facomment" style={{paddingRight: "0.75em"}} onClick={() => handlePostPopUp(post.postid)}/>
+          <h6 style={{fontSize: ".75em", display: "inline-block", padding: '0', margin: '0'}}>{likesBooleanArray[index] ? post.numlikes + 1 : post.numlikes} likes</h6>
+        </div>
         <h4>{post.username}</h4>
         <p>{post.description}</p>
       </div>
@@ -172,6 +223,9 @@ function Main({listofposts}) {
               <p className="commentsp">{currIndividualPost.description}</p>
             </li>
             {
+              latestComments
+            }
+            {
               currPostComments
             }
           </ul>
@@ -191,25 +245,3 @@ function Main({listofposts}) {
 }
 
 export default Main;
-
-/**
- * {mCreatePoppedUp && <div className="popupContainer">
-              {mCreatePoppedUp && <form className="mCreatePopUp" onSubmit={e => chatBtnClicked(e)}>
-                <div className="popuptitle">
-                  <h1>New Message</h1>
-                  <FaRegWindowClose id="createMExitBtn"onClick={exitCreateMessage} style={{fontSize: '2em', color: 'red'}}/>
-                </div>
-                <div className="toMessage">
-                  <label htmlFor="messageUser">To: </label>
-                  <input type="text" className="messageUser" value={toValue} onChange={handleTextChange}/>
-                  <ul className="toSearchResults">
-                    {mToPopUp && searchResults}
-                  </ul>
-                </div>
-                <div className="toMessage" >
-                  <label htmlFor="messageUserName">User: {toUser}</label>
-                </div>
-                <button className="chatBtn" type="submit">Chat</button>
-              </form>}
- * 
- */
