@@ -11,17 +11,41 @@ import Bottombar from '../../components/bottombar/Bottombar';
 
 function Messages() {
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
+  const [listOfActiveChats, setlistOfActiveChats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getFriends();
   }, []);
 
-  function getFriends() {
+  const getRoomName = (username1, username2) => {
+    if (username1 > username2){
+      return `${username2}${username1}`
+    }
+    else {
+      return`${username1}${username2}`
+    }
+  }
+
+  const getChatRoom = async (username1, username2) => {
+    const room = getRoomName(username1, username2);
+    return axios.post("http://localhost:3001/connectChat", {
+      chatRoom: room,
+    })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  const getFriends = async () => {
     axios.post("http://localhost:3001/friendicons",{
       username: localStorage.getItem("Username")
     })
-    .then(function (response) {
+    .then(async function (response) {
       console.log(response.data.friends);
       const friends = response.data.friends;
       
@@ -33,7 +57,16 @@ function Messages() {
           imageUrl: dataUrl
         }
       });
-      
+
+      const listOfActiveChats = friendsInfo.filter((friend) => {
+        return response.data.chatActive.includes(friend.id)
+      })
+      const toChatInstances = await Promise.all(listOfActiveChats.map(async (chat) => {
+        const chatRoom = await getChatRoom(localStorage.getItem("Username"), chat.username);
+        return Object.assign({}, chat, chatRoom);
+      }));
+      console.log(toChatInstances);
+      setlistOfActiveChats(toChatInstances);
       setListOfFriendsInfo(friendsInfo);
       setIsLoading(false);
     })
@@ -55,7 +88,7 @@ function Messages() {
         : (
             <div className="messageboxcontainer">
               <div className="messagesbox">
-                <Messagebox friends={listOfFriendsInfo}/>
+                <Messagebox friends={listOfFriendsInfo} activeChats={listOfActiveChats}/>
               </div>
             </div>
           )

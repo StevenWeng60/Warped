@@ -175,9 +175,9 @@ const saveMessage = async(cmessage, room, userid) => {
 }
 const updateMany = async () => {
   console.log("asdf")
-  await Post.updateMany(
-  { usersWhoLiked: { $exists: false } }, // Select documents without the new property
-  { $set: { usersWhoLiked: [] } }
+  await User.updateMany(
+  { chatActive: { $exists: false } }, // Select documents without the new property
+  { $set: { chatActive: [] } }
   )// Set the default value for the new property
 }
 

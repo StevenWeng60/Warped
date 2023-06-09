@@ -115,6 +115,11 @@ const userSchema = new mongoose.Schema({
     immutable: true,
     default: () => Date.now(),
   },
+  chatActive: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    ref: 'User',
+  }
 })
 
 const User = mongoose.model("User", userSchema)

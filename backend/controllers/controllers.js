@@ -518,6 +518,30 @@ const likeorUnlike = async (req, res) => {
   }
 }
 
+const changeChatActive = async (req, res) => {
+  //User, friend, action
+  try {
+    const action = req.body.action;
+    const user = await User.findOne({username: req.body.username})
+    if (action === 'add'){
+      user.chatActive.push(req.body.friendid)
+      user.save();
+    }
+    else if (action === 'remove'){
+      user.chatActive.pull(req.body.friendid)
+      user.save();
+    }
+    else {
+      res.status(500).send("Incorrect action type")
+    }
+    res.status(200).send("successfully changed chat active")
+  }
+  catch (e) {
+    res.status(500).send(e.message);
+  }
+}
+
+
 const testing = (req, res) => {
   const posts = [
     {
@@ -528,4 +552,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike}
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive}

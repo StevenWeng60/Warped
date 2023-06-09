@@ -99,6 +99,10 @@
   .imageInformation {
     padding-bottom: 2.5em;
   }
+
+  .closeMInstance {
+    right: 10px !important;
+  }
 }
 
 
@@ -205,6 +209,10 @@
     right: 5px !important;
     padding: 0.5em !important;
   }
+
+  .closeMInstance {
+    right: 20px !important;
+  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
   .addpostform {
@@ -220,6 +228,10 @@
 
   .exitPostBtn {
     right: 10px !important;
+  }
+
+  .closeMInstance {
+    right: 30px !important;
   }
 
 }

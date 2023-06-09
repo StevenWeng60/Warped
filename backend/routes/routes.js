@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike } = require('../controllers/controllers.js')
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -61,5 +61,7 @@ router.route("/addcomment").post(addMessageToComment);
 
 // like/unlike a message
 router.route("/likeorunlike").post(likeorUnlike);
+
+router.route("/changeChatActive").post(changeChatActive);
 
 module.exports = router
