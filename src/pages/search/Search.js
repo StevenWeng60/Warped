@@ -145,7 +145,7 @@ function Search() {
 
       </div>
       <div className="bottombar">
-        <Bottombar/>
+        <Bottombar currActive="Search"/>
       </div>
     </div>
   </div>

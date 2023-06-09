@@ -61,7 +61,7 @@ function Messages() {
           )
       }
       <div className="bottombar">
-        <Bottombar/>
+        <Bottombar currActive="Message"/>
       </div>
     </div>
   </div>

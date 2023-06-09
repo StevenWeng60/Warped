@@ -82,7 +82,7 @@ function Sidebar({currActive}) {
         </ul>
       </div>
       :
-      <IconSidebar/>
+      <IconSidebar currActive={currActive}/>
       }
     </div>
   );

@@ -104,7 +104,7 @@ function Home() {
           </div>)
       }
       <div className="bottombar">
-        <Bottombar/>
+        <Bottombar currActive="Home"/>
       </div>
     </div>
   </div>

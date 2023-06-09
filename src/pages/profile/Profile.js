@@ -97,7 +97,7 @@ function Profile() {
           )
       }
       <div className="bottombar">
-        <Bottombar/>
+        <Bottombar currActive="Profile"/>
       </div>
     </div>
   </div>

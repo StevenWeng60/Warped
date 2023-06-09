@@ -94,7 +94,7 @@ function Post() {
         </form>
       </div>
       <div className="bottombar">
-        <Bottombar/>
+        <Bottombar currActive="Post"/>
       </div>
     </div>
   </div>

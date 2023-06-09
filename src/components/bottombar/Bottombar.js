@@ -4,7 +4,7 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom"
 import './Bottombar.css'
 
 
-function Bottombar({currActive}) {
+function Bottombar({ currActive }) {
   // Get viewport width
   const profileRoute = '/profile/' + localStorage.getItem("Username") + "/me";
 

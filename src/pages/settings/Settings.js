@@ -61,7 +61,7 @@ function Settings() {
         </div>
       </div>
       <div className="bottombar">
-        <Bottombar/>
+        <Bottombar currActive="Settings"/>
       </div>
     </div>
   </div>
