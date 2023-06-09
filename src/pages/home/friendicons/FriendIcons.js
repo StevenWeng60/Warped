@@ -1,6 +1,7 @@
 import './FriendIcons.css'
 import { people } from '../../../utilities/data.js';
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Buffer } from 'buffer'
 import axios from 'axios';
 
@@ -8,34 +9,14 @@ function FriendIcons({friendslist}) {
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState(friendslist);
   const [listStart, setListStart] = useState(0);
   const [listEnd, setListEnd] = useState(12);
+  const navigate=  useNavigate();
 
 
-  // useEffect(() => {
-  //   getFriends();
-  // }, []);
-
-  // function getFriends() {
-  //   axios.post("http://localhost:3001/friendicons",{
-  //     username: localStorage.getItem("Username")
-  //   })
-  //   .then(function (response) {
-  //     console.log(response.data.friends);
-  //     const friends = response.data.friends;
-      
-  //     const friendsInfo = friends.map((friend) => {
-  //       const dataUrl = `data:${friend['avatarContentType']};base64,${Buffer.from(friend.avatar, 'binary').toString('base64')}`;
-  //       return {
-  //         username: friend.username,
-  //         imageUrl: dataUrl
-  //       }
-  //     });
-      
-  //     setListOfFriendsInfo(friendsInfo);
-  //   })
-  //   .catch((error) =>{
-  //     console.log(error);
-  //   })
-  // }
+  const userclicked = (username) => {
+    let userroute;
+    userroute = '/profile/' + username + '/y';
+    navigate(userroute);
+  }
 
   // There is no empty space, always have friend icons full
   const handleRightClick = () => {
@@ -76,20 +57,8 @@ function FriendIcons({friendslist}) {
   return (
   <ul className="friendsul">
     {listOfFriendsInfo.map((friend) => {
-      // if (index >= listStart && index < listEnd){
-      //   return (
-      //     <li key={friend._id}>
-      //       <img 
-      //         src={friend.imageUrl}
-      //         alt={friend.username}
-      //       />
-      //       <p>{friend.username}</p>
-      //     </li>
-      //   )
-      // }
-
       return (
-        <li key={friend._id}>
+        <li className="hoverable"key={friend._id} onClick={() => userclicked(friend.username)}>
           <img 
             src={friend.imageUrl}
             alt={friend.username}

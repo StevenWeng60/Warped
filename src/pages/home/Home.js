@@ -20,6 +20,8 @@ function Home() {
   // props for friend icons
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
 
+  const [listOfFriendsUsername, setListOfFriendsUsername] = useState([]);
+
 
 
   useEffect(() => {
@@ -51,6 +53,13 @@ function Home() {
       });
       
       setListOfFriendsInfo(friendsInfo);
+
+      const friendsUsernames = friends.map(friend => {
+        return friend.username
+      })
+
+      console.log(`friends usernames: ${friendsUsernames}`)
+      setListOfFriendsUsername(friendsUsernames);
 
       // Logic for feed
       const postObjects = res2.data.map((post) => {
@@ -99,7 +108,7 @@ function Home() {
               <FriendIcons friendslist={listOfFriendsInfo}/>
             </div>
             <div className="mainfeed">
-              <Main listofposts={posts}/>
+              <Main listofposts={posts} listOfFriends={listOfFriendsUsername}/>
             </div>
           </div>)
       }

@@ -1,6 +1,7 @@
 import { posts } from '../../../utilities/posts.js'
 import { people } from '../../../utilities/data.js'
 import { getImageUrl } from '../../../utilities/utils.js'
+import { useNavigate } from 'react-router-dom' 
 import { useEffect, useState, useRef} from 'react'
 import React from 'react'
 import { FaHeart, FaComment } from "react-icons/fa";
@@ -20,7 +21,8 @@ const useBooleanArray = (length) => {
   return [array, setArray];
 }
 
-function Main({listofposts}) {
+function Main({listofposts, listOfFriends}) {
+  const navigate = useNavigate();
 
   const [posts, setPosts] = useState(listofposts);
 
@@ -71,9 +73,10 @@ function Main({listofposts}) {
           <li>
             <div className="posttop">
               <img
-                className="postuserpfp"
+                className="postuserpfp hoverable"
                 src={avatarData}
                 alt={comment.user.username}
+                onClick={() => userclicked(comment.user.username)}
               />        
               <h4 className="commentsh4">{comment.user.username}</h4>
             </div>
@@ -136,9 +139,10 @@ function Main({listofposts}) {
               (<li>
               <div className="posttop">
                 <img
-                  className="postuserpfp"
+                  className="postuserpfp hoverable"
                   src={""}
                   alt={localStorage.getItem("Username")}
+                  onClick={() => userclicked(localStorage.getItem("Username"))}
                   />        
                 <h4 className="commentsh4">{localStorage.getItem("Username")}</h4>
               </div>
@@ -198,15 +202,30 @@ function Main({listofposts}) {
     });
   }
 
+  const userclicked = (username) => {
+    let userroute;
+    console.log(listOfFriends);
+    if(listOfFriends.includes(username)){
+      userroute = '/profile/' + username + '/y';
+    }
+    else if (username === localStorage.getItem("Username")){
+      userroute = '/profile/' + username + '/me';
+    }
+    else {
+      userroute = '/profile/' + username + "/n";
+    }
+    navigate(userroute);
+  }
 
   return <ul className="mainfeedul">{ 
     posts.map((post, index) =>
     <li className="mainfeedpostli"key={post.id}>
       <div className="posttop">
         <img
-          className="postuserpfp"
+          className="postuserpfp hoverable"
           src={post.avatarImage}
           alt={post.username}
+          onClick={() => userclicked(post.username)}
         />
         <h4 className="postusername">{post.username}</h4>
       </div>
@@ -253,9 +272,10 @@ function Main({listofposts}) {
       <div className="imageInformation">
         <div className="posttop" style={{boxSizing: "border-box", borderBottom: "1px solid black", height: "10%"}}>
           <img
-            className="postuserpfp"
+            className="postuserpfp hoverable"
             src={currIndividualPost.avatarImage}
             alt={currIndividualPost.username}
+            onClick={() => userclicked(currIndividualPost.username)}
           />
           <h4 className="postusername">{currIndividualPost.username}</h4>
         </div>
@@ -264,9 +284,10 @@ function Main({listofposts}) {
             <li>
               <div className="posttop">
                 <img
-                  className="postuserpfp"
+                  className="postuserpfp hoverable"
                   src={currIndividualPost.avatarImage}
                   alt={currIndividualPost.username}
+                  onClick={() => userclicked(currIndividualPost.username)}
                 />        
                 <h4 className="commentsh4">{currIndividualPost.username}</h4>
               </div>
