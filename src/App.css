@@ -56,7 +56,7 @@
 }
 
 /* MOBILE L (425 PX)*/
-/* Get rid of sidebar see expand columns for friend icons and posts */
+/* Get rid of sidebar set expand columns for friend icons and posts */
 @media (max-width: 550px) {
   .sidebar {
     display:none;
@@ -66,11 +66,14 @@
     grid-column: 1 / 6;
   }
 
-  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings, .homecontainer, .postSuccessPopUp, .messageboxcontainer {
+  .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings, .homecontainer, .postSuccessPopUp, .messageboxcontainer, .searchbar, .searchResults, .loading {
     grid-column: 1 / 6 !important;
   }
-  .messageboxcontainer {
+  .messageboxcontainer, .addpost, .mainsettings {
     grid-row: 1 / 8 !important;
+  }
+  .addpostform, .maineditfeed {
+    height: 85% !important;
   }
   .CreatePostTag {
     font-size: 1.5em;
@@ -85,6 +88,20 @@
 
   .bottombar {
     visibility:visible !important;
+  }
+
+  .poppedUpPost {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr 1fr !important;
+    overflow-y:scroll;
+  }
+
+  .imageInformation {
+    padding-bottom: 2.5em;
+  }
+
+  .closeMInstance {
+    right: 10px !important;
   }
 }
 
@@ -120,6 +137,11 @@
 
   .addpostform {
     width: 55% !important;
+  }
+
+  .exitPostBtn {
+    right: 10px !important;
+    padding: 0.5em !important;
   }
 }
 /* TABLET (768 PX)*/
@@ -178,6 +200,19 @@
   .postflexcontainer {
     height: 1000px !important;
   }
+  .poppedUpPost {
+    width: 80vw !important;
+    font-size: 0.6em;
+  }
+
+  .exitPostBtn {
+    right: 5px !important;
+    padding: 0.5em !important;
+  }
+
+  .closeMInstance {
+    right: 20px !important;
+  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
   .addpostform {
@@ -186,4 +221,17 @@
   .postflexcontainer {
     height: 1200px !important;
   }
+  .poppedUpPost {
+    width: 75vw !important;
+    font-size: 0.8em;
+  }
+
+  .exitPostBtn {
+    right: 10px !important;
+  }
+
+  .closeMInstance {
+    right: 30px !important;
+  }
+
 }

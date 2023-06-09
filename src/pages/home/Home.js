@@ -20,6 +20,10 @@ function Home() {
   // props for friend icons
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
 
+  const [listOfFriendsUsername, setListOfFriendsUsername] = useState([]);
+
+
+
   useEffect(() => {
     // get friends
     const friends = axios.post("http://localhost:3001/friendicons",{
@@ -33,8 +37,6 @@ function Home() {
       }
     }
     )
-
-
 
     Promise.all([friends, mainfeed])
     .then(([res1, res2]) => {
@@ -52,18 +54,32 @@ function Home() {
       
       setListOfFriendsInfo(friendsInfo);
 
+      const friendsUsernames = friends.map(friend => {
+        return friend.username
+      })
+
+      console.log(`friends usernames: ${friendsUsernames}`)
+      setListOfFriendsUsername(friendsUsernames);
+
       // Logic for feed
       const postObjects = res2.data.map((post) => {
         const postUrl = `data:${post['contentType']};base64,${Buffer.from(post.data, 'binary').toString('base64')}`;
 
         const avatarUrl = `data:${post.user['avatarContentType']};base64,${Buffer.from(post.user.avatar, 'binary').toString('base64')}`;
 
+        const a = post.usersWhoLiked.find((user) => {
+          return user === localStorage.getItem("Id")
+        })
+
         return {
           id: post.user._id,
+          postid: post._id,
           username: post.user.username,
           description: post.description,
           postImage: postUrl,
           avatarImage: avatarUrl,
+          numlikes: post.usersWhoLiked.length,
+          alreadyLikedPost: a ? true : false,
         }
       })
 
@@ -77,63 +93,6 @@ function Home() {
       console.error(error);
     })
   }, [])
-
-  function getFriends() {
-    axios.post("http://localhost:3001/friendicons",{
-      username: localStorage.getItem("Username")
-    })
-    .then(function (response) {
-      console.log(response.data.friends);
-      const friends = response.data.friends;
-      
-      const friendsInfo = friends.map((friend) => {
-        const dataUrl = `data:${friend['avatarContentType']};base64,${Buffer.from(friend.avatar, 'binary').toString('base64')}`;
-        return {
-          username: friend.username,
-          imageUrl: dataUrl
-        }
-      });
-      
-      setListOfFriendsInfo(friendsInfo);
-    })
-    .catch((error) =>{
-      console.log(error);
-    })
-  }
-
-  const getMainFeed = async () => {
-    axios.get("http://localhost:3001/mainfeed",
-    {
-      params: {
-        username: localStorage.getItem("Username"),
-      }
-    }
-    )
-    .then((response) => {
-      console.log(response);
-
-      const postObjects = response.data.map((post) => {
-        const postUrl = `data:${post['contentType']};base64,${Buffer.from(post.data, 'binary').toString('base64')}`;
-
-        const avatarUrl = `data:${post.user['avatarContentType']};base64,${Buffer.from(post.user.avatar, 'binary').toString('base64')}`;
-
-        return {
-          id: post.user._id,
-          username: post.user.username,
-          description: post.description,
-          postImage: postUrl,
-          avatarImage: avatarUrl,
-        }
-      })
-
-      setPosts(postObjects);
-
-      console.log("route works");
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
   
   return (
   <div className="App">
@@ -149,12 +108,12 @@ function Home() {
               <FriendIcons friendslist={listOfFriendsInfo}/>
             </div>
             <div className="mainfeed">
-              <Main listofposts={posts}/>
+              <Main listofposts={posts} listOfFriends={listOfFriendsUsername}/>
             </div>
           </div>)
       }
       <div className="bottombar">
-        <Bottombar/>
+        <Bottombar currActive="Home"/>
       </div>
     </div>
   </div>

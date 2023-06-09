@@ -30,7 +30,7 @@
   padding-left: 1em;
 }
 
-.messagefriends {
+.messagefriends, .topmessagefriends {
   display:flex;
   align-items:center;
   /* border-top: 1px solid black;
@@ -41,6 +41,10 @@
 
 .messagefriends:hover {
   opacity: 0.7;
+  cursor:pointer;
+}
+
+.closeMInstance:hover {
   cursor:pointer;
 }
 

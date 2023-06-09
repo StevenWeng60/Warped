@@ -42,8 +42,14 @@ const postSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  usersWhoLiked: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    default: [],
+    ref: 'User'
+  },
   comments: {
-    type: [messageSchema],
+    type: [mongoose.SchemaTypes.ObjectId],
+    default: [],
     ref: 'Message'
   },
   createdAt: {
@@ -109,6 +115,11 @@ const userSchema = new mongoose.Schema({
     immutable: true,
     default: () => Date.now(),
   },
+  chatActive: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    ref: 'User',
+  }
 })
 
 const User = mongoose.model("User", userSchema)

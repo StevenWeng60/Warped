@@ -1,4 +1,4 @@
-const { User, Post, Chat } = require('../Schemas/User.js');
+const { User, Post, Chat, Message } = require('../Schemas/User.js');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const path = require('path');
@@ -395,6 +395,153 @@ const changeBio = async (req, res) => {
   })
 }
 
+const grabPostComments = async (req, res) => {
+  try{
+    const post = await Post.findOne({_id: req.body.postid}).populate({
+      path: "comments",
+      options: {
+        limit: 10
+      },
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    })
+    // console.log(req.body.postid);
+    // const post = await Post.aggregate([
+    //   { $match: { _id: req.body.postid } },
+    //   { $limit: 1 },
+    //   {
+    //     $lookup: {
+    //       from: 'Message', 
+    //       localField: 'comments',
+    //       foreignField: '_id',
+    //       as: 'comments'
+    //     }
+    //   },
+    //   { $unwind: '$comments' },
+    //   { $limit: 10 },
+    //   {
+    //     $lookup: {
+    //       from: 'User', // Assuming the user collection is named 'users'
+    //       localField: 'comments.user',
+    //       foreignField: '_id',
+    //       as: 'comments.user'
+    //     }
+    //   },
+    //   {
+    //     $group: {
+    //       _id: '$_id',
+    //       data: { $first: '$data' },
+    //       contentType: { $first: '$contentType' },
+    //       user: { $first: '$user' },
+    //       description: { $first: '$description' },
+    //       likes: { $first: '$likes' },
+    //       comments: { $push: '$comments' }
+    //     }
+    //   }
+    // ]);
+    console.log(post);
+    res.status(200).send(post);
+  }
+  catch (e){
+    res.status(500).send(e.message);
+  }
+}
+
+const addMessageToComment = async (req, res) => {
+  // Need req.body.userid, req.body.commentText, req.body.postid
+  try {
+    // Create message
+    const message = new Message({
+      text: req.body.commentText,
+      user: req.body.userid,
+    })
+
+    await message.save();
+
+    // Add message to post
+    const post = await Post.findOne({_id: req.body.postid})
+
+    post.comments.push(message._id)
+    await post.save();
+
+    res.status(200).send("Success")
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
+/**    const post = new Post({
+      name: originalname,
+      data: buffer,
+      contentType:mimetype,
+      description: "first post created"
+    })
+
+    await post.save(); 
+    
+    
+          const message = await Message.create({
+        text: cmessage,
+        user: userid,
+      })
+      chatRoom.listOfTexts.push(message._id)*/
+
+const likeorUnlike = async (req, res) => {
+  // Need action, userid, postid
+  const action = req.body.action;
+  console.log(req.body.userid);
+  console.log(req.body.postid);
+  console.log(req.body.action);
+
+  
+  try {
+    const post = await Post.findOne({_id: req.body.postid})
+
+    if (action === 'like'){
+      post.usersWhoLiked.push(req.body.userid)
+      post.save();
+    }
+    else if (action === 'unlike'){      
+      const index = post.usersWhoLiked.indexOf(req.body.userid);
+      if (index > -1){
+        post.usersWhoLiked.splice(index, 1);
+      }
+      post.save();
+    }
+    res.status(200).send(`successfully ${action}d post`)
+  }
+  catch (e) {
+    res.status(500).send(e.message)
+  }
+}
+
+const changeChatActive = async (req, res) => {
+  //User, friend, action
+  try {
+    const action = req.body.action;
+    const user = await User.findOne({username: req.body.username})
+    if (action === 'add'){
+      user.chatActive.push(req.body.friendid)
+      user.save();
+    }
+    else if (action === 'remove'){
+      user.chatActive.pull(req.body.friendid)
+      user.save();
+    }
+    else {
+      res.status(500).send("Incorrect action type")
+    }
+    res.status(200).send("successfully changed chat active")
+  }
+  catch (e) {
+    res.status(500).send(e.message);
+  }
+}
+
+
 const testing = (req, res) => {
   const posts = [
     {
@@ -405,4 +552,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio}
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive}

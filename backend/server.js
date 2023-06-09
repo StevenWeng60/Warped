@@ -131,6 +131,7 @@ http.listen(port, () => {
 //   console.log("hell yeah");
 // });
 
+
 // createChat();
 // create messages and add them to bobthebuilderleaf
 async function createChat() {
@@ -172,3 +173,12 @@ const saveMessage = async(cmessage, room, userid) => {
     console.log(e.message);
   }
 }
+const updateMany = async () => {
+  console.log("asdf")
+  await User.updateMany(
+  { chatActive: { $exists: false } }, // Select documents without the new property
+  { $set: { chatActive: [] } }
+  )// Set the default value for the new property
+}
+
+// updateMany();

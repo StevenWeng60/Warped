@@ -1,11 +1,11 @@
 import "../Sidebar.css"
 import "./IconSidebar.css"
 import {React, useRef} from 'react';
-import { FaHome, FaUserCircle, FaMailBulk, FaRegPlusSquare, FaToriiGate, FaSearch, FaDoorOpen } from "react-icons/fa";
+import { FaHome, FaUserCircle, FaMailBulk, FaRegPlusSquare, FaToriiGate, FaSearch, FaDoorOpen, FaCog } from "react-icons/fa";
 import { Link, Route, Routes } from "react-router-dom"
 import axios from 'axios';
 
-function IconSidebar() {
+function IconSidebar({ currActive }) {
   const profileRoute = '/profile/' + localStorage.getItem("Username") + "/me";
 
   return (
@@ -15,53 +15,46 @@ function IconSidebar() {
       </div>
       <ul className="sidebarOptions">
           <li>
-            <div className="sideIcon">
-              <Link to={profileRoute} className="link">
-              <FaUserCircle className="iconStyles"/>
-              </Link>
-            </div>
+            <Link to={profileRoute} className={currActive === "Profile" ? "activelink" : "link"}>
+              <div className="sideIcon">
+                <FaUserCircle className="iconStyles"/>
+              </div>
+            </Link>
           </li>
         <li>
+          <Link to="/" className={currActive === "Home" ? "activelink" : "link"}>
             <div className="sideIcon">
-              <Link to="/" className="link">
               <FaHome className="iconStyles"/>
-              </Link>
             </div>
+          </Link>
         </li>
         <li>
+          <Link to="/messages" className={currActive === "Message" ? "activelink" : "link"}>          
             <div className="sideIcon">
-              <Link to="/messages" className="link">          
               <FaMailBulk className="iconStyles"/>
-              </Link>
             </div>
+          </Link>
         </li>
         <li>
-          <div className="sideIcon">
-            <Link to="/post" className="link">
+          <Link to="/post" className={currActive === "Post" ? "activelink" : "link"}>
+            <div className="sideIcon">
               <FaRegPlusSquare className="iconStyles"/>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </li>
         <li>
-          <div className="sideIcon">
-            <Link to="/search" className="link">
-              <FaSearch className="iconStyles"/>
-            </Link>
-          </div>
+          <Link to="/search" className={currActive === "Search" ? "activelink" : "link"}>
+            <div className="sideIcon">
+                <FaSearch className="iconStyles"/>
+            </div>
+          </Link>
         </li>
         <li>
-          <div className="sideIcon">
-            <Link to="/search" className="link">
-              <FaToriiGate className="iconStyles"/>
-            </Link>
-          </div>
-        </li>
-        <li className="sideIcon">
-          <div className="sideIcon">
-            <Link to="" className="link">
-              <FaDoorOpen className="iconStyles"/>
-            </Link>
-          </div>
+          <Link to="/settings" className={currActive === "Settings"? "activelink" : "link"}>
+            <div className="sideIcon">
+                <FaCog className="iconStyles"/>
+            </div>
+          </Link>
         </li>
       </ul>
     </div>

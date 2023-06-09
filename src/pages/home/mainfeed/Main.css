@@ -5,7 +5,7 @@
   border-radius: 2px;
   background: #F4EEE0;
 }
-.mainfeedul li{
+.mainfeedpostli{
   margin: 4em auto;
   /* height: 50em; */
   /* 600 px? */
@@ -56,3 +56,84 @@
   padding-left:.75em;
 }
 
+.poppedUpPost {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* flex-direction: row; */
+  padding: 2em;
+  height: 90vh;
+  width: 60vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white !important;
+}
+
+.postImage {
+  background:green;
+  /* flex-grow:1; */
+}
+
+.postcommentbottom {
+  display: flex;
+  width: 100%;
+  height: 7%;
+  background: var(--chatBGcolor);
+}
+
+.imageInformation {
+  background: #F4EEE0;
+  flex-grow:1;
+}
+
+.popupimg {
+  /* max-height: 45em; */
+  /* height: 30px; */
+  width: 100%;
+  border-radius: 2px;
+  background: #F4EEE0;
+}
+
+.commentsdiv {
+  width:100%;
+  height: 83%;
+  margin:0;
+  overflow-y: scroll;
+}
+
+.commentsul {
+  padding-left:0.5em;
+  list-style-type:none;
+  color:black;
+}
+
+.commentsh4 {
+  display:inline-block;
+}
+
+.commentsp {
+  display:inline-block;
+}
+
+.commentsul li {
+  margin-bottom: 0.75em;
+}
+
+.exitPostBtn {
+  position:absolute;
+  right:100px;
+  top: 20px;
+  z-index: 3;
+  opacity:1;
+  padding: 1em;
+  background:white;
+}
+
+.exitPostBtn:hover {
+  cursor: pointer;
+}
+
+.faheart:hover, .facomment:hover, .feedimg:hover, .hoverable:hover {
+  cursor:pointer;
+}

@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import withAuth from '../../components/authenticate';
 import Bottombar from '../../components/bottombar/Bottombar';
 
+
+
+
 function Search() {
   const searchBarRef = useRef(null);
   const queryLabelRef = useRef(null);
@@ -81,7 +84,7 @@ function Search() {
   }
 
   // user clicked -> go to their profile
-  const userClicked = (username) => {
+  const userclicked = (username) => {
     let userroute;
     if(listOfFriends.includes(username)){
       userroute = '/profile/' + username + '/y';
@@ -90,6 +93,7 @@ function Search() {
       userroute = '/profile/' + username + "/n";
     }
     navigate(userroute);
+    return(<></>);
   }
 
   return (
@@ -127,7 +131,7 @@ function Search() {
             if(data.username === localStorage.getItem("Username")){
               return null;
             }
-            return(<div className="searchUser" key={data._id} onClick={() => userClicked(data.username)}>
+            return(<div className="searchUser" key={data._id} onClick={() => userclicked(data.username)}>
               {listOfFriends.includes(data.username) 
                 ? <h4 className="usernameh4"style={{color: '#6D5D6E'}}>{data.username}</h4>
                 : <h4 className="usernameh4">{data.username}</h4>
@@ -145,7 +149,7 @@ function Search() {
 
       </div>
       <div className="bottombar">
-        <Bottombar/>
+        <Bottombar currActive="Search"/>
       </div>
     </div>
   </div>

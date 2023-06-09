@@ -6,7 +6,7 @@ import axios from 'axios'
 import { socket } from '../../../components/socket.js';
 
 
-function Messagebox({friends}) {
+function Messagebox({friends, activeChats}) {
   const [currPerson, setCurrPerson] = useState({});
   // New message popup
   const [mCreatePoppedUp, setMCreatePoppedUp] = useState(false);
@@ -17,7 +17,7 @@ function Messagebox({friends}) {
   const [mToPopUp, setMToPopUp] = useState(false);
   // an array of objects that contain outgoing users and the messages
   // in the chat room
-  const [chatList, setChatList] = useState([]);
+  const [chatList, setChatList] = useState(activeChats);
   // the current chat messages
   const [currChatMessages, setCurrChatMessages] = useState([]);
 
@@ -195,10 +195,38 @@ function Messagebox({friends}) {
         const user = friends.find(obj => obj.username === toUser)
         const chatRoom = await getChatRoom(localStorage.getItem("Username"), toUser);
         const chatListInstance = Object.assign({}, user, chatRoom);
-        setChatList(prevArr => [...chatList, chatListInstance]);
+        axios.post("http://localhost:3001/changeChatActive", {
+          username: localStorage.getItem("Username"),
+          friendid: user.id,
+          action: "add",
+        })
+        .then((response) =>{
+          setChatList(prevArr => [...chatList, chatListInstance]);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
       }
       exitCreateMessage();
-    }
+    }    
+  }
+
+  const handleRemoveChatInstance = () => {
+    axios.post("http://localhost:3001/changeChatActive", {
+      username: localStorage.getItem("Username"),
+      friendid: currPerson.id,
+      action: "remove",
+    })
+    .then((response) =>{
+      const newList = chatList.filter((chat) => {
+        return chat.username !== currPerson.username
+      })
+      setChatList(newList);
+      setCurrPerson({});
+    })
+    .catch((error) => {
+      console.error(error);
+    })
   }
 
   return (
@@ -239,7 +267,7 @@ function Messagebox({friends}) {
           <ul className="mfriendslist">
             {chatList.map(instance =>
             <li key={instance.id} onClick={() => loadCurrPerson(instance)} style={{background: currPerson.username == instance.username ? '#4F4557' : ''}}>
-              <div className="messagefriends">
+              <div className="messagefriends" style={{position: 'relative'}}>
                 <img
                   className="messagefpfp"
                   src={instance.imageUrl}
@@ -253,13 +281,14 @@ function Messagebox({friends}) {
         </div>
         { Object.keys(currPerson).length !== 0 && <div className="messagechat">
           <div className="mchattop">
-            <div className="messagefriends">
+            <div className="topmessagefriends">
               <img
                 className="messagefpfp"
                 src={currPerson.imageUrl}
                 alt={currPerson.username}
               />
               <h4 className="fusername">{currPerson.username}</h4>
+              <h5 className="closeMInstance"style={{position: 'absolute', right: '50px', top: '2px', padding: '0.5em'}} onClick={handleRemoveChatInstance}>X</h5>
             </div>
           </div>
           <div className="mchatmid" ref={chatRef}>
