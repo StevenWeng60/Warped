@@ -106,7 +106,7 @@ const userSchema = new mongoose.Schema({
   // posts
   email: {
     type: String,
-    minLength: 10,
+    minLength: 5,
     lowercase: true,
     default: "noemail@noemail.com"
   },

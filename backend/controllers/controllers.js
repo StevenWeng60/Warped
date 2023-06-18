@@ -24,6 +24,7 @@ const createUser = async (req, res) => {
         User.create({
           username: req.body.username,
           password: hashedPassword,
+          email: req.body.email,
           avatar: buffer,
           avatarContentType: "image/jpeg"
           });
@@ -541,6 +542,17 @@ const changeChatActive = async (req, res) => {
   }
 }
 
+const getUser = async (req, res) => {
+  try {
+    const user = await User.findOne({email: req.query.email})
+    console.log(user);
+    res.status(200).send(user);
+  }
+  catch (e) {
+    res.status(500).send(e.message);
+  }
+}
+
 
 const testing = (req, res) => {
   const posts = [
@@ -552,4 +564,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive}
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser}

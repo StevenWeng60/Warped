@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Buffer } from 'buffer'
 import withAuth from '../../components/authenticate';
+import firebaseAuth from '../../components/firebaseauth';
 import Loading from '../../components/Loading';
 import Bottombar from '../../components/bottombar/Bottombar';
 
@@ -101,4 +102,4 @@ function Messages() {
   );
 }
 
-export default withAuth(Messages);
+export default firebaseAuth(Messages);

@@ -10,6 +10,7 @@ import axios from 'axios'
 import withAuth from '../../components/authenticate';
 import Loading from '../../components/Loading';
 import Bottombar from '../../components/bottombar/Bottombar';
+import firebaseAuth from '../../components/firebaseauth';
 
 function Profile() {
   const { username, friends } = useParams();
@@ -104,7 +105,7 @@ function Profile() {
   );
 }
 
-export default withAuth(Profile);
+export default firebaseAuth(Profile);
 
 /*
 

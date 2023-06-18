@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Bottombar from "../../components/bottombar/Bottombar";
+import firebaseAuth from "../../components/firebaseauth";
 
 
 function Settings() {
@@ -68,4 +69,4 @@ function Settings() {
   );
 }
 
-export default withAuth(Settings);
+export default firebaseAuth(Settings);

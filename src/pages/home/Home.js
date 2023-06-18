@@ -4,11 +4,14 @@ import Sidebar from '../../components/sidebar/Sidebar.js';
 import FriendIcons from './friendicons/FriendIcons.js';
 import Main from './mainfeed/Main.js';
 import withAuth from '../../components/authenticate';
+import firebaseAuth from '../../components/firebaseauth';
 import Loading from '../../components/Loading.js';
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer'
 import axios from 'axios'
 import Bottombar from '../../components/bottombar/Bottombar';
+import { getAuth } from "firebase/auth";
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -120,4 +123,4 @@ function Home() {
   );
 }
 
-export default withAuth(Home);
+export default firebaseAuth(Home);

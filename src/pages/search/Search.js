@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import withAuth from '../../components/authenticate';
 import Bottombar from '../../components/bottombar/Bottombar';
+import firebaseAuth from '../../components/firebaseauth';
 
 
 
@@ -156,4 +157,4 @@ function Search() {
   );
 }
 
-export default withAuth(Search);
+export default firebaseAuth(Search);
