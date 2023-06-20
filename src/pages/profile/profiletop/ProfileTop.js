@@ -1,6 +1,6 @@
 import './ProfileTop.css'
 import { useRef, useState, useEffect } from 'react'
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
 import { storage } from "../../../config/firebase-config"
 import axios from 'axios'
 
@@ -24,10 +24,6 @@ function ProfileTop({userInfo}) {
   }, [userInfo.avatarData])
 
   const handleFileUpload = async (event) => {
-      console.log(event); // Check the event object
-      console.log(event.target); // Check the target property
-      console.log(event.target.files); // Check the files property
-      console.log(event.target.files[0].name)
     const file = event.target.files[0];
     const imageURL = `projectFiles/${file.name}`;
     const filesFolderRef = ref(storage, imageURL)
@@ -38,11 +34,19 @@ function ProfileTop({userInfo}) {
       const downloadURL = await getDownloadURL(ref(storage, imageURL));
       axios.post("http://localhost:3001/uploadfirebase/pfp",{
         username: localStorage.getItem("Username"),
-        avatarURL: downloadURL
+        avatarURL: downloadURL,
+        imageName: file.name,
       }).then(function (response){
         console.log(response);
-        localStorage.setItem('avatarURL', downloadURL);
-        setPostData(downloadURL);
+        const deleteRef = ref(storage, `projectFiles/${response.data}`);
+        deleteObject(deleteRef)
+        .then(() => {
+          localStorage.setItem('avatarURL', downloadURL);
+          setPostData(downloadURL);
+        })
+        .catch(() => {
+          console.error();
+        })
       }).catch(function (error){
         console.log(error);
       })

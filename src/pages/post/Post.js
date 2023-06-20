@@ -47,21 +47,19 @@ function Post() {
       console.log("file upload successful")
       
       
-      console.log(inputFileRef.current.files[0].name);
+      const fileName = inputFileRef.current.files[0].name;
       const downloadURL = await getDownloadURL(ref(storage, imageURL));
       
       console.log("Image URL:", downloadURL);
       // reset text field, preview field
-      inputFileRef.current.value= null;
-      setText('Write a Caption...');
-      setPreview(null);
       
-
+      
       getDownloadURL(ref(storage, imageURL))
       .then((url) => {
         console.log(`image url ${url}`);
         axios.post("http://localhost:3001/singlepostfirebaseimg", {
           imgURL: url,
+          imageName: fileName,
           caption: text,
           username: localStorage.getItem("Username")
         })
@@ -77,6 +75,9 @@ function Post() {
       .catch((error) => {
         console.error(error);
       })
+      inputFileRef.current.value= null;
+      setText('Write a Caption...');
+      setPreview(null);
     } catch (err) {
       console.error(err);
     }

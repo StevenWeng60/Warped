@@ -1,15 +1,18 @@
 import './ProfileBottom.css'
-import { people } from '../../../utilities/data.js'
-import { getImageUrl } from '../../../utilities/utils.js'
 import { useEffect, useState, useRef } from 'react'
-import { Buffer } from 'buffer'
 import axios from 'axios'
+import { FaTrash } from "react-icons/fa";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
+import { storage } from "../../../config/firebase-config"
 
-function ProfileBottom({ posts }) {
-  const [usersPosts, setUsersPosts] = useState([]);
+
+function ProfileBottom({ posts, userInfo }) {
 
   //postPopUp
   const [postPopUp, setPostPopUp] = useState(false);
+
+  // profile posts
+  const [profilePosts, setProfilePosts] = useState(posts);
 
   // Individual post picture
   const [currIndividualPost, setCurrIndividualPost] = useState({});
@@ -24,6 +27,14 @@ function ProfileBottom({ posts }) {
   const commentRef = useRef(null);
 
   function handleClickOutOfPost(){
+    setPostPopUp(false);
+    setLatestComments([]);
+  }
+  function handleClickOutOfPostAndDelete(postId){
+    const postsWithoutDeletedOne = profilePosts.filter((post) => {
+      return post.postid !== postId;
+    })
+    setProfilePosts(postsWithoutDeletedOne);
     setPostPopUp(false);
     setLatestComments([]);
   }
@@ -64,8 +75,31 @@ function ProfileBottom({ posts }) {
     commentRef.current.value = "";
   }
 
+  function deletePost(postId) {
+    console.log(`Post id: ${postId}`);
+    axios.delete("http://localhost:3001/deletesinglepost", {
+      params: {
+        id: postId
+      }
+    })
+    .then(function (response) {
+      console.log(response);
+      const deleteRef = ref(storage, `projectFiles/${response.data}`);
+      deleteObject(deleteRef)
+      .then(() => {
+        handleClickOutOfPostAndDelete(postId);
+      })
+      .catch(() => {
+        console.log("error");
+      })
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
+
   async function handlePostPopUp(postId) {
-    const post = posts.find((post) => {
+    const post = profilePosts.find((post) => {
       console.log(`postId = ${postId} || post.id = ${post.postid}`);
       return post.postid === postId;
     })
@@ -110,7 +144,7 @@ function ProfileBottom({ posts }) {
 
   return (
   <div className="postflexcontainer">
-    { posts.map((post) => {
+    { profilePosts.map((post) => {
       return (
       <div className="post" key={post._id}>
         <img src={post.postImage} className="pfpPostImage" onClick={() => handlePostPopUp(post.postid)}></img>
@@ -135,9 +169,10 @@ function ProfileBottom({ posts }) {
               alt={currIndividualPost.username}
             />
             <h4 className="postusername">{currIndividualPost.username}</h4>
+            {userInfo.areFriends === 'me' ? <FaTrash className="trashicon" onClick={() => deletePost(currIndividualPost.postid)}/> : <></>}
           </div>
           <div className="commentsdiv">
-            <ul className="commentsul">
+            <ul className="commentsul">s
               <li>
                 <div className="posttop">
                   <img

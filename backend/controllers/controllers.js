@@ -173,6 +173,7 @@ const singlePostUploadFirebase = async (req, res) => {
           user: user._id,
           url: req.body.imgURL,
           description: req.body.caption,
+          imageName: req.body.imageName,
         })
         
         await post.save();
@@ -576,9 +577,11 @@ const uploadAvatarFirebase = async (req, res) => {
   try {
     const user = await User.findOne({username:req.body.username})
     if (user) {
+      const oldImageName = user.imageName;
       user.avatarURL = req.body.avatarURL;
+      user.imageName = req.body.imageName;
       await user.save();
-      res.status(200).send("Uploading avatar via firebase was successful")
+      res.status(200).send(oldImageName);
     }
     else {
       res.status(500).send("Could not find user")
@@ -586,6 +589,24 @@ const uploadAvatarFirebase = async (req, res) => {
   }
   catch (e) {
 
+  }
+}
+
+const deletePost = async (req, res) => {
+  try {
+    const post = await Post.findOne({_id: req.query.id});
+    await Post.deleteOne({_id: req.query.id})
+    .then(response => {
+      console.log(`Post id: ${req.query.id}`);
+      res.status(200).send(post.imageName);
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send("deletion failed");
+    })
+  }
+  catch (error) {
+    res.status(500).send(error.message);
   }
 }
 
@@ -600,4 +621,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser, singlePostUploadFirebase, getUsersPostsFirebase, uploadAvatarFirebase}
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser, singlePostUploadFirebase, getUsersPostsFirebase, uploadAvatarFirebase, deletePost}

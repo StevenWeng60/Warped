@@ -93,7 +93,7 @@ function Profile() {
               <ProfileTop userInfo = {userInfo}/>
             </div>
             <div className="bottomofprofile">
-              <ProfileBottom posts = {  usersPosts }/>
+              <ProfileBottom posts = {usersPosts} userInfo = {userInfo}/>
             </div>
           </div>
           )

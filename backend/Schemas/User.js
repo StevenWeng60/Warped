@@ -38,6 +38,9 @@ const postSchema = new mongoose.Schema({
   url: {
     type: String,
   },
+  imageName: {
+    type: String,
+  },
   contentType: String,
   user: {
     type: mongoose.SchemaTypes.ObjectId,
@@ -76,6 +79,9 @@ const userSchema = new mongoose.Schema({
   },
   avatarURL: {
     type: String
+  },
+  imageName: {
+    type:String
   },
   profileDescription: {
     type: String,
