@@ -174,7 +174,6 @@ function ProfileBottom({ posts, userInfo, friendList }) {
             alt={currIndividualPost.username}
             className="popupimg"
             style= {{height: '100%', width: '100%'}}
-            onClick={() => userclicked(currIndividualPost.username)}
           />
         </div>
         <div className="imageInformation">
