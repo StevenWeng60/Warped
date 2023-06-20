@@ -9,3 +9,7 @@
   grid-row: 3 / 9;
   /* background:green; */
 }
+
+.hoverable:hover {
+  cursor:pointer;
+}

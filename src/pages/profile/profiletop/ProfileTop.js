@@ -90,9 +90,9 @@ function ProfileTop({userInfo}) {
             <div className="form-group">
                 { userInfo.areFriends === 'me'
                   ? <img
-                    src={postData} onClick={handleImageClick} className="avatar"/>
+                    src={postData} onClick={handleImageClick} className="avatar hoverable"/>
                   : <img
-                    src={postData} className="avatar"/>
+                    src={postData} className="avatar hoverable"/>
                 }
               <input className="imageInput" type="file"  name="uploaded_file" style ={{display: "none"}} ref={inputFileRef} onChange={handleFileUpload}/> 
             </div>

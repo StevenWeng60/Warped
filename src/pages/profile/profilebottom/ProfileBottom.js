@@ -162,7 +162,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
     { profilePosts.map((post) => {
       return (
       <div className="post" key={post._id}>
-        <img src={post.postImage} className="pfpPostImage" onClick={() => handlePostPopUp(post.postid)}></img>
+        <img src={post.postImage} className="pfpPostImage hoverable" onClick={() => handlePostPopUp(post.postid)}></img>
       </div>
       );
     }) }
@@ -180,7 +180,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
         <div className="imageInformation">
           <div className="posttop" style={{boxSizing: "border-box", borderBottom: "1px solid black", height: "10%"}}>
             <img
-              className="postuserpfpb"
+              className="postuserpfpb hoverable"
               src={currIndividualPost.avatarImage}
               alt={currIndividualPost.username}
               onClick={() => userclicked(currIndividualPost.username)}
@@ -193,7 +193,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
               <li>
                 <div className="posttop">
                   <img
-                    className="postuserpfpb"
+                    className="postuserpfpb hoverable"
                     src={currIndividualPost.avatarImage}
                     alt={currIndividualPost.username}
                     onClick={() => userclicked(currIndividualPost.username)}

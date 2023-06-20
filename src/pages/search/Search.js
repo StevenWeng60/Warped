@@ -42,11 +42,6 @@ function Search() {
       .then(function (response) {
         setListOfData(response.data[1]);
         console.log(`response: ${response.data[1]}`);
-        // const listOfUsers = response.data.map((user) => {
-        //   return(<div className="searchUser" key={user._id}>
-        //     <h1>{user.username}</h1>
-        //   </div>);
-        // })
         if (currLabelVal === "User"){
           setLabelIsUser(true);
         }
@@ -160,18 +155,24 @@ function Search() {
       </div>
       <div className="searchResults">
         { labelIsUser ?
-          <Searchresults data={listOfData.map((data) => {
-            if(data.username === localStorage.getItem("Username")){
-              return null;
-            }
-            return(<div className="searchUser" key={data._id} onClick={() => userclicked(data.username)}>
-              {listOfFriends.includes(data.username) 
-                ? <h4 className="usernameh4"style={{color: '#6D5D6E'}}>{data.username}</h4>
-                : <h4 className="usernameh4">{data.username}</h4>
-              }
-            </div>
-            );
-          })} searchClicked={searchClickedOnce}/>
+          (
+            listOfData.length !== 0 ?
+            (
+              <Searchresults data={listOfData.map((data) => {
+                if(data.username === localStorage.getItem("Username")){
+                  return null;
+                }
+                return(<div className="searchUser" key={data._id} onClick={() => userclicked(data.username)}>
+                  {listOfFriends.includes(data.username) 
+                    ? <h4 className="usernameh4"style={{backgroundColor: '#6D5D6E'}}>{data.username}</h4>
+                    : <h4 className="usernameh4">{data.username}</h4>
+                  }
+                </div>
+                );
+              })} searchClicked={searchClickedOnce}/>
+            )
+            : <h1>No search results</h1>
+          )
           :(
             listOfPostData.length !== 0 ?
             (<ProfileBottom posts={listOfPostData} userInfo="whatever" friendList={listOfFriends}/>)
