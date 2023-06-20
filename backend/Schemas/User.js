@@ -32,7 +32,12 @@ const chatSchema = new mongoose.Schema({
 
 const postSchema = new mongoose.Schema({
   // images
-  data: Buffer,
+  data: {
+    type: Buffer,
+  },
+  url: {
+    type: String,
+  },
   contentType: String,
   user: {
     type: mongoose.SchemaTypes.ObjectId,
@@ -69,10 +74,9 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
     require:true,
   },
-  avatar: {
-    type: Buffer
+  avatarURL: {
+    type: String
   },
-  avatarContentType: String,
   profileDescription: {
     type: String,
     default: "No profile description yet"

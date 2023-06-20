@@ -51,7 +51,7 @@ function Messages() {
       const friends = response.data.friends;
       
       const friendsInfo = friends.map((friend) => {
-        const dataUrl = `data:${friend['avatarContentType']};base64,${Buffer.from(friend.avatar, 'binary').toString('base64')}`;
+        const dataUrl = friend.avatarURL;
         return {
           username: friend.username,
           id: friend._id,

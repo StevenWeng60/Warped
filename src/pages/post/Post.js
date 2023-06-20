@@ -5,6 +5,8 @@ import { useState, useRef } from 'react'
 import axios from 'axios'
 import withAuth from '../../components/authenticate';
 import Bottombar from '../../components/bottombar/Bottombar';
+import { storage } from '../../config/firebase-config'
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import firebaseAuth from '../../components/firebaseauth';
 
 function Post() {
@@ -35,35 +37,50 @@ function Post() {
     setText(e.target.value);
   }
 
-  function handleFormSubmit(e){
+  async function handleFormSubmit(e){
     e.preventDefault();
-    
-    if (inputFileRef.current.files[0] !== null){
-      const data = new FormData();
-      // Add data to form data to be submitted to server
-      data.append("avatar", inputFileRef.current.files[0]);
-      data.append("caption", text);
-      data.append("username", localStorage.getItem("Username"))
+
+    const imageURL = `projectFiles/${inputFileRef.current.files[0].name}`;
+    const filesFolderRef = ref(storage, imageURL)
+    try {
+      await uploadBytes(filesFolderRef, inputFileRef.current.files[0]);
+      console.log("file upload successful")
       
+      
+      console.log(inputFileRef.current.files[0].name);
+      const downloadURL = await getDownloadURL(ref(storage, imageURL));
+      
+      console.log("Image URL:", downloadURL);
       // reset text field, preview field
       inputFileRef.current.value= null;
       setText('Write a Caption...');
       setPreview(null);
-      axios.post("http://localhost:3001/upload/singlepost", data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((response) => {
-        console.log(response);
+      
+
+      getDownloadURL(ref(storage, imageURL))
+      .then((url) => {
+        console.log(`image url ${url}`);
+        axios.post("http://localhost:3001/singlepostfirebaseimg", {
+          imgURL: url,
+          caption: text,
+          username: localStorage.getItem("Username")
+        })
+        .then((response) => {
+          console.log(response);
+          setSeeSuccess(true);
+          showSuccessPopUp();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       })
-      console.log("ok cool im handling form submit");
-      setSeeSuccess(true);
-      showSuccessPopUp();
+    } catch (err) {
+      console.error(err);
     }
+    
   }
 
   function showSuccessPopUp() {

@@ -1,11 +1,7 @@
-import { posts } from '../../../utilities/posts.js'
-import { people } from '../../../utilities/data.js'
-import { getImageUrl } from '../../../utilities/utils.js'
 import { useNavigate } from 'react-router-dom' 
 import { useEffect, useState, useRef} from 'react'
 import React from 'react'
 import { FaHeart, FaComment } from "react-icons/fa";
-import { Buffer } from 'buffer'
 import axios from 'axios'
 import './Main.css'
 
@@ -68,7 +64,7 @@ function Main({listofposts, listOfFriends}) {
       console.log(response);
       if (comments) {
         const mappedComments = comments.map((comment) => {
-          const avatarData = `data:${comment.user['avatarContentType']};base64,${Buffer.from(comment.user.avatar, 'binary').toString('base64')}`;
+          const avatarData = comment.avatarURL;
           return (
           <li>
             <div className="posttop">
@@ -140,7 +136,7 @@ function Main({listofposts, listOfFriends}) {
               <div className="posttop">
                 <img
                   className="postuserpfp hoverable"
-                  src={""}
+                  src={localStorage.getItem("avatarURL")}
                   alt={localStorage.getItem("Username")}
                   onClick={() => userclicked(localStorage.getItem("Username"))}
                   />        

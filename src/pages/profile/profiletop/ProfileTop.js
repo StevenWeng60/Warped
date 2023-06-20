@@ -1,8 +1,7 @@
 import './ProfileTop.css'
-import { people } from '../../../utilities/data.js'
-import { getImageUrl } from '../../../utilities/utils.js'
 import { useRef, useState, useEffect } from 'react'
-import { Buffer } from 'buffer'
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { storage } from "../../../config/firebase-config"
 import axios from 'axios'
 
 function ProfileTop({userInfo}) {
@@ -19,62 +18,44 @@ function ProfileTop({userInfo}) {
   const inputFileRef = useRef(null);
 
   const [postData, setPostData] = useState(userInfo.avatarData);
-  // console.log(`avatarData: ${userInfo.avatarData}`)
-  // console.log(`avatarData: ${postData}`);
 
   useEffect(() => {
     setPostData(userInfo.avatarData);
   }, [userInfo.avatarData])
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
+      console.log(event); // Check the event object
+      console.log(event.target); // Check the target property
+      console.log(event.target.files); // Check the files property
+      console.log(event.target.files[0].name)
     const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('avatar', file);
-    axios.post("http://localhost:3001/upload/pfp",formData,{
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      params: {
-        username: localStorage.getItem("Username")
-      }
-    }).then(function (response){
-      console.log(response);
-      console.log("hooray");
-      grabImageFromMongoDB();
-    }).catch(function (error){
-      console.log(error);
-    })
+    const imageURL = `projectFiles/${file.name}`;
+    const filesFolderRef = ref(storage, imageURL)
+    try {
+      // upload file
+      await uploadBytes(filesFolderRef, file)
+      // Get url link of the uploaded file
+      const downloadURL = await getDownloadURL(ref(storage, imageURL));
+      axios.post("http://localhost:3001/uploadfirebase/pfp",{
+        username: localStorage.getItem("Username"),
+        avatarURL: downloadURL
+      }).then(function (response){
+        console.log(response);
+        localStorage.setItem('avatarURL', downloadURL);
+        setPostData(downloadURL);
+      }).catch(function (error){
+        console.log(error);
+      })
+    }
+    catch (err) {
+      console.error(err);
+    }
     console.log("complete1");
     console.log("nice going");
   }
 
   const handleImageClick = () => {
     inputFileRef.current.click();
-  }
-
-  const chemists = people.filter(person =>
-    person.profession === 'chemist'
-  );
-
-  const grabImageFromMongoDB = async () => {
-    axios.get("http://localhost:3001/postmongodb",
-    {
-      params: {
-        username: localStorage.getItem("Username")
-      },
-      responseType: 'arraybuffer'
-    })
-    .then(function (response){
-      const dataUrl = `data:${response.headers['content-type']};base64,${Buffer.from(response.data, 'binary').toString('base64')}`;
-      console.log(response);
-
-      setPostData(dataUrl);
-
-      // Append the <img> element to the document body or any desired container
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
   }
 
   // Add a friend 

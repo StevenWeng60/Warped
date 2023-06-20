@@ -36,7 +36,8 @@ function Login() {
         console.log(response.data);
         const user = response.data;
         localStorage.setItem('Username', user.username);
-        localStorage.setItem('Id',user.id);
+        localStorage.setItem('Id', user._id);
+        localStorage.setItem('avatarURL', user.avatarURL);
         // navigate to home page after successful authentication
         routeChange();
       })
@@ -45,26 +46,6 @@ function Login() {
       setErrorPopup(true);
       console.error(error);
     }
-
-      // axios.post("http://localhost:3001/login", {
-      //   username: usernameRef.current.value,
-      //   password: passwordRef.current.value
-      // })
-      // .then (function (response) {
-      //   if (response.data !== "Not allowed"){
-      //     localStorage.setItem('accessToken', response.data.accessToken);
-      //     localStorage.setItem('Username', usernameRef.current.value);
-      //     localStorage.setItem('Id', response.data.id);
-      //     // navigate to home page after successful authentication
-      //     routeChange();
-      //   }
-      //   else {
-      //     setErrorPopup(true);
-      //   }
-      // })
-      // .catch (function (error) {
-      //   console.log(error);
-      // })
   }
 
   const signInWithGoogle = async (e) => {

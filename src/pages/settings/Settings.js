@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Bottombar from "../../components/bottombar/Bottombar";
 import firebaseAuth from "../../components/firebaseauth";
+import { signOut } from 'firebase/auth'
+import { auth } from "../../config/firebase-config";
 
 
 function Settings() {
@@ -40,9 +42,14 @@ function Settings() {
     }, 3000)
   }
 
-  const handleLogOut = () => {
-    localStorage.removeItem('accessToken');
-    navigate("/login");
+  const handleLogOut = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    }
+    catch (err) {
+      console.error(err);
+    }
   }
 
   return (

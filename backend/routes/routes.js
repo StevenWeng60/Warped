@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser } = require('../controllers/controllers.js')
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser, singlePostUploadFirebase, getUsersPostsFirebase, uploadAvatarFirebase } = require('../controllers/controllers.js')
 
 // route specific middleware
 router.use((req, res, next) => {
@@ -64,5 +64,10 @@ router.route("/likeorunlike").post(likeorUnlike);
 
 router.route("/changeChatActive").post(changeChatActive);
 router.route("/getUser").get(getUser);
+
+// IN BETA IMG UPLOADING using FIREBASE
+router.route("/singlepostfirebaseimg").post(singlePostUploadFirebase);
+router.route("/userspostsfirebase").get(getUsersPostsFirebase)
+router.route("/uploadfirebase/pfp").post(uploadAvatarFirebase)
 
 module.exports = router

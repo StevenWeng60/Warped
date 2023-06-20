@@ -19,14 +19,12 @@ const createUser = async (req, res) => {
         // Create a hashedpassword for encryption generating 10 salts
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         // Add default image to user
-        const destinationPath = path.join(__dirname, '../images/default.jpg');
-        const buffer = fs.readFileSync(destinationPath);
+        const defaultURL = req.body.defaultURL;
         User.create({
           username: req.body.username,
           password: hashedPassword,
           email: req.body.email,
-          avatar: buffer,
-          avatarContentType: "image/jpeg"
+          avatarURL: defaultURL,
           });
         res.status(200).send("created user");
       }
@@ -161,6 +159,38 @@ const singlePostUpload = async (req, res) => {
     res.status(500).send(e.message);
   }
 }
+const singlePostUploadFirebase = async (req, res) => {
+  try{
+    const user = await User.findOne().where({username: req.body.username});
+    if(!user){
+      res.status(404).send('User not found');
+    }
+    // Create post here
+    else {
+      try {
+        // Create the post and save it to the database
+        const post = new Post({
+          user: user._id,
+          url: req.body.imgURL,
+          description: req.body.caption,
+        })
+        
+        await post.save();
+        
+        // Add the post to the users post list
+        user.posts.push(post._id);
+        await user.save();
+      }
+      catch (e) {
+        return res.status(500).send("error in creating and saving post")
+      }
+    }
+    res.status(200).send("request sent successfully");
+  }
+  catch (e) {
+    res.status(500).send(e.message);
+  }
+}
 
 const getPosts = async (req, res) => {
   const requsername = req.query.username;
@@ -182,6 +212,21 @@ const getPosts = async (req, res) => {
 }
 
 const getUsersPosts = async (req, res) => {
+  try {
+    const user = await User.findOne().where({username: req.query.username}).populate('posts')
+    if (!user) {
+      res.status(404).send('User not found');
+    } else {
+      console.log(user.posts);
+      res.status(200).send(user);
+    }
+  }
+  catch (e){
+    res.status(500).send(e)
+  }
+}
+
+const getUsersPostsFirebase = async (req, res) => {
   try {
     const user = await User.findOne().where({username: req.query.username}).populate('posts')
     if (!user) {
@@ -352,26 +397,6 @@ const connectChat = async (req, res) => {
   }
 }
 
-/**const postUpload = async (req, res) => {
-  const { originalname, buffer, mimetype } = req.file;
-  console.log(originalname);
-  try {
-    const post = new Post({
-      name: originalname,
-      data: buffer,
-      contentType:mimetype,
-      description: "first post created"
-    })
-
-    await post.save();
-    res.send("Post upload successful");
-  }
-  catch (error) {
-    console.log(error);
-    res.status(500).send("error uploading picture");
-  }
-} */
-
 const allowAccess = async (req, res) => {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1];
@@ -474,22 +499,6 @@ const addMessageToComment = async (req, res) => {
   }
 }
 
-/**    const post = new Post({
-      name: originalname,
-      data: buffer,
-      contentType:mimetype,
-      description: "first post created"
-    })
-
-    await post.save(); 
-    
-    
-          const message = await Message.create({
-        text: cmessage,
-        user: userid,
-      })
-      chatRoom.listOfTexts.push(message._id)*/
-
 const likeorUnlike = async (req, res) => {
   // Need action, userid, postid
   const action = req.body.action;
@@ -544,12 +553,39 @@ const changeChatActive = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await User.findOne({email: req.query.email})
-    console.log(user);
-    res.status(200).send(user);
+    const userwithemail = await User.findOne({email: req.query.email})
+    if(!userwithemail) {
+      const userwithusername = await User.findOne({username: req.query.email})
+      if(userwithusername){
+        res.status(200).send(userwithusername);
+      }
+      else {
+        res.status(500).send("Couldn't find user")
+      }
+    }
+    else {
+      res.status(200).send(userwithemail);
+    }
   }
   catch (e) {
     res.status(500).send(e.message);
+  }
+}
+
+const uploadAvatarFirebase = async (req, res) => {
+  try {
+    const user = await User.findOne({username:req.body.username})
+    if (user) {
+      user.avatarURL = req.body.avatarURL;
+      await user.save();
+      res.status(200).send("Uploading avatar via firebase was successful")
+    }
+    else {
+      res.status(500).send("Could not find user")
+    }
+  }
+  catch (e) {
+
   }
 }
 
@@ -564,4 +600,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser}
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser, singlePostUploadFirebase, getUsersPostsFirebase, uploadAvatarFirebase}

@@ -54,13 +54,6 @@ function Messagebox({friends, activeChats}) {
       socket.off('receive-message', handleSocketMessage);
     }
   }, [])
-
-
-      // test to see if we connect to server
-  // socket.on('connect', () => {
-  //   console.log(`you connected with id: ${socket.id}`)
-  // })
-
   // Load the previous messages with the clicked user
   const loadCurrPerson = (friend) => {
     // set the header of the messages room

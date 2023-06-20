@@ -33,11 +33,10 @@ function Profile() {
     .then(function (response) {
       const data = response.data;
       const arrayOfPosts = data.posts;
-      console.log(data);
+      console.log(arrayOfPosts);
 
-      // Create object for profileTop component
-      const dataUrl = `data:${data['avatarContentType']};base64,${Buffer.from(data.avatar, 'binary').toString('base64')}`;
-      console.log(dataUrl);
+      // Create object for profileTop component picture
+      const dataUrl = data.avatarURL;
       
       console.log(response.data);
       // areFriends represent is a user is friends with the user's profile
@@ -56,13 +55,15 @@ function Profile() {
           return user === localStorage.getItem("Id")
         })
 
-        const iData = `data:${imageData['contentType']};base64,${Buffer.from(imageData.data, 'binary').toString('base64')}`;
+        const iDataURL = imageData.url;
+        console.log(`data ${imageData.data}`)
+        console.log(`iDataURL ${iDataURL}`);
         return {
           id: data._id,
           postid: imageData._id,
           username: data.username,
           description: imageData.description,
-          postImage: iData,
+          postImage: iDataURL,
           avatarImage: dataUrl,
           numlikes: imageData.usersWhoLiked.length,
           alreadyLikedPost: a ? true : false,
@@ -106,20 +107,3 @@ function Profile() {
 }
 
 export default firebaseAuth(Profile);
-
-/*
-
-      {
-        isLoading
-        ? <Loading/>
-        : (<div className="homecontainer">
-            <div className="friendicons">
-              <FriendIcons friendslist={listOfFriendsInfo}/>
-            </div>
-            <div className="mainfeed">
-              <Main listofposts={posts}/>
-            </div>
-          </div>)
-      }
-
-*/ 

@@ -3,15 +3,11 @@ import './Home.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import FriendIcons from './friendicons/FriendIcons.js';
 import Main from './mainfeed/Main.js';
-import withAuth from '../../components/authenticate';
 import firebaseAuth from '../../components/firebaseauth';
 import Loading from '../../components/Loading.js';
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { Buffer } from 'buffer'
 import axios from 'axios'
 import Bottombar from '../../components/bottombar/Bottombar';
-import { getAuth } from "firebase/auth";
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,8 +20,6 @@ function Home() {
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
 
   const [listOfFriendsUsername, setListOfFriendsUsername] = useState([]);
-
-
 
   useEffect(() => {
     // get friends
@@ -48,7 +42,7 @@ function Home() {
       const friends = res1.data.friends;
       
       const friendsInfo = friends.map((friend) => {
-        const dataUrl = `data:${friend['avatarContentType']};base64,${Buffer.from(friend.avatar, 'binary').toString('base64')}`;
+        const dataUrl = friend.avatarURL;
         return {
           username: friend.username,
           imageUrl: dataUrl
@@ -66,9 +60,9 @@ function Home() {
 
       // Logic for feed
       const postObjects = res2.data.map((post) => {
-        const postUrl = `data:${post['contentType']};base64,${Buffer.from(post.data, 'binary').toString('base64')}`;
+        const postUrl = post.url;
 
-        const avatarUrl = `data:${post.user['avatarContentType']};base64,${Buffer.from(post.user.avatar, 'binary').toString('base64')}`;
+        const avatarUrl = post.user.avatarURL;
 
         const a = post.usersWhoLiked.find((user) => {
           return user === localStorage.getItem("Id")

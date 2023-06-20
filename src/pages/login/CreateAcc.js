@@ -1,7 +1,8 @@
 import './CreateAcc.css'
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { auth, googleProvider} from '../../config/firebase-config' 
+import { auth, googleProvider, storage} from '../../config/firebase-config' 
+import { ref, getDownloadURL } from 'firebase/storage'
 import { createUserWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import axios from 'axios';
 
@@ -23,17 +24,18 @@ function CreateAcc() {
       return
     }
     try{
-      
-      await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
-
+      const imageURL = `projectFiles/default.jpg`;
+      const downloadURL = await getDownloadURL(ref(storage, imageURL));
       axios.post("http://localhost:3001/create", {
+        defaultURL: downloadURL,
         username: usernameRef.current.value,
         password: passwordRef.current.value,
         email: emailRef.current.value,
       })
-      .then (function (response) {
+      .then (async function (response) {
         console.log(response);
         if(response.data !== "Username taken"){
+          await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
           localStorage.setItem('accessToken', response.data.accessToken);
           localStorage.setItem('Username', usernameRef.current.value);
           setResultValue(<h2 style={{color: 'green'}}>Success! Redirecting you to login page</h2>);

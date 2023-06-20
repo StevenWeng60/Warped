@@ -79,7 +79,7 @@ function ProfileBottom({ posts }) {
       console.log(response);
       if (comments) {
         const mappedComments = comments.map((comment) => {
-          const avatarData = `data:${comment.user['avatarContentType']};base64,${Buffer.from(comment.user.avatar, 'binary').toString('base64')}`;
+          const avatarData = comment.user.avatarURL;
           return (
           <li>
             <div className="posttop">
