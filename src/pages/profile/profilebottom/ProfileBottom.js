@@ -1,13 +1,14 @@
 import './ProfileBottom.css'
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 import { FaTrash } from "react-icons/fa";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
 import { storage } from "../../../config/firebase-config"
 
 
-function ProfileBottom({ posts, userInfo }) {
-
+function ProfileBottom({ posts, userInfo, friendList }) {
+  const navigate = useNavigate();
   //postPopUp
   const [postPopUp, setPostPopUp] = useState(false);
 
@@ -141,6 +142,20 @@ function ProfileBottom({ posts, userInfo }) {
     setCurrIndividualPost(post);
   }
 
+  const userclicked = (username) => {
+    let userroute;
+    if(friendList.includes(username)){
+      userroute = '/profile/' + username + '/y';
+    }
+    else if (username === localStorage.getItem("Username")){
+      userroute = '/profile/' + username + '/me';
+    }
+    else {
+      userroute = '/profile/' + username + "/n";
+    }
+    navigate(userroute);
+  }
+
 
   return (
   <div className="postflexcontainer">
@@ -159,6 +174,7 @@ function ProfileBottom({ posts, userInfo }) {
             alt={currIndividualPost.username}
             className="popupimg"
             style= {{height: '100%', width: '100%'}}
+            onClick={() => userclicked(currIndividualPost.username)}
           />
         </div>
         <div className="imageInformation">
@@ -167,18 +183,20 @@ function ProfileBottom({ posts, userInfo }) {
               className="postuserpfpb"
               src={currIndividualPost.avatarImage}
               alt={currIndividualPost.username}
+              onClick={() => userclicked(currIndividualPost.username)}
             />
             <h4 className="postusername">{currIndividualPost.username}</h4>
             {userInfo.areFriends === 'me' ? <FaTrash className="trashicon" onClick={() => deletePost(currIndividualPost.postid)}/> : <></>}
           </div>
           <div className="commentsdiv">
-            <ul className="commentsul">s
+            <ul className="commentsul">
               <li>
                 <div className="posttop">
                   <img
                     className="postuserpfpb"
                     src={currIndividualPost.avatarImage}
                     alt={currIndividualPost.username}
+                    onClick={() => userclicked(currIndividualPost.username)}
                   />        
                   <h4 className="commentsh4">{currIndividualPost.username}</h4>
                 </div>

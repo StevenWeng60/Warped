@@ -60,6 +60,9 @@ const postSchema = new mongoose.Schema({
     default: [],
     ref: 'Message'
   },
+  hashtags: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: () => Date.now()

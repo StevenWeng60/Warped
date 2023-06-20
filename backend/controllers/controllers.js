@@ -174,6 +174,7 @@ const singlePostUploadFirebase = async (req, res) => {
           url: req.body.imgURL,
           description: req.body.caption,
           imageName: req.body.imageName,
+          hashtags: req.body.hashtags,
         })
         
         await post.save();
@@ -610,6 +611,18 @@ const deletePost = async (req, res) => {
   }
 }
 
+const findAllPosts = async (req, res) => {
+  try {
+    console.log(`query keyword = ${req.query.keyword}`)
+    const regex = new RegExp(req.query.keyword, 'i')
+    const post = await Post.find({hashtags: {$regex:regex}}).populate("user").limit(30);
+    res.status(200).send(post);
+  }
+  catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
 
 const testing = (req, res) => {
   const posts = [
@@ -621,4 +634,4 @@ const testing = (req, res) => {
 }
 
 module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser, singlePostUploadFirebase, getUsersPostsFirebase, uploadAvatarFirebase, deletePost}
+connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser, singlePostUploadFirebase, getUsersPostsFirebase, uploadAvatarFirebase, deletePost, findAllPosts}

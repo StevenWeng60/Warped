@@ -69,9 +69,10 @@ button[type="submit"]:hover {
   cursor:pointer;
 }
 
-.dropDownContent ul li h4{
+.dropDownContent ul li p{
   margin: 0;
-  padding: 0.2em;
+  padding: 0.2em 1em 0.2em 0.2em;
+  text-align: center;
 }
 
 .dropDownMenu {

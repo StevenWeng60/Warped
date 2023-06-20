@@ -4,11 +4,9 @@ import Searchresults from './searchresults/Searchresults.js';
 import { useRef, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import withAuth from '../../components/authenticate';
 import Bottombar from '../../components/bottombar/Bottombar';
 import firebaseAuth from '../../components/firebaseauth';
-
-
+import ProfileBottom from '../profile/profilebottom/ProfileBottom';
 
 
 function Search() {
@@ -18,6 +16,7 @@ function Search() {
   const [currLabelVal, setCurrLabelVal] = useState("User");
   const [qBtnVisibility, setQBtnVisibility] = useState(false);
   const [listOfData, setListOfData] = useState([]);
+  const [listOfPostData, setListOfPostData] = useState([]);
   const [labelIsUser, setLabelIsUser] = useState(true);
   const [listOfFriends, setListOfFriends] = useState([]);
   const [searchClickedOnce, setSearchClickedOnce] = useState(false);
@@ -26,45 +25,77 @@ function Search() {
   const navigate = useNavigate();
   
   // returns a list of users/posts from the given parameters
-  const searchUser = async (e) => {
+  const searchUserOrPost = async (e) => {
     e.preventDefault();
     setSearchClickedOnce(true);
 
-    // Step one - send request
-    axios.get("http://localhost:3001/findusers", {
-      params: {
-        requser: localStorage.getItem("Username"),
-        username: searchBarRef.current.value,
-        queryItem: currLabelVal
-      },
-    })
-    // Step two - parse request
-    .then(function (response) {
-      setListOfData(response.data[1]);
-      console.log(`response: ${response.data[1]}`);
-      // const listOfUsers = response.data.map((user) => {
-      //   return(<div className="searchUser" key={user._id}>
-      //     <h1>{user.username}</h1>
-      //   </div>);
-      // })
-      if (currLabelVal === "User"){
-        setLabelIsUser(true);
-      }
-      else {
+    if (currLabelVal === "User"){
+      // Step one - send request
+      axios.get("http://localhost:3001/findusers", {
+        params: {
+          requser: localStorage.getItem("Username"),
+          username: searchBarRef.current.value,
+          queryItem: currLabelVal
+        },
+      })
+      // Step two - parse request
+      .then(function (response) {
+        setListOfData(response.data[1]);
+        console.log(`response: ${response.data[1]}`);
+        // const listOfUsers = response.data.map((user) => {
+        //   return(<div className="searchUser" key={user._id}>
+        //     <h1>{user.username}</h1>
+        //   </div>);
+        // })
+        if (currLabelVal === "User"){
+          setLabelIsUser(true);
+        }
+        else {
+          setLabelIsUser(false);
+        }
+        
+        // Get a list of friends
+        setListOfFriends(response.data[0]);
+        // Check to see if any of the users in the search are friends with each other
+        // If they are, pass that fact to the profileTop component and then have it render "Add friend" or "Friend" based on what was passed
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
+    else if(currLabelVal === "Post"){
+      axios.get("http://localhost:3001/findposts", {
+        params: {
+          keyword: searchBarRef.current.value,
+        }
+      })
+      .then((response) => {
+        const queryOfPosts = response.data;
+        console.log(queryOfPosts);
         setLabelIsUser(false);
-      }
-      
-      // Get a list of friends
-      setListOfFriends(response.data[0]);
-      // Check to see if any of the users in the search are friends with each other
-      // If they are, pass that fact to the profileTop component and then have it render "Add friend" or "Friend" based on what was passed
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-
-    // Step four - display users nicely
-
+        const imageObjects = queryOfPosts.map((imageData) => {
+          const data = imageData.user;
+          const iDataURL = imageData.url;
+          console.log(data.url);
+          return {
+            id: data._id,
+            postid: imageData._id,
+            username: data.username,
+            description: imageData.description,
+            postImage: iDataURL,
+            avatarImage: data.avatarURL,
+            numlikes: imageData.usersWhoLiked.length,
+          }
+        })
+        setListOfPostData(imageObjects);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }
+    else {
+      console.error("Currlabel is not user or post")
+    }
   }
 
   // label clicked
@@ -82,6 +113,7 @@ function Search() {
   // label options clicked
   const labelOptionsClicked = (value) => {
     setCurrLabelVal(value);
+    queryLabelClicked();
   }
 
   // user clicked -> go to their profile
@@ -106,21 +138,21 @@ function Search() {
       <div className="searchbar">
         <div className="Searchbar">
           <div className="search-container">
-          <form onSubmit={searchUser}>
+          <form onSubmit={searchUserOrPost}>
             <div className="dropdown">
               <label className="dropDownMenu" ref={queryLabelRef} onClick={queryLabelClicked}>{currLabelVal}</label>
               <div className="dropDownContent" ref={dropDownMenuRef}>
                 <ul>
                   <li onClick={() => labelOptionsClicked("User")}>
-                    <h4>User</h4>
+                    <p>User</p>
                   </li>
                   <li onClick={() => labelOptionsClicked("Post")}>
-                    <h4>Post</h4> 
+                    <p>Post</p>
                   </li>
                 </ul>
               </div>
             </div>
-            <input type="text" id="topSearchBar" placeholder="Search..." ref={searchBarRef}/>
+            <input type="text" id="topSearchBar" placeholder={currLabelVal === "User" ? "Search for users by their username" : "Search using keywords. Ex: \"cars\""} ref={searchBarRef}/>
             <button type="submit">Search</button>
           </form>
           </div>
@@ -140,12 +172,11 @@ function Search() {
             </div>
             );
           })} searchClicked={searchClickedOnce}/>
-          :
-          <Searchresults data={listOfData.map((data) => {
-            return (
-              <h1>posts</h1>
-            )
-          })} searchClicked={searchClickedOnce}/>
+          :(
+            listOfPostData.length !== 0 ?
+            (<ProfileBottom posts={listOfPostData} userInfo="whatever" friendList={listOfFriends}/>)
+            : <h1>No search results</h1>
+          )
         }
 
       </div>

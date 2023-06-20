@@ -18,6 +18,7 @@ function Post() {
   // refs to for the html elements
   const inputFileRef = useRef(null);
   const textAreaRef = useRef(null);
+  const hashtagRef = useRef(null);
 
   function handleDrop(e) {
     const selectedFile = e.target.files[0];
@@ -61,9 +62,11 @@ function Post() {
           imgURL: url,
           imageName: fileName,
           caption: text,
+          hashtags: hashtagRef.current.value,
           username: localStorage.getItem("Username")
         })
         .then((response) => {
+          hashtagRef.current.value = "";
           console.log(response);
           setSeeSuccess(true);
           showSuccessPopUp();
@@ -107,6 +110,7 @@ function Post() {
             <input type="file" id="postfile-input" className="postfile-input" onChange={handleDrop} ref={inputFileRef}/>
           </div>
           <textarea rows="4" cols="25" type="textarea" id="postcaptions" value={text} onChange={handleTextChange} style={{width: '100%'}}></textarea>
+          <input type="text" placeholder="Add hashtags. Ex: '#cars, #money'" id="hashtaginput" ref={hashtagRef}></input>
           <div style={{textAlign: 'center'}}>
             <button type="submit" style={{borderRadius: '5px'}}>Create</button>
           </div>
