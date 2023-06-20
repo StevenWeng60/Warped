@@ -100,7 +100,7 @@ function Home() {
       {
         isLoading
         ? <Loading/>
-        : (<div className="homecontainer">
+        : listOfFriendsInfo.length !== 0 ? (<div className="homecontainer">
             <div className="friendicons">
               <FriendIcons friendslist={listOfFriendsInfo}/>
             </div>
@@ -108,6 +108,7 @@ function Home() {
               <Main listofposts={posts} listOfFriends={listOfFriendsUsername}/>
             </div>
           </div>)
+          : (<div className="homecontainer"><h1>Start adding friends through the Search Tab!</h1></div>)
       }
       <div className="bottombar">
         <Bottombar currActive="Home"/>
