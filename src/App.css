@@ -80,7 +80,6 @@
   }
   .logincontainer, .createcontainer {
     width: 70% !important;
-    height: 70% !important;
   }
   .postflexcontainer {
     height: 1000px !important;
@@ -199,7 +198,6 @@
   }
   .logincontainer, .createcontainer {
     width: 60% !important;
-    height: 65% !important;
   }
   .postflexcontainer {
     height: 1000px !important;
