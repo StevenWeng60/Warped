@@ -63,7 +63,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
               <div className="posttop">
                 <img
                   className="postuserpfpb"
-                  src={""}
+                  src={localStorage.getItem("avatarURL")}
                   alt={localStorage.getItem("Username")}
                   />        
                 <h4 className="commentsh4">{localStorage.getItem("Username")}</h4>
@@ -111,7 +111,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
         const mappedComments = comments.map((comment) => {
           const avatarData = comment.user.avatarURL;
           return (
-          <li>
+          <li key={comment._id}>
             <div className="posttop">
               <img
                 className="postuserpfpb"
@@ -155,7 +155,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
   <div className="postflexcontainer">
     { profilePosts.map((post) => {
       return (
-      <div className="post" key={post._id}>
+      <div className="post" key={post.postid}>
         <img src={post.postImage} className="pfpPostImage hoverable" onClick={() => handlePostPopUp(post.postid)}></img>
       </div>
       );

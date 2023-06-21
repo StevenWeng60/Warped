@@ -73,6 +73,14 @@
     grid-column: 1 / 6;
   }
 
+  .commentsul{
+    height: 60vh !important;
+  }
+
+  .commentsdiv {
+    height: 75% !important;
+  }
+
   .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings, .homecontainer, .postSuccessPopUp, .messageboxcontainer, .searchbar, .searchResults, .loading {
     grid-column: 1 / 6 !important;
   }
