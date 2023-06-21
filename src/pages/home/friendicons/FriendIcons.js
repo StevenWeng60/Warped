@@ -58,7 +58,7 @@ function FriendIcons({friendslist}) {
   <ul className="friendsul">
     {listOfFriendsInfo.map((friend) => {
       return (
-        <li className="hoverable"key={friend._id} onClick={() => userclicked(friend.username)}>
+        <li className="hoverable" key={friend.id} onClick={() => userclicked(friend.username)}>
           <img 
             src={friend.imageUrl}
             alt={friend.username}

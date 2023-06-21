@@ -21,6 +21,7 @@ function Home() {
 
   const [listOfFriendsUsername, setListOfFriendsUsername] = useState([]);
 
+  // Run initially to grab a list of friend icons when the page is being loaded
   useEffect(() => {
     // get friends
     const friends = axios.post("http://localhost:3001/friendicons",{
@@ -38,14 +39,15 @@ function Home() {
     Promise.all([friends, mainfeed])
     .then(([res1, res2]) => {
       // Logic for friends
-      console.log(res1.data.friends);
+      // console.log(res1.data.friends);
       const friends = res1.data.friends;
       
       const friendsInfo = friends.map((friend) => {
         const dataUrl = friend.avatarURL;
         return {
           username: friend.username,
-          imageUrl: dataUrl
+          imageUrl: dataUrl,
+          id: friend._id
         }
       });
       
@@ -55,7 +57,7 @@ function Home() {
         return friend.username
       })
 
-      console.log(`friends usernames: ${friendsUsernames}`)
+      // console.log(`friends usernames: ${friendsUsernames}`)
       setListOfFriendsUsername(friendsUsernames);
 
       // Logic for feed
@@ -84,7 +86,6 @@ function Home() {
 
       // Logic that belongs to neither
       setIsLoading(false);
-      console.log('asdf')
     })
     .catch((error) => {
       console.error(error);
