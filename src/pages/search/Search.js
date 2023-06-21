@@ -20,7 +20,6 @@ function Search() {
   const [labelIsUser, setLabelIsUser] = useState(true);
   const [listOfFriends, setListOfFriends] = useState([]);
   const [searchClickedOnce, setSearchClickedOnce] = useState(false);
-  console.log(searchClickedOnce)
 
   const navigate = useNavigate();
   
@@ -41,7 +40,6 @@ function Search() {
       // Step two - parse request
       .then(function (response) {
         setListOfData(response.data[1]);
-        console.log(`response: ${response.data[1]}`);
         if (currLabelVal === "User"){
           setLabelIsUser(true);
         }
@@ -55,7 +53,7 @@ function Search() {
         // If they are, pass that fact to the profileTop component and then have it render "Add friend" or "Friend" based on what was passed
       })
       .catch(function (error) {
-        console.log(error);
+        console.error(error);
       })
     }
     else if(currLabelVal === "Post"){
@@ -66,12 +64,10 @@ function Search() {
       })
       .then((response) => {
         const queryOfPosts = response.data;
-        console.log(queryOfPosts);
         setLabelIsUser(false);
         const imageObjects = queryOfPosts.map((imageData) => {
           const data = imageData.user;
           const iDataURL = imageData.url;
-          console.log(data.url);
           return {
             id: data._id,
             postid: imageData._id,

@@ -1,5 +1,4 @@
 import "./Settings.css"
-import withAuth from "../../components/authenticate";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -26,7 +25,6 @@ function Settings() {
       },
     )
     .then((response) => {
-      console.log(response);
     })
     .catch((error) => {  
       console.error(error);

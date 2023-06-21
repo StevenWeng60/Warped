@@ -38,10 +38,10 @@ router.use((req, res, next) => {
 // addpost used for adding post to a users collection
 
 
-router.route("/avatar").post(avatarUpload)
-router.route("/post").post(postUpload)
-router.route("/pfp").post(pfpUpload)
-router.route("/singlepost").post(singlePostUpload)
+// router.route("/avatar").post(avatarUpload)
+// router.route("/post").post(postUpload)
+// router.route("/pfp").post(pfpUpload)
+// router.route("/singlepost").post(singlePostUpload)
 
 
 module.exports = router

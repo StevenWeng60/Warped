@@ -3,7 +3,6 @@ import './Post.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import { useState, useRef } from 'react'
 import axios from 'axios'
-import withAuth from '../../components/authenticate';
 import Bottombar from '../../components/bottombar/Bottombar';
 import { storage } from '../../config/firebase-config'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
@@ -17,7 +16,6 @@ function Post() {
 
   // refs to for the html elements
   const inputFileRef = useRef(null);
-  const textAreaRef = useRef(null);
   const hashtagRef = useRef(null);
 
   function handleDrop(e) {
@@ -31,7 +29,6 @@ function Post() {
       };
       reader.readAsDataURL(selectedFile);
     }
-    console.log("nioce!");
   }
 
   function handleTextChange(e) {
@@ -44,20 +41,13 @@ function Post() {
     const imageURL = `projectFiles/${inputFileRef.current.files[0].name}`;
     const filesFolderRef = ref(storage, imageURL)
     try {
-      await uploadBytes(filesFolderRef, inputFileRef.current.files[0]);
-      console.log("file upload successful")
-      
+      await uploadBytes(filesFolderRef, inputFileRef.current.files[0]);      
       
       const fileName = inputFileRef.current.files[0].name;
       const downloadURL = await getDownloadURL(ref(storage, imageURL));
       
-      console.log("Image URL:", downloadURL);
-      // reset text field, preview field
-      
-      
       getDownloadURL(ref(storage, imageURL))
       .then((url) => {
-        console.log(`image url ${url}`);
         axios.post("http://localhost:3001/singlepostfirebaseimg", {
           imgURL: url,
           imageName: fileName,
@@ -67,12 +57,11 @@ function Post() {
         })
         .then((response) => {
           hashtagRef.current.value = "";
-          console.log(response);
           setSeeSuccess(true);
           showSuccessPopUp();
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         })
       })
       .catch((error) => {

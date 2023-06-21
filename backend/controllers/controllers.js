@@ -29,12 +29,11 @@ const createUser = async (req, res) => {
         res.status(200).send("created user");
       }
       catch (e) {
-        console.log(e.message);
         res.status(500).send(e.message);
       }
     }
   } catch (e){
-    console.log(e.message);
+    console.error(e.message);
   }
 }
 
@@ -47,7 +46,6 @@ const userLogin = async (req, res) => {
   // Check to see if user has correct password
   else {
     try{
-      console.log(user)
       // If user has corret password generate jwt web token
       if(await bcrypt.compare(req.body.password, user.password)){
         try {
@@ -56,7 +54,7 @@ const userLogin = async (req, res) => {
           // generate access token for user
           const accessToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET);
           // generate refresh token for user
-          // const refreshToken = jwt.sign(userObject, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d'})
+          // const refreshToken = jwt.sign(userObject, process.env
           // return the access token as the response
           res.json({ accessToken: accessToken, id: user._id });
         } catch (error) {
@@ -77,8 +75,6 @@ const userLogin = async (req, res) => {
 const getFriends = async (req, res) => {
   try{
     const user = await User.findOne().where({username: req.body.username}).populate('friends')
-    console.log("the user:")
-    console.log(user.username);
     res.send(user);
   }
   catch (error){
@@ -86,79 +82,6 @@ const getFriends = async (req, res) => {
   }
 }
 
-const avatarUpload = (req, res) => {
-  res.send("upload successful");
-}
-
-const pfpUpload = async (req, res) => {
-  try{
-    const { buffer, mimetype} = req.file;
-    const user = await User.findOne().where({username : req.query.username});
-    user.avatar = buffer;
-    user.contentType = mimetype;
-    await user.save();
-    res.status(200).send("successful!")
-  } catch (e) {
-    res.status(500).send("error occurred")
-  }
-
-}
-
-const postUpload = async (req, res) => {
-  const { originalname, buffer, mimetype } = req.file;
-  console.log(originalname);
-  try {
-    const post = new Post({
-      name: originalname,
-      data: buffer,
-      contentType:mimetype,
-      description: "first post created"
-    })
-
-    await post.save();
-    res.send("Post upload successful");
-  }
-  catch (error) {
-    console.log(error);
-    res.status(500).send("error uploading picture");
-  }
-}
-
-
-const singlePostUpload = async (req, res) => {
-  try{
-    const user = await User.findOne().where({username: req.body.username});
-    if(!user){
-      res.status(404).send('User not found');
-    }
-    // Create post here
-    else {
-      const {buffer, mimetype} = req.file;
-      try {
-        // Create the post and save it to the database
-        const post = new Post({
-          user: user._id,
-          data: buffer,
-          contentType: mimetype,
-          description: req.body.caption,
-        })
-        
-        await post.save();
-        
-        // Add the post to the users post list
-        user.posts.push(post._id);
-        await user.save();
-      }
-      catch (e) {
-        return res.status(500).send("error in creating and saving post")
-      }
-    }
-    res.status(200).send("request sent successfully");
-  }
-  catch (e) {
-    res.status(500).send(e.message);
-  }
-}
 const singlePostUploadFirebase = async (req, res) => {
   try{
     const user = await User.findOne().where({username: req.body.username});
@@ -196,19 +119,16 @@ const singlePostUploadFirebase = async (req, res) => {
 
 const getPosts = async (req, res) => {
   const requsername = req.query.username;
-  console.log(req.query);
-
+  
   try {
     const user = await User.findOne().where({username: requsername});
     if (!user) {
       res.status(404).send('User not found');
     } else {
-      // console.log(user);
       res.set('Content-Type', user.avatarContentType);
       res.send(user.avatar);
     }
   } catch (error) {
-    console.log(error);
     res.status(500).send('Error retrieving image or user');
   }
 }
@@ -219,7 +139,6 @@ const getUsersPosts = async (req, res) => {
     if (!user) {
       res.status(404).send('User not found');
     } else {
-      console.log(user.posts);
       res.status(200).send(user);
     }
   }
@@ -234,7 +153,6 @@ const getUsersPostsFirebase = async (req, res) => {
     if (!user) {
       res.status(404).send('User not found');
     } else {
-      console.log(user.posts);
       res.status(200).send(user);
     }
   }
@@ -247,20 +165,18 @@ const findUsers = async (req, res) => {
   try{
     // Find users
     if (req.query.queryItem === "User") {
-      console.log("asdf")
       // Find the request user
       const requestUser = await User.findOne({username: req.query.requser}).select("friends")
       .populate("friends");
       
       const friends = requestUser.friends.map((friend) => {
-        console.log("mapped")
         return friend.username;
       })
-
+      
       // Find the list of users that contain the the search parameter
       const regex = new RegExp(req.query.username, 'i')
       const user = await User.find({username: {$regex:regex}}).limit(40);
-
+      
       const response = [friends, user]
       res.status(200).send(response)
     }
@@ -281,25 +197,23 @@ const addFriend = async (req, res) => {
     User.updateOne({username:user1.username}, {
       $push : {friends: user2._id},
       $inc : {numFriends: 1}})
-    .then(() => {
-      console.log("success1")
-    })
-    .catch(() => {
-      console.log("success2")
-    })
-
-    User.updateOne({username:user2.username}, {
-      $push : {friends: user1._id},
-      $inc : {numFriends: 1}})
-    .then(() => {
-      console.log("success1")
-    })
-    .catch(() => {
-      console.log("success2")
-    })
-
-    res.status(200).send("success");
-  }
+      .then(() => {
+      })
+      .catch((error) => {
+        console.error(error.message)
+      })
+      
+      User.updateOne({username:user2.username}, {
+        $push : {friends: user1._id},
+        $inc : {numFriends: 1}})
+        .then(() => {
+        })
+        .catch((error) => {
+          console.error(error.message)
+        })
+        
+        res.status(200).send("success");
+      }
   catch (error){
     res.status(500).send(error);
   }
@@ -319,21 +233,15 @@ const getMainFeed = async (req, res) => {
     const posts = user.friends.reduce((allPosts, friend) => {
       return allPosts.concat(friend.posts);
     }, []);
-
+    
     posts.sort((a, b) => b.createdAt - a.createdAt);
-
-    posts.forEach((post) => {
-      console.log(post);
-      console.log(post.description);
-      console.log(post.user.username);
-    });
+    
     res.status(200).send(posts);
   }
   catch (error) {
-
+    
   }
-  console.log(req.query.username);
-
+  
   // first get the users list of friends with the data being populated
   // Then get up to 10 post from each friend with the posts being populated
   // This is stored in a 2d array using the map function
@@ -348,9 +256,7 @@ const getFriendsList = async (req, res) => {
 
 const connectChat = async (req, res) => {
   const roomName = req.body.chatRoom;
-  console.log(`\n\n${req.body.chatRoom}\n\n`);
   try{
-    console.log("a")
     const chatFound = await Chat.findOne({room: roomName});
     if (chatFound){
       const chat = await Chat.aggregate([
@@ -379,22 +285,18 @@ const connectChat = async (req, res) => {
         {$project: {_id: 0}},
         { $limit: 50},
       ]);
-      console.log(chat[0]);
       res.status(200).send(chat[0]);
     } else {
       const chatInstance = new Chat({
         room: roomName,
       })
-  
+      
       chatInstance.save();
-  
-      console.log(`chat instance = ${chatInstance}`);
-  
+      
       res.status(200).send(chatInstance);
     }
   }
   catch (error) {
-    console.log(error.message);
     res.status(500).send(error);
   }
 }
@@ -406,7 +308,7 @@ const allowAccess = async (req, res) => {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.status(200).send("not allowed")
-      res.status(200).send("yes")
+    res.status(200).send("yes")
   })
 }
 
@@ -414,10 +316,10 @@ const changeBio = async (req, res) => {
   User.findOneAndUpdate(
     { username: req.body.username },
     { profileDescription: req.body.biodescription } 
-  )
-  .then(updatedUser => {
-    res.status(200).send("completed");
-  })
+    )
+    .then(updatedUser => {
+      res.status(200).send("completed");
+    })
   .catch((error) => {
     res.status(201).send(error.message);
   })
@@ -435,41 +337,6 @@ const grabPostComments = async (req, res) => {
         model: 'User'
       }
     })
-    // console.log(req.body.postid);
-    // const post = await Post.aggregate([
-    //   { $match: { _id: req.body.postid } },
-    //   { $limit: 1 },
-    //   {
-    //     $lookup: {
-    //       from: 'Message', 
-    //       localField: 'comments',
-    //       foreignField: '_id',
-    //       as: 'comments'
-    //     }
-    //   },
-    //   { $unwind: '$comments' },
-    //   { $limit: 10 },
-    //   {
-    //     $lookup: {
-    //       from: 'User', // Assuming the user collection is named 'users'
-    //       localField: 'comments.user',
-    //       foreignField: '_id',
-    //       as: 'comments.user'
-    //     }
-    //   },
-    //   {
-    //     $group: {
-    //       _id: '$_id',
-    //       data: { $first: '$data' },
-    //       contentType: { $first: '$contentType' },
-    //       user: { $first: '$user' },
-    //       description: { $first: '$description' },
-    //       likes: { $first: '$likes' },
-    //       comments: { $push: '$comments' }
-    //     }
-    //   }
-    // ]);
-    console.log(post);
     res.status(200).send(post);
   }
   catch (e){
@@ -485,15 +352,15 @@ const addMessageToComment = async (req, res) => {
       text: req.body.commentText,
       user: req.body.userid,
     })
-
+    
     await message.save();
 
     // Add message to post
     const post = await Post.findOne({_id: req.body.postid})
-
+    
     post.comments.push(message._id)
     await post.save();
-
+    
     res.status(200).send("Success")
   }
   catch (error) {
@@ -504,10 +371,6 @@ const addMessageToComment = async (req, res) => {
 const likeorUnlike = async (req, res) => {
   // Need action, userid, postid
   const action = req.body.action;
-  console.log(req.body.userid);
-  console.log(req.body.postid);
-  console.log(req.body.action);
-
   
   try {
     const post = await Post.findOne({_id: req.body.postid})
@@ -582,7 +445,6 @@ const uploadAvatarFirebase = async (req, res) => {
       user.avatarURL = req.body.avatarURL;
       user.imageName = req.body.imageName;
       await user.save();
-      console.log(oldImageName)
       res.status(200).send(oldImageName);
     }
     else {
@@ -590,7 +452,7 @@ const uploadAvatarFirebase = async (req, res) => {
     }
   }
   catch (e) {
-
+    
   }
 }
 
@@ -599,11 +461,9 @@ const deletePost = async (req, res) => {
     const post = await Post.findOne({_id: req.query.id});
     await Post.deleteOne({_id: req.query.id})
     .then(response => {
-      console.log(`Post id: ${req.query.id}`);
       res.status(200).send(post.imageName);
     })
     .catch(error => {
-      console.error(error);
       res.status(500).send("deletion failed");
     })
   }
@@ -614,7 +474,6 @@ const deletePost = async (req, res) => {
 
 const findAllPosts = async (req, res) => {
   try {
-    console.log(`query keyword = ${req.query.keyword}`)
     const regex = new RegExp(req.query.keyword, 'i')
     const post = await Post.find({hashtags: {$regex:regex}}).populate("user").limit(30);
     res.status(200).send(post);
@@ -634,5 +493,80 @@ const testing = (req, res) => {
   ]
 }
 
-module.exports = {createUser, userLogin, testing, getFriends, avatarUpload, postUpload, getPosts, pfpUpload, singlePostUpload, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
-connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser, singlePostUploadFirebase, getUsersPostsFirebase, uploadAvatarFirebase, deletePost, findAllPosts}
+module.exports = {createUser, userLogin, testing, getFriends, getPosts, getUsersPosts, findUsers, addFriend, getMainFeed, getFriendsList,
+  connectChat, allowAccess, changeBio, grabPostComments, addMessageToComment, likeorUnlike, changeChatActive, getUser, singlePostUploadFirebase, getUsersPostsFirebase, uploadAvatarFirebase, deletePost, findAllPosts}
+
+  
+  // const avatarUpload = (req, res) => {
+  //   res.send("upload successful");
+  // }
+  
+  // const pfpUpload = async (req, res) => {
+  //   try{
+  //     const { buffer, mimetype} = req.file;
+  //     const user = await User.findOne().where({username : req.query.username});
+  //     user.avatar = buffer;
+  //     user.contentType = mimetype;
+  //     await user.save();
+  //     res.status(200).send("successful!")
+  //   } catch (e) {
+  //     res.status(500).send("error occurred")
+  //   }
+  
+  // }
+  
+  // const postUpload = async (req, res) => {
+  //   const { originalname, buffer, mimetype } = req.file;
+  //   console.log(originalname);
+  //   try {
+  //     const post = new Post({
+  //       name: originalname,
+  //       data: buffer,
+  //       contentType:mimetype,
+  //       description: "first post created"
+  //     })
+  
+  //     await post.save();
+  //     res.send("Post upload successful");
+  //   }
+  //   catch (error) {
+  //     console.log(error);
+  //     res.status(500).send("error uploading picture");
+  //   }
+  // }
+  
+  
+  // const singlePostUpload = async (req, res) => {
+  //   try{
+  //     const user = await User.findOne().where({username: req.body.username});
+  //     if(!user){
+  //       res.status(404).send('User not found');
+  //     }
+  //     // Create post here
+  //     else {
+  //       const {buffer, mimetype} = req.file;
+  //       try {
+  //         // Create the post and save it to the database
+  //         const post = new Post({
+  //           user: user._id,
+  //           data: buffer,
+  //           contentType: mimetype,
+  //           description: req.body.caption,
+  //         })
+          
+  //         await post.save();
+          
+  //         // Add the post to the users post list
+  //         user.posts.push(post._id);
+  //         await user.save();
+  //       }
+  //       catch (e) {
+  //         return res.status(500).send("error in creating and saving post")
+  //       }
+  //     }
+  //     res.status(200).send("request sent successfully");
+  //   }
+  //   catch (e) {
+  //     res.status(500).send(e.message);
+  //   }
+  // }
