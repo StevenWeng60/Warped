@@ -58,7 +58,15 @@
 /* MOBILE L (425 PX)*/
 /* Get rid of sidebar set expand columns for friend icons and posts */
 @media (max-width: 550px) {
-.mfriendslist li {
+  .postImage {
+    height: 100% !important;
+  }
+  .trashicon {
+    font-size: 1.25em !important;
+    margin-right: 0.25em !important;
+  }
+
+  .mfriendslist li {
     padding-left: 0.25em !important;
   }
 
