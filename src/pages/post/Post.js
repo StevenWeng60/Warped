@@ -7,6 +7,7 @@ import Bottombar from '../../components/bottombar/Bottombar';
 import { storage } from '../../config/firebase-config'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import firebaseAuth from '../../components/firebaseauth';
+import Compressor from 'compressorjs';
 
 function Post() {
   const [file, setFile] = useState(null);
@@ -38,42 +39,45 @@ function Post() {
   async function handleFormSubmit(e){
     e.preventDefault();
 
-    const imageURL = `projectFiles/${inputFileRef.current.files[0].name}`;
-    const filesFolderRef = ref(storage, imageURL)
-    try {
-      await uploadBytes(filesFolderRef, inputFileRef.current.files[0]);      
-      
-      const fileName = inputFileRef.current.files[0].name;
-      const downloadURL = await getDownloadURL(ref(storage, imageURL));
-      
-      getDownloadURL(ref(storage, imageURL))
-      .then((url) => {
-        axios.post("http://localhost:3001/singlepostfirebaseimg", {
-          imgURL: url,
-          imageName: fileName,
-          caption: text,
-          hashtags: hashtagRef.current.value,
-          username: localStorage.getItem("Username")
-        })
-        .then((response) => {
-          hashtagRef.current.value = "";
-          setSeeSuccess(true);
-          showSuccessPopUp();
+    // make sure the file isn't empty
+    console.log(inputFileRef.current.files[0]);
+    if(inputFileRef.current.files[0] !== undefined){
+      console.log("bro wtf")
+      const imageURL = `projectFiles/${inputFileRef.current.files[0].name}`;
+      const filesFolderRef = ref(storage, imageURL)
+      try {
+        await uploadBytes(filesFolderRef, inputFileRef.current.files[0]);      
+        
+        const fileName = inputFileRef.current.files[0].name;
+        
+        getDownloadURL(ref(storage, imageURL))
+        .then((url) => {
+          axios.post("http://localhost:3001/singlepostfirebaseimg", {
+            imgURL: url,
+            imageName: fileName,
+            caption: text,
+            hashtags: hashtagRef.current.value,
+            username: localStorage.getItem("Username")
+          })
+          .then((response) => {
+            hashtagRef.current.value = "";
+            setSeeSuccess(true);
+            showSuccessPopUp();
+          })
+          .catch((error) => {
+            console.error(error);
+          })
         })
         .catch((error) => {
           console.error(error);
         })
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      inputFileRef.current.value= null;
-      setText('Write a Caption...');
-      setPreview(null);
-    } catch (err) {
-      console.error(err);
+        inputFileRef.current.files[0]= null;
+        setText('Write a Caption...');
+        setPreview(null);
+      } catch (err) {
+        console.error(err);
+      }
     }
-    
   }
 
   function showSuccessPopUp() {
