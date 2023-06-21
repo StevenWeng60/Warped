@@ -17,34 +17,42 @@ function ProfileTop({userInfo}) {
   }, [userInfo.avatarData])
 
   const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    const imageURL = `projectFiles/${file.name}`;
-    const filesFolderRef = ref(storage, imageURL)
-    try {
-      // upload file
-      await uploadBytes(filesFolderRef, file)
-      // Get url link of the uploaded file
-      const downloadURL = await getDownloadURL(ref(storage, imageURL));
-      axios.post("http://localhost:3001/uploadfirebase/pfp",{
-        username: localStorage.getItem("Username"),
-        avatarURL: downloadURL,
-        imageName: file.name,
-      }).then(function (response){
-        const deleteRef = ref(storage, `projectFiles/${response.data}`);
-        deleteObject(deleteRef)
-        .then(() => {
-          localStorage.setItem('avatarURL', downloadURL);
-          setPostData(downloadURL);
+    event.preventDefault();
+    const file = inputFileRef.current.files[0];
+    // Make sure there is actually a file or an error will be thrown
+    if (file){
+      // Create a new filename reference that takes into account the current date and time so that each image can be unique to one another
+      const filename = `${file.name}${Date.now()}`
+      const imageURL = `projectFiles/${filename}`;
+      const filesFolderRef = ref(storage, imageURL)
+      try {
+        // upload file
+        await uploadBytes(filesFolderRef, file)
+        // Get url link of the uploaded file
+        const downloadURL = await getDownloadURL(ref(storage, imageURL));
+        axios.post("http://localhost:3001/uploadfirebase/pfp",{
+          username: localStorage.getItem("Username"),
+          avatarURL: downloadURL,
+          imageName: filename,
+        }).then(function (response){
+          // Create reference to delete the pfp of the old image
+          const deleteRef = ref(storage, `projectFiles/${response.data}`);
+          // Delete the pfp
+          deleteObject(deleteRef)
+          .then(() => {
+            localStorage.setItem('avatarURL', downloadURL);
+            setPostData(downloadURL);
+          })
+          .catch(() => {
+            console.error();
+          })
+        }).catch(function (error){
+          console.error(error);
         })
-        .catch(() => {
-          console.error();
-        })
-      }).catch(function (error){
-        console.error(error);
-      })
-    }
-    catch (err) {
-      console.error(err);
+      }
+      catch (err) {
+        console.error(err);
+      }
     }
   }
 

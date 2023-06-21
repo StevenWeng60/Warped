@@ -582,6 +582,7 @@ const uploadAvatarFirebase = async (req, res) => {
       user.avatarURL = req.body.avatarURL;
       user.imageName = req.body.imageName;
       await user.save();
+      console.log(oldImageName)
       res.status(200).send(oldImageName);
     }
     else {

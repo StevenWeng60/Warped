@@ -1,7 +1,6 @@
 import './Messagebox.css'
 import { useState, useEffect, useRef } from 'react'
 import { FaPenSquare, FaRegWindowClose } from "react-icons/fa";
-import { io } from "socket.io-client"
 import axios from 'axios'
 import { socket } from '../../../components/socket.js';
 
@@ -34,17 +33,12 @@ function Messagebox({friends, activeChats}) {
 
   useEffect(() => {
     function handleSocketMessage(message, user, sentid) {
-      console.log('%c YO?!', 'color: orange')
-      console.log(`${user} sent message: ${message}`)
-      // let messageSender = friends.find(obj => obj.username === user)
-      // console.log(`Message sender: ${messageSender}`);
-      console.log(`id of sender ${sentid}`);
       const appendedMessage = {
         text: message,
         createdAt: Date.now(),
         user: sentid,
+        _id: Date.now(),
       }
-      console.log(appendedMessage);
       setCurrChatMessages(prevArr => [...prevArr, appendedMessage])
     }
 
@@ -59,10 +53,6 @@ function Messagebox({friends, activeChats}) {
     // set the header of the messages room
     setCurrPerson(friend);
 
-    // set the body of the messages room
-    // friend[0].listOfTexts.forEach((f) => {
-    //   console.log(f.text);
-    // })
     // set list of texts equal to the users list of texts
     if(!friend.listOfTexts){
       setCurrChatMessages([]);
@@ -138,7 +128,6 @@ function Messagebox({friends, activeChats}) {
 
   const sendingMessage = (e) => {
     e.preventDefault();
-    console.log('sending message...')
     // joing a room and sending a message
     const room = getRoomName(localStorage.getItem("Username"), currPerson.username)
 
@@ -165,18 +154,16 @@ function Messagebox({friends, activeChats}) {
       chatRoom: room,
     })
     .then((response) => {
-      console.log(response.data);
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     })
   }
 
   // Add use to chatList on sidebar
   const chatBtnClicked = async (e) => {
     e.preventDefault();
-    console.log('chat button clicked')
     // make sure that a user is clicked
     if (toUser !== ''){
       setMCreatePoppedUp(false);
@@ -232,8 +219,6 @@ function Messagebox({friends, activeChats}) {
               <div className="searchfiller">
                 
               </div>
-              {/* <input type="text" placeholder="Search..."/>
-              <button type="submit">Search</button> */}
               <FaPenSquare className="messageBtn" onClick={createMessage}/>
             </form>
             </div>
@@ -289,11 +274,8 @@ function Messagebox({friends, activeChats}) {
               {currChatMessages.map((message) => {
                 // if its not your user id then add avatar to message
                 const notHostUser = (message.user !== localStorage.getItem("Id"));
-                console.log(`message ${message.text} \nmessage user id = ${message.user}\nlocal user id = ${localStorage.getItem("Id")}`)
-                console.log(`currPerson is ${currPerson.username} correct = ${notHostUser}`);
-                // style={{justifyContent: notHostUser ? '': 'flex-end'}}
                 return( 
-                <li>
+                <li key={message._id}>
                   <div>
                     {
                       notHostUser

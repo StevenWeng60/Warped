@@ -103,6 +103,10 @@
   .closeMInstance {
     right: 10px !important;
   }
+  .pfp {
+    height: 10em !important;
+    width: 10em !important;
+  }
 }
 
 
@@ -213,8 +217,16 @@
   .closeMInstance {
     right: 20px !important;
   }
+  .pfp {
+    height: 11em !important;
+    width: 11em !important;
+  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
+  .pfp {
+    height: 13em !important;
+    width: 13em !important;
+  }
   .addpostform {
     width: 45% !important;
   }
