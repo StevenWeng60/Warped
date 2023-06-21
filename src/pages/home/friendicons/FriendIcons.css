@@ -2,12 +2,9 @@
   list-style: none;
   white-space: nowrap;
   overflow-x: scroll;
-  /* scrollbar-width:none; */
   padding-top: 1.5em;
+  padding-bottom: .5em;
   position: relative;
-  /* height: 100%; */
-  /* display:flex;
-  justify-content: center; */
   scrollbar-color: blue;
 }
 

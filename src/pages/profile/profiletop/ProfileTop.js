@@ -6,14 +6,7 @@ import axios from 'axios'
 
 function ProfileTop({userInfo}) {
 
-  console.log(localStorage.getItem("Username"));
-  console.log(userInfo.username);
-  console.log(userInfo.areFriends)
-  console.log(`are friends: ${userInfo.areFriends}`);
   const [isFriend, setIsFriend] = useState(userInfo.areFriends == 'y');
-  
-  // Check to see if areFriends is y
-  // This is because initalizing using an expression isn't working?
 
   const inputFileRef = useRef(null);
 
@@ -37,7 +30,6 @@ function ProfileTop({userInfo}) {
         avatarURL: downloadURL,
         imageName: file.name,
       }).then(function (response){
-        console.log(response);
         const deleteRef = ref(storage, `projectFiles/${response.data}`);
         deleteObject(deleteRef)
         .then(() => {
@@ -48,14 +40,12 @@ function ProfileTop({userInfo}) {
           console.error();
         })
       }).catch(function (error){
-        console.log(error);
+        console.error(error);
       })
     }
     catch (err) {
       console.error(err);
     }
-    console.log("complete1");
-    console.log("nice going");
   }
 
   const handleImageClick = () => {
@@ -72,15 +62,11 @@ function ProfileTop({userInfo}) {
     axios.post("http://localhost:3001/addfriend", requestBody)
     .then((response) => {
       setIsFriend(true);
-      console.log("route works!");
-
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     })
   }
-
-  console.log(isFriend);
 
   return (
     <>

@@ -34,11 +34,10 @@ function Messages() {
       chatRoom: room,
     })
     .then((response) => {
-      console.log(response.data);
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     })
   }
 
@@ -47,7 +46,6 @@ function Messages() {
       username: localStorage.getItem("Username")
     })
     .then(async function (response) {
-      console.log(response.data.friends);
       const friends = response.data.friends;
       
       const friendsInfo = friends.map((friend) => {
@@ -66,13 +64,12 @@ function Messages() {
         const chatRoom = await getChatRoom(localStorage.getItem("Username"), chat.username);
         return Object.assign({}, chat, chatRoom);
       }));
-      console.log(toChatInstances);
       setlistOfActiveChats(toChatInstances);
       setListOfFriendsInfo(friendsInfo);
       setIsLoading(false);
     })
     .catch((error) =>{
-      console.log(error);
+      console.error(error);
     })
   }
 

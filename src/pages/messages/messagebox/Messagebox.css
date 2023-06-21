@@ -28,6 +28,7 @@
 
 .mfriendslist li {
   padding-left: 1em;
+  z-index: 1;
 }
 
 .messagefriends, .topmessagefriends {
@@ -211,6 +212,12 @@ button[type="submit"]:hover {
   left: 50%;
   transform: translate(-50%, -50%);
   background: white !important;
+  z-index:10;
+}
+
+.Searchbar {
+  position:relative;
+  z-index:2;
 }
 
 .popupContainer {

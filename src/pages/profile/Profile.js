@@ -17,7 +17,7 @@ function Profile() {
   const [usersPosts, setUsersPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  // will run when rendered
+  // will run when rendered or when the username dependency changes
   useEffect(() => {
     getPosts();
   }, [username])
@@ -33,12 +33,10 @@ function Profile() {
     .then(function (response) {
       const data = response.data;
       const arrayOfPosts = data.posts;
-      console.log(arrayOfPosts);
 
       // Create object for profileTop component picture
       const dataUrl = data.avatarURL;
       
-      console.log(response.data);
       // areFriends represent is a user is friends with the user's profile
       // this field is useless if its the same user since it won't be used
       setUserInfo({
@@ -56,8 +54,6 @@ function Profile() {
         })
 
         const iDataURL = imageData.url;
-        console.log(`data ${imageData.data}`)
-        console.log(`iDataURL ${iDataURL}`);
         return {
           id: data._id,
           postid: imageData._id,
@@ -72,7 +68,6 @@ function Profile() {
 
       setUsersPosts(imageObjects);
       setIsLoading(false);
-      console.log(imageObjects);
     })
     .catch(function (error){
       console.log(error);

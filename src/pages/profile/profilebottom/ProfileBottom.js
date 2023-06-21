@@ -53,7 +53,6 @@ function ProfileBottom({ posts, userInfo, friendList }) {
       postid: currIndividualPost.postid,
     })
     .then((response) => {
-      console.log(response);
     })
     .catch((error) => {
       console.error(error);
@@ -77,21 +76,19 @@ function ProfileBottom({ posts, userInfo, friendList }) {
   }
 
   function deletePost(postId) {
-    console.log(`Post id: ${postId}`);
     axios.delete("http://localhost:3001/deletesinglepost", {
       params: {
         id: postId
       }
     })
     .then(function (response) {
-      console.log(response);
       const deleteRef = ref(storage, `projectFiles/${response.data}`);
       deleteObject(deleteRef)
       .then(() => {
         handleClickOutOfPostAndDelete(postId);
       })
       .catch(() => {
-        console.log("error");
+        console.error("error");
       })
     })
     .catch((error) => {
@@ -101,7 +98,6 @@ function ProfileBottom({ posts, userInfo, friendList }) {
 
   async function handlePostPopUp(postId) {
     const post = profilePosts.find((post) => {
-      console.log(`postId = ${postId} || post.id = ${post.postid}`);
       return post.postid === postId;
     })
     
@@ -111,7 +107,6 @@ function ProfileBottom({ posts, userInfo, friendList }) {
     .then((response) => {
       const comments = response.data.comments;
       // A comment will have a username, the comment, and maybe the profile picture
-      console.log(response);
       if (comments) {
         const mappedComments = comments.map((comment) => {
           const avatarData = comment.user.avatarURL;
@@ -132,7 +127,6 @@ function ProfileBottom({ posts, userInfo, friendList }) {
   
         setCurrPostComments(mappedComments);
       }
-      console.log(response.data);
     })
     .catch((error) => {
       console.error(error);
