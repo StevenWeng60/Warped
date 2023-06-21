@@ -40,42 +40,52 @@ function Post() {
     e.preventDefault();
 
     // make sure the file isn't empty
-    console.log(inputFileRef.current.files[0]);
     if(inputFileRef.current.files[0] !== undefined){
-      console.log("bro wtf")
-      const imageURL = `projectFiles/${inputFileRef.current.files[0].name}`;
-      const filesFolderRef = ref(storage, imageURL)
-      try {
-        await uploadBytes(filesFolderRef, inputFileRef.current.files[0]);      
-        
-        const fileName = inputFileRef.current.files[0].name;
-        
-        getDownloadURL(ref(storage, imageURL))
-        .then((url) => {
-          axios.post("http://localhost:3001/singlepostfirebaseimg", {
-            imgURL: url,
-            imageName: fileName,
-            caption: text,
-            hashtags: hashtagRef.current.value,
-            username: localStorage.getItem("Username")
-          })
-          .then((response) => {
-            hashtagRef.current.value = "";
-            setSeeSuccess(true);
-            showSuccessPopUp();
-          })
-          .catch((error) => {
-            console.error(error);
-          })
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        inputFileRef.current.files[0]= null;
-        setText('Write a Caption...');
-        setPreview(null);
-      } catch (err) {
-        console.error(err);
+      const selectedFile = inputFileRef.current.files[0];
+      const fileSizeInMB = selectedFile.size / (1024 * 1024)
+      // Make sure file size is less than 10mb before compressing or else it will throw an error
+      if (fileSizeInMB < 10){
+        new Compressor(inputFileRef.current.files[0], {
+          quality: 0.8,
+          async success(result) {
+            const fileName = `${result.name}${Date.now()}`
+            const imageURL = `projectFiles/${fileName}`;
+            const filesFolderRef = ref(storage, imageURL)
+            try {
+              await uploadBytes(filesFolderRef, result);      
+              
+              getDownloadURL(ref(storage, imageURL))
+              .then((url) => {
+                axios.post("http://localhost:3001/singlepostfirebaseimg", {
+                  imgURL: url,
+                  imageName: fileName,
+                  caption: text,
+                  hashtags: hashtagRef.current.value,
+                  username: localStorage.getItem("Username")
+                })
+                .then((response) => {
+                  hashtagRef.current.value = "";
+                  setSeeSuccess(true);
+                  showSuccessPopUp();
+                })
+                .catch((error) => {
+                  console.error(error);
+                })
+              })
+              .catch((error) => {
+                console.error(error);
+              })
+              inputFileRef.current.value = null;
+              setText('Write a Caption...');
+              setPreview(null);
+            } catch (err) {
+              console.error(err);
+            }
+          },
+          error(err) {
+            console.error(err.message);
+          }
+        })  
       }
     }
   }
@@ -98,7 +108,7 @@ function Post() {
           <h1 className="CreatePostTag">Create Post</h1>
           <div className="postfile-input-container">
             {preview ? (<img src={preview} style={{width: '100%', height: '100%'}}></img>) : (<label htmlFor="postfile-input" className="file-input-label">
-              Choose a file
+              Choose a file (Only files less than 10MB can be uploaded)
             </label>)}
             <input type="file" id="postfile-input" className="postfile-input" onChange={handleDrop} ref={inputFileRef}/>
           </div>
