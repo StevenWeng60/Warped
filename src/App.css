@@ -58,6 +58,13 @@
 /* MOBILE L (425 PX)*/
 /* Get rid of sidebar set expand columns for friend icons and posts */
 @media (max-width: 550px) {
+.mfriendslist li {
+    padding-left: 0.25em !important;
+  }
+
+  .messagefriends {
+    font-size: 0.55em !important;
+  }
   .sidebar {
     display:none;
   }
@@ -111,7 +118,6 @@
 
 
 @media (max-width: 769px) {
-
   /* Hide side bar*/
   .sidebarOptions {
     font-size: 2.5em;
@@ -193,6 +199,12 @@
 
 /* Range queries */
 @media (min-width: 550px) and (max-width: 769px) {
+  .mfriendslist li {
+    padding-left: 0.5em !important;
+  }
+  .messagefriends {
+    font-size: 0.6em !important;
+  }
   .addpostform {
     width: 45% !important;
   }

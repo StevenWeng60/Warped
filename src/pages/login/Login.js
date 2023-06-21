@@ -33,7 +33,6 @@ function Login() {
         }
       })
       .then ((response) => {
-        console.log(response.data);
         const user = response.data;
         localStorage.setItem('Username', user.username);
         localStorage.setItem('Id', user._id);

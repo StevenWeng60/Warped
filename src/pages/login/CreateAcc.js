@@ -33,7 +33,6 @@ function CreateAcc() {
         email: emailRef.current.value,
       })
       .then (async function (response) {
-        console.log(response);
         if(response.data !== "Username taken"){
           await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
           localStorage.setItem('accessToken', response.data.accessToken);
@@ -51,11 +50,11 @@ function CreateAcc() {
         } 
       })
       .catch (function (error) {
-        console.log(error);
+        console.error(error);
       })
     }
     catch {
-      console.log("error", e);
+      console.error("error", e);
     }
   }
 
