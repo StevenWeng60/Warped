@@ -4,7 +4,7 @@ const routes = require("./routes/routes.js");
 const uploadroutes = require("./routes/uploadroute.js")
 require('dotenv').config();
 const { instrument } = require("@socket.io/admin-ui")
-const {User, Chat, Message} = require("./Schemas/User")
+const {User, Chat, Message, Post} = require("./Schemas/User");
 
 const app = express();
 const http=require('http').createServer(app);
@@ -114,11 +114,16 @@ const saveMessage = async(cmessage, room, userid) => {
   }
 }
 // const updateMany = async () => {
-  //   await User.updateMany(
-    //   { chatActive: { $exists: false } }, // Select documents without the new property
-//   { $set: { chatActive: [] } }
-//   )// Set the default value for the new property
-// }
+//   await Chat.deleteMany({})
+//     .then(result => {
+//       console.log('Deleted', result.deletedCount)
+//     })
+//     .catch(error => {
+//       console.error('Error deleting documents:', error)
+//     })
+  
+//   };
+// updateMany();
 
 // createChat();
 // create messages and add them to bobthebuilderleaf
