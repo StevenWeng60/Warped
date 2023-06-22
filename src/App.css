@@ -114,8 +114,17 @@
 
   .poppedUpPost {
     grid-template-columns: 1fr !important;
-    grid-template-rows: 1fr 1fr !important;
+    grid-template-rows: 3fr 1fr !important;
     overflow-y:scroll;
+  }
+
+  .postImage{
+    grid-row: 1 !important;
+    grid-column: 1 !important;
+  }
+  .imageInformation {
+    grid-row: 2 !important;
+    grid-column: 1 !important;
   }
 
   .imageInformation {
@@ -215,6 +224,9 @@
 
 /* Range queries */
 @media (min-width: 550px) and (max-width: 769px) {
+  .poppedUpPost {
+    grid-template-columns: 2fr 1fr !important;
+  }
   .mfriendslist li {
     padding-left: 0.5em !important;
   }
@@ -231,7 +243,7 @@
     height: 1000px !important;
   }
   .poppedUpPost {
-    width: 80vw !important;
+    width: 90vw !important;
     font-size: 0.6em;
   }
 
@@ -260,12 +272,13 @@
     height: 1200px !important;
   }
   .poppedUpPost {
-    width: 75vw !important;
+    width: 85vw !important;
     font-size: 0.8em;
   }
 
   .exitPostBtn {
-    right: 10px !important;
+    right: 0px !important;
+    padding: 0.4em !important;
   }
 
   .closeMInstance {

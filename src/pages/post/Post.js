@@ -102,7 +102,7 @@ function Post() {
       <div className="sidebar">
         <Sidebar currActive="Post"/>
       </div>
-      {seeSuccess && <h1 className="postSuccessPopUp"><h3 style={{textAlign:'center', margin:'auto'}}>SUCCESS!</h3></h1>}
+      {seeSuccess && <div className="postSuccessPopUp"><h1 style={{textAlign:'center', margin:'auto'}}>SUCCESS!</h1></div>}
       <div className="addpost">
         <form className="addpostform" onSubmit={handleFormSubmit} encType="multipart/form-data">
           <h1 className="CreatePostTag">Create Post</h1>
@@ -126,5 +126,6 @@ function Post() {
   </div>
   );
 }
+
 
 export default firebaseAuth(Post);

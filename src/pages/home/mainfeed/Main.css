@@ -58,11 +58,11 @@
 
 .poppedUpPost {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 5fr 3fr;
   /* flex-direction: row; */
   padding: 2em;
   height: 90vh;
-  width: 60vw;
+  width: 70vw;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -72,6 +72,7 @@
 
 .postImage {
   background:green;
+  max-height: 90vh;
   /* flex-grow:1; */
 }
 
