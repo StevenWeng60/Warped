@@ -58,12 +58,35 @@
 /* MOBILE L (425 PX)*/
 /* Get rid of sidebar set expand columns for friend icons and posts */
 @media (max-width: 550px) {
+  .postImage {
+    height: 100% !important;
+  }
+  .trashicon {
+    font-size: 1.25em !important;
+    margin-right: 0.25em !important;
+  }
+
+  .mfriendslist li {
+    padding-left: 0.25em !important;
+  }
+
+  .messagefriends {
+    font-size: 0.55em !important;
+  }
   .sidebar {
     display:none;
   }
   .friendicons {
     width: 100%;
     grid-column: 1 / 6;
+  }
+
+  .commentsul{
+    height: 60vh !important;
+  }
+
+  .commentsdiv {
+    height: 75% !important;
   }
 
   .mainfeed, .topofprofile, .bottomofprofile, .messagebox, .addpost, .mainsettings, .homecontainer, .postSuccessPopUp, .messageboxcontainer, .searchbar, .searchResults, .loading {
@@ -80,7 +103,6 @@
   }
   .logincontainer, .createcontainer {
     width: 70% !important;
-    height: 70% !important;
   }
   .postflexcontainer {
     height: 1000px !important;
@@ -92,8 +114,17 @@
 
   .poppedUpPost {
     grid-template-columns: 1fr !important;
-    grid-template-rows: 1fr 1fr !important;
+    grid-template-rows: 3fr 1fr !important;
     overflow-y:scroll;
+  }
+
+  .postImage{
+    grid-row: 1 !important;
+    grid-column: 1 !important;
+  }
+  .imageInformation {
+    grid-row: 2 !important;
+    grid-column: 1 !important;
   }
 
   .imageInformation {
@@ -103,12 +134,15 @@
   .closeMInstance {
     right: 10px !important;
   }
+  .pfp {
+    height: 10em !important;
+    width: 10em !important;
+  }
 }
 
 
 
 @media (max-width: 769px) {
-
   /* Hide side bar*/
   .sidebarOptions {
     font-size: 2.5em;
@@ -190,18 +224,26 @@
 
 /* Range queries */
 @media (min-width: 550px) and (max-width: 769px) {
+  .poppedUpPost {
+    grid-template-columns: 2fr 1fr !important;
+  }
+  .mfriendslist li {
+    padding-left: 0.5em !important;
+  }
+  .messagefriends {
+    font-size: 0.6em !important;
+  }
   .addpostform {
     width: 45% !important;
   }
   .logincontainer, .createcontainer {
     width: 60% !important;
-    height: 60% !important;
   }
   .postflexcontainer {
     height: 1000px !important;
   }
   .poppedUpPost {
-    width: 80vw !important;
+    width: 90vw !important;
     font-size: 0.6em;
   }
 
@@ -213,8 +255,16 @@
   .closeMInstance {
     right: 20px !important;
   }
+  .pfp {
+    height: 11em !important;
+    width: 11em !important;
+  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
+  .pfp {
+    height: 13em !important;
+    width: 13em !important;
+  }
   .addpostform {
     width: 45% !important;
   }
@@ -222,12 +272,13 @@
     height: 1200px !important;
   }
   .poppedUpPost {
-    width: 75vw !important;
+    width: 85vw !important;
     font-size: 0.8em;
   }
 
   .exitPostBtn {
-    right: 10px !important;
+    right: 0px !important;
+    padding: 0.4em !important;
   }
 
   .closeMInstance {

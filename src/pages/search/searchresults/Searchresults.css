@@ -1,14 +1,15 @@
 .searchresults-container {
   display:flex;
-  width: 70%;
+  width: 90%;
   margin:auto;
   background:#F4EEE0;
-  flex-direction:column;
+  flex-direction:row;
+  flex-wrap:wrap;
 }
 
 .searchUser {
   /* flex-grow:1; */
-  width: 50%;
+  width: 22.5%;
   text-align:center;
   padding: 1em;
   font-size: 0.75em;

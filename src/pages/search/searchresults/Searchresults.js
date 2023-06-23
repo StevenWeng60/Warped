@@ -1,8 +1,6 @@
 import './Searchresults.css'
 
 function Searchresults({ data, searchClicked }) {
-  console.log(data);
-  console.log(searchClicked);
   return (
     <div className="searchresults-container">
       {data.length !== 0

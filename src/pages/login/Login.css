@@ -8,7 +8,6 @@
 }
 
 .logincontainer {
-  height: 50%;
   width: 50%;
   display:flex;
   margin:auto;
@@ -34,7 +33,7 @@ h2 {
   width: 100%;
 }
 
-#username {
+#username, #email {
   font-size: 0.5em;
   width: 100%;
   border-radius: 0 !important;
@@ -67,6 +66,12 @@ input[type="password"] {
   border-radius: 0.5em;
   width:100%;
   margin: 1em 0;
+}
+
+#googleloginbtn {
+  margin: 0;
+  border-radius: 0.5em;
+  width: 100%;
 }
 
 .logincontainer br {

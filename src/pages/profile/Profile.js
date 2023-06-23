@@ -10,13 +10,14 @@ import axios from 'axios'
 import withAuth from '../../components/authenticate';
 import Loading from '../../components/Loading';
 import Bottombar from '../../components/bottombar/Bottombar';
+import firebaseAuth from '../../components/firebaseauth';
 
 function Profile() {
   const { username, friends } = useParams();
   const [usersPosts, setUsersPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  // will run when rendered
+  // will run when rendered or when the username dependency changes
   useEffect(() => {
     getPosts();
   }, [username])
@@ -32,14 +33,11 @@ function Profile() {
     .then(function (response) {
       const data = response.data;
       const arrayOfPosts = data.posts;
-      console.log(data);
 
-      // Create object for profileTop component
-      const dataUrl = `data:${data['avatarContentType']};base64,${Buffer.from(data.avatar, 'binary').toString('base64')}`;
-      console.log(dataUrl);
+      // Create object for profileTop component picture
+      const dataUrl = data.avatarURL;
       
-      console.log(response.data);
-      // areFriends represent is a user is friends with the user's profile
+      // areFriends represent if a user is friends with the user's profile
       // this field is useless if its the same user since it won't be used
       setUserInfo({
         username: data.username,
@@ -55,13 +53,13 @@ function Profile() {
           return user === localStorage.getItem("Id")
         })
 
-        const iData = `data:${imageData['contentType']};base64,${Buffer.from(imageData.data, 'binary').toString('base64')}`;
+        const iDataURL = imageData.url;
         return {
           id: data._id,
           postid: imageData._id,
           username: data.username,
           description: imageData.description,
-          postImage: iData,
+          postImage: iDataURL,
           avatarImage: dataUrl,
           numlikes: imageData.usersWhoLiked.length,
           alreadyLikedPost: a ? true : false,
@@ -70,7 +68,6 @@ function Profile() {
 
       setUsersPosts(imageObjects);
       setIsLoading(false);
-      console.log(imageObjects);
     })
     .catch(function (error){
       console.log(error);
@@ -91,7 +88,7 @@ function Profile() {
               <ProfileTop userInfo = {userInfo}/>
             </div>
             <div className="bottomofprofile">
-              <ProfileBottom posts = {  usersPosts }/>
+              <ProfileBottom posts = {usersPosts} userInfo = {userInfo} friendList="!@@#%#Q$@#"/>
             </div>
           </div>
           )
@@ -104,21 +101,4 @@ function Profile() {
   );
 }
 
-export default withAuth(Profile);
-
-/*
-
-      {
-        isLoading
-        ? <Loading/>
-        : (<div className="homecontainer">
-            <div className="friendicons">
-              <FriendIcons friendslist={listOfFriendsInfo}/>
-            </div>
-            <div className="mainfeed">
-              <Main listofposts={posts}/>
-            </div>
-          </div>)
-      }
-
-*/ 
+export default firebaseAuth(Profile);

@@ -4,8 +4,7 @@ const routes = require("./routes/routes.js");
 const uploadroutes = require("./routes/uploadroute.js")
 require('dotenv').config();
 const { instrument } = require("@socket.io/admin-ui")
-const {User, Chat, Message, Post} = require("./Schemas/User")
-const { createServer } = require("http");
+const {User, Chat, Message, Post} = require("./Schemas/User");
 
 const app = express();
 const http=require('http').createServer(app);
@@ -37,11 +36,7 @@ app.use(express.json());
 
 // for io connections
 io.on('connection', socket => {
-  console.log(socket.id);
   socket.on("send-message", (message, room, usersending, userid) => {
-    console.log(message)
-    console.log(room)
-    console.log(`sent by ${userid}`)
 
     // io.emit('receive-message', message, usersending);
     if (room === ""){
@@ -53,7 +48,6 @@ io.on('connection', socket => {
   })
 
   socket.on('join-room', room => {
-    console.log(`Joined room ${room}`);
     socket.join(room)
   })
 })
@@ -69,7 +63,6 @@ app.use('/upload', uploadroutes);
 async function connect () {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("Connected to MongoDB")
   } catch (error){
     console.error(error);
   }
@@ -85,71 +78,19 @@ async function run() {
     }
     )
 
-    // const message = await Message.create({
-    //   text: "this is my second message hooray!",
-    //   user: "64679e8ec410342a6b763959",
-    // })
-    // const user = await User.findOne().where({username: 'bobthebuilder'}).populate('posts')
-    console.log(user)
   } catch (e){
-    console.log(e.message);
+    console.error(e.message);
   }
 }
 
-/*
-64679ac91a0f8349dac6a425
-64679b805aef7a23069d34fd
-64679d489fb6cced5e12c756
-*/
-
-// async function createChat() {
-//   try{
-//     const chatInstance = await Chat.create({
-//       listOfTexts: ["6467bea15ce8499346bce1b0", "6467bcfda9915f2b08161339"],
-//       messageBetween: ["64679e8ec410342a6b763959", "64679e8ec410342a6b763958"]
-//     });
-
-//     const messages = await Chat.findOne().populate("listOfTexts").select("listOfTexts");
-//     console.log(messages);
-//   } catch (e){
-//     console.log(e.message);
-//   }
-// }
-
-// run();
-//createChat();
-
-console.log("hisasdasxzcfdszxddf");
 
 const port = 3001;
 
 http.listen(port, () => {
-  console.log(`Server listening on port ${port}`)
+  // console.log(`Server listening on port ${port}`)
 })
 
-// app.listen(3001, () => {
-//   console.log("hell yeah");
-// });
 
-
-// createChat();
-// create messages and add them to bobthebuilderleaf
-async function createChat() {
-  try{
-    const chatRoom = await Chat.findOne({room: 'bobthebuilderleaf'})
-    if(chatRoom){
-      const newMessage = await Message.create({
-        text: 'should be on the bottom',
-      })
-      console.log("found");
-      chatRoom.listOfTexts.push(newMessage._id);
-      await chatRoom.save();
-    }
-    console.log("success")
-  } catch (e){
-    console.log(e.message);
-  }
-}
 
 // save message from chat room to database
 const saveMessage = async(cmessage, room, userid) => {
@@ -157,7 +98,7 @@ const saveMessage = async(cmessage, room, userid) => {
     const chatRoom = await Chat.findOne({room: room})
   
     if (!chatRoom) {
-      console.log(`error, chat room is not found`)
+      console.error(`error, chat room is not found`)
     }
     else{
       const message = await Message.create({
@@ -167,18 +108,36 @@ const saveMessage = async(cmessage, room, userid) => {
       chatRoom.listOfTexts.push(message._id)
       await chatRoom.save();
     }
-    console.log("message saved");
   }
   catch (e) {
-    console.log(e.message);
+    console.error(e.message);
   }
 }
-const updateMany = async () => {
-  console.log("asdf")
-  await User.updateMany(
-  { chatActive: { $exists: false } }, // Select documents without the new property
-  { $set: { chatActive: [] } }
-  )// Set the default value for the new property
-}
-
+// const updateMany = async () => {
+//   await Chat.deleteMany({})
+//     .then(result => {
+//       console.log('Deleted', result.deletedCount)
+//     })
+//     .catch(error => {
+//       console.error('Error deleting documents:', error)
+//     })
+  
+//   };
 // updateMany();
+
+// createChat();
+// create messages and add them to bobthebuilderleaf
+// async function createChat() {
+//   try{
+//     const chatRoom = await Chat.findOne({room: 'bobthebuilderleaf'})
+//     if(chatRoom){
+//       const newMessage = await Message.create({
+//         text: 'should be on the bottom',
+//       })
+//       chatRoom.listOfTexts.push(newMessage._id);
+//       await chatRoom.save();
+//     }
+//   } catch (e){
+//     console.error(e.message);
+//   }
+// }

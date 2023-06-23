@@ -4,8 +4,7 @@ import Sidebar from '../../components/sidebar/Sidebar.js';
 import Messagebox from './messagebox/Messagebox.js'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Buffer } from 'buffer'
-import withAuth from '../../components/authenticate';
+import firebaseAuth from '../../components/firebaseauth';
 import Loading from '../../components/Loading';
 import Bottombar from '../../components/bottombar/Bottombar';
 
@@ -33,11 +32,10 @@ function Messages() {
       chatRoom: room,
     })
     .then((response) => {
-      console.log(response.data);
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     })
   }
 
@@ -46,11 +44,10 @@ function Messages() {
       username: localStorage.getItem("Username")
     })
     .then(async function (response) {
-      console.log(response.data.friends);
       const friends = response.data.friends;
       
       const friendsInfo = friends.map((friend) => {
-        const dataUrl = `data:${friend['avatarContentType']};base64,${Buffer.from(friend.avatar, 'binary').toString('base64')}`;
+        const dataUrl = friend.avatarURL;
         return {
           username: friend.username,
           id: friend._id,
@@ -65,13 +62,12 @@ function Messages() {
         const chatRoom = await getChatRoom(localStorage.getItem("Username"), chat.username);
         return Object.assign({}, chat, chatRoom);
       }));
-      console.log(toChatInstances);
       setlistOfActiveChats(toChatInstances);
       setListOfFriendsInfo(friendsInfo);
       setIsLoading(false);
     })
     .catch((error) =>{
-      console.log(error);
+      console.error(error);
     })
   }
 
@@ -101,4 +97,4 @@ function Messages() {
   );
 }
 
-export default withAuth(Messages);
+export default firebaseAuth(Messages);

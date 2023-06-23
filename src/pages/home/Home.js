@@ -3,10 +3,9 @@ import './Home.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import FriendIcons from './friendicons/FriendIcons.js';
 import Main from './mainfeed/Main.js';
-import withAuth from '../../components/authenticate';
+import firebaseAuth from '../../components/firebaseauth';
 import Loading from '../../components/Loading.js';
 import { useState, useEffect } from 'react'
-import { Buffer } from 'buffer'
 import axios from 'axios'
 import Bottombar from '../../components/bottombar/Bottombar';
 
@@ -22,8 +21,7 @@ function Home() {
 
   const [listOfFriendsUsername, setListOfFriendsUsername] = useState([]);
 
-
-
+  // Run initially to grab a list of friend icons when the page is being loaded
   useEffect(() => {
     // get friends
     const friends = axios.post("http://localhost:3001/friendicons",{
@@ -41,14 +39,15 @@ function Home() {
     Promise.all([friends, mainfeed])
     .then(([res1, res2]) => {
       // Logic for friends
-      console.log(res1.data.friends);
+      // console.log(res1.data.friends);
       const friends = res1.data.friends;
       
       const friendsInfo = friends.map((friend) => {
-        const dataUrl = `data:${friend['avatarContentType']};base64,${Buffer.from(friend.avatar, 'binary').toString('base64')}`;
+        const dataUrl = friend.avatarURL;
         return {
           username: friend.username,
-          imageUrl: dataUrl
+          imageUrl: dataUrl,
+          id: friend._id
         }
       });
       
@@ -58,14 +57,14 @@ function Home() {
         return friend.username
       })
 
-      console.log(`friends usernames: ${friendsUsernames}`)
+      // console.log(`friends usernames: ${friendsUsernames}`)
       setListOfFriendsUsername(friendsUsernames);
 
       // Logic for feed
       const postObjects = res2.data.map((post) => {
-        const postUrl = `data:${post['contentType']};base64,${Buffer.from(post.data, 'binary').toString('base64')}`;
+        const postUrl = post.url;
 
-        const avatarUrl = `data:${post.user['avatarContentType']};base64,${Buffer.from(post.user.avatar, 'binary').toString('base64')}`;
+        const avatarUrl = post.user.avatarURL;
 
         const a = post.usersWhoLiked.find((user) => {
           return user === localStorage.getItem("Id")
@@ -87,7 +86,6 @@ function Home() {
 
       // Logic that belongs to neither
       setIsLoading(false);
-      console.log('asdf')
     })
     .catch((error) => {
       console.error(error);
@@ -103,7 +101,7 @@ function Home() {
       {
         isLoading
         ? <Loading/>
-        : (<div className="homecontainer">
+        : listOfFriendsInfo.length !== 0 ? (<div className="homecontainer">
             <div className="friendicons">
               <FriendIcons friendslist={listOfFriendsInfo}/>
             </div>
@@ -111,6 +109,7 @@ function Home() {
               <Main listofposts={posts} listOfFriends={listOfFriendsUsername}/>
             </div>
           </div>)
+          : (<div className="homecontainer"><h1>Start adding friends through the Search Tab to generate a feed!</h1></div>)
       }
       <div className="bottombar">
         <Bottombar currActive="Home"/>
@@ -120,4 +119,4 @@ function Home() {
   );
 }
 
-export default withAuth(Home);
+export default firebaseAuth(Home);

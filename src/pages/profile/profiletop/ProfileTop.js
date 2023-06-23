@@ -1,80 +1,63 @@
 import './ProfileTop.css'
-import { people } from '../../../utilities/data.js'
-import { getImageUrl } from '../../../utilities/utils.js'
 import { useRef, useState, useEffect } from 'react'
-import { Buffer } from 'buffer'
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
+import { storage } from "../../../config/firebase-config"
 import axios from 'axios'
 
 function ProfileTop({userInfo}) {
 
-  console.log(localStorage.getItem("Username"));
-  console.log(userInfo.username);
-  console.log(userInfo.areFriends)
-  console.log(`are friends: ${userInfo.areFriends}`);
   const [isFriend, setIsFriend] = useState(userInfo.areFriends == 'y');
-  
-  // Check to see if areFriends is y
-  // This is because initalizing using an expression isn't working?
 
   const inputFileRef = useRef(null);
 
   const [postData, setPostData] = useState(userInfo.avatarData);
-  // console.log(`avatarData: ${userInfo.avatarData}`)
-  // console.log(`avatarData: ${postData}`);
 
   useEffect(() => {
     setPostData(userInfo.avatarData);
   }, [userInfo.avatarData])
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('avatar', file);
-    axios.post("http://localhost:3001/upload/pfp",formData,{
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      params: {
-        username: localStorage.getItem("Username")
+  const handleFileUpload = async (event) => {
+    event.preventDefault();
+    const file = inputFileRef.current.files[0];
+    // Make sure there is actually a file or an error will be thrown
+    if (file){
+      // Create a new filename reference that takes into account the current date and time so that each image can be unique to one another
+      const filename = `${file.name}${Date.now()}`
+      const imageURL = `projectFiles/${filename}`;
+      const filesFolderRef = ref(storage, imageURL)
+      try {
+        // upload file
+        await uploadBytes(filesFolderRef, file)
+        // Get url link of the uploaded file
+        const downloadURL = await getDownloadURL(ref(storage, imageURL));
+        axios.post("http://localhost:3001/uploadfirebase/pfp",{
+          username: localStorage.getItem("Username"),
+          avatarURL: downloadURL,
+          imageName: filename,
+        }).then(function (response){
+          // Create reference to delete the pfp of the old image
+          const deleteRef = ref(storage, `projectFiles/${response.data}`);
+          // Delete the pfp
+          deleteObject(deleteRef)
+          .then(() => {
+            localStorage.setItem('avatarURL', downloadURL);
+            setPostData(downloadURL);
+          })
+          .catch(() => {
+            console.error();
+          })
+        }).catch(function (error){
+          console.error(error);
+        })
       }
-    }).then(function (response){
-      console.log(response);
-      console.log("hooray");
-      grabImageFromMongoDB();
-    }).catch(function (error){
-      console.log(error);
-    })
-    console.log("complete1");
-    console.log("nice going");
+      catch (err) {
+        console.error(err);
+      }
+    }
   }
 
   const handleImageClick = () => {
     inputFileRef.current.click();
-  }
-
-  const chemists = people.filter(person =>
-    person.profession === 'chemist'
-  );
-
-  const grabImageFromMongoDB = async () => {
-    axios.get("http://localhost:3001/postmongodb",
-    {
-      params: {
-        username: localStorage.getItem("Username")
-      },
-      responseType: 'arraybuffer'
-    })
-    .then(function (response){
-      const dataUrl = `data:${response.headers['content-type']};base64,${Buffer.from(response.data, 'binary').toString('base64')}`;
-      console.log(response);
-
-      setPostData(dataUrl);
-
-      // Append the <img> element to the document body or any desired container
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
   }
 
   // Add a friend 
@@ -87,15 +70,11 @@ function ProfileTop({userInfo}) {
     axios.post("http://localhost:3001/addfriend", requestBody)
     .then((response) => {
       setIsFriend(true);
-      console.log("route works!");
-
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     })
   }
-
-  console.log(isFriend);
 
   return (
     <>
@@ -105,9 +84,9 @@ function ProfileTop({userInfo}) {
             <div className="form-group">
                 { userInfo.areFriends === 'me'
                   ? <img
-                    src={postData} onClick={handleImageClick} className="avatar"/>
+                    src={postData} onClick={handleImageClick} className="avatar hoverable"/>
                   : <img
-                    src={postData} className="avatar"/>
+                    src={postData} className="avatar hoverable"/>
                 }
               <input className="imageInput" type="file"  name="uploaded_file" style ={{display: "none"}} ref={inputFileRef} onChange={handleFileUpload}/> 
             </div>

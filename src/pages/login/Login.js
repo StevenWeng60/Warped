@@ -2,10 +2,12 @@ import './Login.css';
 import { Link, Route, Routes, useNavigate } from "react-router-dom"
 import { useRef, useState} from 'react'
 import axios from 'axios'
+import { auth, googleProvider} from '../../config/firebase-config'
+import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth'
 
 function Login() {
   const [errorPopup, setErrorPopup] = useState(false);
-  const usernameRef = useRef(null);
+  const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
   const navigate = useNavigate();
@@ -14,39 +16,47 @@ function Login() {
     navigate(path);
   }
 
-  function userLogin(e) {
-    try{
-      // Prevent default form action
-      e.preventDefault();
-      setErrorPopup(false);
-      
-      console.log(usernameRef.current.value);
-      console.log(passwordRef.current.value);
+  async function userLogin(e) {
+    // Prevent default form action
+    e.preventDefault();
+    setErrorPopup(false);
+    
 
-      let authenticated = false;
+    let authenticated = false;
 
-      axios.post("http://localhost:3001/login", {
-        username: usernameRef.current.value,
-        password: passwordRef.current.value
-      })
-      .then (function (response) {
-        if (response.data !== "Not allowed"){
-          localStorage.setItem('accessToken', response.data.accessToken);
-          localStorage.setItem('Username', usernameRef.current.value);
-          localStorage.setItem('Id', response.data.id);
-          // navigate to home page after successful authentication
-          routeChange();
-        }
-        else {
-          setErrorPopup(true);
+    try {
+      await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
+
+      axios.get("http://localhost:3001/getUser", {
+        params: {
+          email: emailRef.current.value,
         }
       })
-      .catch (function (error) {
-        console.log(error);
+      .then ((response) => {
+        const user = response.data;
+        localStorage.setItem('Username', user.username);
+        localStorage.setItem('Id', user._id);
+        localStorage.setItem('avatarURL', user.avatarURL);
+        // navigate to home page after successful authentication
+        routeChange();
       })
     }
-    catch {
-      console.log("error", e);
+    catch (error) {
+      setErrorPopup(true);
+      console.error(error);
+    }
+  }
+
+  const signInWithGoogle = async (e) => {
+    e.preventDefault();
+    setErrorPopup(false);
+    let authenticated = false;
+    try {
+      await signInWithPopup(auth, googleProvider);
+      
+    }
+    catch (e) {
+      console.error(e);
     }
   }
 
@@ -58,18 +68,18 @@ function Login() {
         </div>
         <form onSubmit={userLogin}>
           <div className="login-form">
-            <input type="text" id="username" name="username" placeholder="Enter your username" ref= {usernameRef}/>
+            <input type="text" id="email" name="email" placeholder="Enter your email" ref= {emailRef}/>
           </div>
           <div className="login-form">
             <input type="password" id="password" name="password" placeholder="Enter your password" ref = {passwordRef}/>
           </div>
           <button type="submit" id="loginbtn">Login</button>
+          {/* <button type="submit" id="googleloginbtn" onClick={signInWithGoogle}>Sign In With Google</button> */}
         </form>
-        <h2>Forgot password?</h2>
         <Link to="/create" className="link">
           <h2>Create account</h2>
         </Link>
-        {errorPopup && (<h2 style={{color: "red"}}>Incorrect username or password!</h2>)}
+        {errorPopup && (<h2 style={{color: "red"}}>Incorrect email or password!</h2>)}
       </div>
     </div>
   );

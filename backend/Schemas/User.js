@@ -32,7 +32,15 @@ const chatSchema = new mongoose.Schema({
 
 const postSchema = new mongoose.Schema({
   // images
-  data: Buffer,
+  data: {
+    type: Buffer,
+  },
+  url: {
+    type: String,
+  },
+  imageName: {
+    type: String,
+  },
   contentType: String,
   user: {
     type: mongoose.SchemaTypes.ObjectId,
@@ -52,6 +60,9 @@ const postSchema = new mongoose.Schema({
     default: [],
     ref: 'Message'
   },
+  hashtags: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: () => Date.now()
@@ -69,10 +80,12 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
     require:true,
   },
-  avatar: {
-    type: Buffer
+  avatarURL: {
+    type: String
   },
-  avatarContentType: String,
+  imageName: {
+    type:String
+  },
   profileDescription: {
     type: String,
     default: "No profile description yet"
@@ -106,7 +119,7 @@ const userSchema = new mongoose.Schema({
   // posts
   email: {
     type: String,
-    minLength: 10,
+    minLength: 5,
     lowercase: true,
     default: "noemail@noemail.com"
   },

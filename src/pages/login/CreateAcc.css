@@ -8,7 +8,6 @@
 }
 
 .createcontainer {
-  height: 50%;
   width: 50%;
   display: flex;
   margin: auto;
@@ -30,7 +29,7 @@ h2 {
 }
 
 .create-form {
-  font-size: 2.5em;
+  font-size: 2em;
   width: 100%;
 }
 
@@ -44,12 +43,6 @@ h2 {
   width: 100%;
 }
 
-.warped {
-  padding: 2em;
-  text-align: center;
-  background: #F4EEE0;
-  border-radius: 6px;
-}
 
 input[type="password"] {
   flex: 1;

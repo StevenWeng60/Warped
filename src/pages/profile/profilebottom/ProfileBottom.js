@@ -1,15 +1,19 @@
 import './ProfileBottom.css'
-import { people } from '../../../utilities/data.js'
-import { getImageUrl } from '../../../utilities/utils.js'
 import { useEffect, useState, useRef } from 'react'
-import { Buffer } from 'buffer'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+import { FaTrash } from "react-icons/fa";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
+import { storage } from "../../../config/firebase-config"
 
-function ProfileBottom({ posts }) {
-  const [usersPosts, setUsersPosts] = useState([]);
 
+function ProfileBottom({ posts, userInfo, friendList }) {
+  const navigate = useNavigate();
   //postPopUp
   const [postPopUp, setPostPopUp] = useState(false);
+
+  // profile posts
+  const [profilePosts, setProfilePosts] = useState(posts);
 
   // Individual post picture
   const [currIndividualPost, setCurrIndividualPost] = useState({});
@@ -27,6 +31,14 @@ function ProfileBottom({ posts }) {
     setPostPopUp(false);
     setLatestComments([]);
   }
+  function handleClickOutOfPostAndDelete(postId){
+    const postsWithoutDeletedOne = profilePosts.filter((post) => {
+      return post.postid !== postId;
+    })
+    setProfilePosts(postsWithoutDeletedOne);
+    setPostPopUp(false);
+    setLatestComments([]);
+  }
 
   function handleStayInPost(event) {
     event.stopPropagation();
@@ -41,7 +53,6 @@ function ProfileBottom({ posts }) {
       postid: currIndividualPost.postid,
     })
     .then((response) => {
-      console.log(response);
     })
     .catch((error) => {
       console.error(error);
@@ -52,7 +63,7 @@ function ProfileBottom({ posts }) {
               <div className="posttop">
                 <img
                   className="postuserpfpb"
-                  src={""}
+                  src={localStorage.getItem("avatarURL")}
                   alt={localStorage.getItem("Username")}
                   />        
                 <h4 className="commentsh4">{localStorage.getItem("Username")}</h4>
@@ -64,9 +75,29 @@ function ProfileBottom({ posts }) {
     commentRef.current.value = "";
   }
 
+  function deletePost(postId) {
+    axios.delete("http://localhost:3001/deletesinglepost", {
+      params: {
+        id: postId
+      }
+    })
+    .then(function (response) {
+      const deleteRef = ref(storage, `projectFiles/${response.data}`);
+      deleteObject(deleteRef)
+      .then(() => {
+        handleClickOutOfPostAndDelete(postId);
+      })
+      .catch(() => {
+        console.error("error");
+      })
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
+
   async function handlePostPopUp(postId) {
-    const post = posts.find((post) => {
-      console.log(`postId = ${postId} || post.id = ${post.postid}`);
+    const post = profilePosts.find((post) => {
       return post.postid === postId;
     })
     
@@ -76,12 +107,11 @@ function ProfileBottom({ posts }) {
     .then((response) => {
       const comments = response.data.comments;
       // A comment will have a username, the comment, and maybe the profile picture
-      console.log(response);
       if (comments) {
         const mappedComments = comments.map((comment) => {
-          const avatarData = `data:${comment.user['avatarContentType']};base64,${Buffer.from(comment.user.avatar, 'binary').toString('base64')}`;
+          const avatarData = comment.user.avatarURL;
           return (
-          <li>
+          <li key={comment._id}>
             <div className="posttop">
               <img
                 className="postuserpfpb"
@@ -97,7 +127,6 @@ function ProfileBottom({ posts }) {
   
         setCurrPostComments(mappedComments);
       }
-      console.log(response.data);
     })
     .catch((error) => {
       console.error(error);
@@ -107,13 +136,27 @@ function ProfileBottom({ posts }) {
     setCurrIndividualPost(post);
   }
 
+  const userclicked = (username) => {
+    let userroute;
+    if(friendList.includes(username)){
+      userroute = '/profile/' + username + '/y';
+    }
+    else if (username === localStorage.getItem("Username")){
+      userroute = '/profile/' + username + '/me';
+    }
+    else {
+      userroute = '/profile/' + username + "/n";
+    }
+    navigate(userroute);
+  }
+
 
   return (
   <div className="postflexcontainer">
-    { posts.map((post) => {
+    { profilePosts.map((post) => {
       return (
-      <div className="post" key={post._id}>
-        <img src={post.postImage} className="pfpPostImage" onClick={() => handlePostPopUp(post.postid)}></img>
+      <div className="post" key={post.postid}>
+        <img src={post.postImage} className="pfpPostImage hoverable" onClick={() => handlePostPopUp(post.postid)}></img>
       </div>
       );
     }) }
@@ -130,20 +173,23 @@ function ProfileBottom({ posts }) {
         <div className="imageInformation">
           <div className="posttop" style={{boxSizing: "border-box", borderBottom: "1px solid black", height: "10%"}}>
             <img
-              className="postuserpfpb"
+              className="postuserpfpb hoverable"
               src={currIndividualPost.avatarImage}
               alt={currIndividualPost.username}
+              onClick={() => userclicked(currIndividualPost.username)}
             />
             <h4 className="postusername">{currIndividualPost.username}</h4>
+            {userInfo.areFriends === 'me' ? <FaTrash className="trashicon" onClick={() => deletePost(currIndividualPost.postid)}/> : <></>}
           </div>
           <div className="commentsdiv">
             <ul className="commentsul">
               <li>
                 <div className="posttop">
                   <img
-                    className="postuserpfpb"
+                    className="postuserpfpb hoverable"
                     src={currIndividualPost.avatarImage}
                     alt={currIndividualPost.username}
+                    onClick={() => userclicked(currIndividualPost.username)}
                   />        
                   <h4 className="commentsh4">{currIndividualPost.username}</h4>
                 </div>

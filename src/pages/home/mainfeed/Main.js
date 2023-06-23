@@ -1,11 +1,7 @@
-import { posts } from '../../../utilities/posts.js'
-import { people } from '../../../utilities/data.js'
-import { getImageUrl } from '../../../utilities/utils.js'
 import { useNavigate } from 'react-router-dom' 
 import { useEffect, useState, useRef} from 'react'
 import React from 'react'
 import { FaHeart, FaComment } from "react-icons/fa";
-import { Buffer } from 'buffer'
 import axios from 'axios'
 import './Main.css'
 
@@ -55,7 +51,6 @@ function Main({listofposts, listOfFriends}) {
 
   async function handlePostPopUp(postId) {
     const post = posts.find((post) => {
-      console.log(`postId = ${postId} || post.id = ${post.postid}`);
       return post.postid === postId;
     })
     
@@ -65,12 +60,11 @@ function Main({listofposts, listOfFriends}) {
     .then((response) => {
       const comments = response.data.comments;
       // A comment will have a username, the comment, and maybe the profile picture
-      console.log(response);
       if (comments) {
         const mappedComments = comments.map((comment) => {
-          const avatarData = `data:${comment.user['avatarContentType']};base64,${Buffer.from(comment.user.avatar, 'binary').toString('base64')}`;
+          const avatarData = comment.user.avatarURL;
           return (
-          <li>
+          <li key={comment._id}>
             <div className="posttop">
               <img
                 className="postuserpfp hoverable"
@@ -87,7 +81,6 @@ function Main({listofposts, listOfFriends}) {
   
         setCurrPostComments(mappedComments);
       }
-      console.log(response.data);
     })
     .catch((error) => {
       console.error(error);
@@ -129,7 +122,6 @@ function Main({listofposts, listOfFriends}) {
       postid: currIndividualPost.postid,
     })
     .then((response) => {
-      console.log(response);
     })
     .catch((error) => {
       console.error(error);
@@ -140,7 +132,7 @@ function Main({listofposts, listOfFriends}) {
               <div className="posttop">
                 <img
                   className="postuserpfp hoverable"
-                  src={""}
+                  src={localStorage.getItem("avatarURL")}
                   alt={localStorage.getItem("Username")}
                   onClick={() => userclicked(localStorage.getItem("Username"))}
                   />        
@@ -155,8 +147,6 @@ function Main({listofposts, listOfFriends}) {
 
   function handlePostLiked(event, index, postId) {
     const likeAction = !likesBooleanArray[index] ? 'like' : 'unlike';
-    console.log(`Post id: ${postId}`);
-    console.log(`Index: ${index}`);
 
 
     axios.post("http://localhost:3001/likeorunlike", {
@@ -165,10 +155,9 @@ function Main({listofposts, listOfFriends}) {
       userid: localStorage.getItem("Id"),
     })
     .then((response) => {
-      console.log(response);
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     })
 
     setLikesBooleanArray(prev => {
@@ -180,8 +169,6 @@ function Main({listofposts, listOfFriends}) {
 
   function handlePostAlreadyLiked(event, index, postId){
     const likeAction = likesBooleanArray[index] ? 'like' : 'unlike';
-    console.log(`Post id: ${postId}`);
-    console.log(`Index: ${index}`);
 
     axios.post("http://localhost:3001/likeorunlike", {
       action: likeAction,
@@ -189,7 +176,6 @@ function Main({listofposts, listOfFriends}) {
       userid: localStorage.getItem("Id"),
     })
     .then((response) => {
-      console.log(response);
     })
     .catch((error) => {
       console.log(error);
@@ -204,7 +190,6 @@ function Main({listofposts, listOfFriends}) {
 
   const userclicked = (username) => {
     let userroute;
-    console.log(listOfFriends);
     if(listOfFriends.includes(username)){
       userroute = '/profile/' + username + '/y';
     }
@@ -219,7 +204,7 @@ function Main({listofposts, listOfFriends}) {
 
   return <ul className="mainfeedul">{ 
     posts.map((post, index) =>
-    <li className="mainfeedpostli"key={post.id}>
+    <li className="mainfeedpostli"key={post.postid}>
       <div className="posttop">
         <img
           className="postuserpfp hoverable"
