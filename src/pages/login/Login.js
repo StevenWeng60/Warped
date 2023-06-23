@@ -76,7 +76,6 @@ function Login() {
           <button type="submit" id="loginbtn">Login</button>
           {/* <button type="submit" id="googleloginbtn" onClick={signInWithGoogle}>Sign In With Google</button> */}
         </form>
-        <h2>Forgot password?</h2>
         <Link to="/create" className="link">
           <h2>Create account</h2>
         </Link>

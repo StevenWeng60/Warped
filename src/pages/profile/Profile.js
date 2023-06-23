@@ -37,7 +37,7 @@ function Profile() {
       // Create object for profileTop component picture
       const dataUrl = data.avatarURL;
       
-      // areFriends represent is a user is friends with the user's profile
+      // areFriends represent if a user is friends with the user's profile
       // this field is useless if its the same user since it won't be used
       setUserInfo({
         username: data.username,

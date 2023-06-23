@@ -76,7 +76,6 @@ function CreateAcc() {
           </div>
           <button type="submit" id="createbtn">Create Account</button>
         </form>
-        <h2>Forgot password?</h2>
         <Link to="/login" className="link">
           <h2>Log in</h2>
         </Link>

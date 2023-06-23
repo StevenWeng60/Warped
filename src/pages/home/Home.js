@@ -109,7 +109,7 @@ function Home() {
               <Main listofposts={posts} listOfFriends={listOfFriendsUsername}/>
             </div>
           </div>)
-          : (<div className="homecontainer"><h1>Start adding friends through the Search Tab!</h1></div>)
+          : (<div className="homecontainer"><h1>Start adding friends through the Search Tab to generate a feed!</h1></div>)
       }
       <div className="bottombar">
         <Bottombar currActive="Home"/>
