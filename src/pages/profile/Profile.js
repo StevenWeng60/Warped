@@ -11,6 +11,7 @@ import withAuth from '../../components/authenticate';
 import Loading from '../../components/Loading';
 import Bottombar from '../../components/bottombar/Bottombar';
 import firebaseAuth from '../../components/firebaseauth';
+import prodConfig from '../../config/production-config';
 
 function Profile() {
   const { username, friends } = useParams();
@@ -24,7 +25,7 @@ function Profile() {
 
   // One get request that grabs all of a users information and their posts history
   const getPosts = async () => {
-    axios.get("http://localhost:3001/usersposts", 
+    axios.get(`${prodConfig}/usersposts`, 
     {
       params: {
         username: username

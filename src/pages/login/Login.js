@@ -4,6 +4,7 @@ import { useRef, useState} from 'react'
 import axios from 'axios'
 import { auth, googleProvider} from '../../config/firebase-config'
 import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth'
+import prodConfig from '../../config/production-config';
 
 function Login() {
   const [errorPopup, setErrorPopup] = useState(false);
@@ -26,8 +27,9 @@ function Login() {
 
     try {
       await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
+      console.log(`${prodConfig}/getUser`);
 
-      axios.get("http://localhost:3001/getUser", {
+      axios.get(`${prodConfig}/getUser`, {
         params: {
           email: emailRef.current.value,
         }

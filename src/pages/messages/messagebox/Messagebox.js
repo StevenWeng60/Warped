@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { FaPenSquare, FaRegWindowClose } from "react-icons/fa";
 import axios from 'axios'
 import { socket } from '../../../components/socket.js';
+import prodConfig from '../../../config/production-config';
 
 
 function Messagebox({friends, activeChats}) {
@@ -150,7 +151,7 @@ function Messagebox({friends, activeChats}) {
 
   const getChatRoom = async (username1, username2) => {
     const room = getRoomName(username1, username2);
-    return axios.post("http://localhost:3001/connectChat", {
+    return axios.post(`${prodConfig}/connectChat`, {
       chatRoom: room,
     })
     .then((response) => {
@@ -175,7 +176,7 @@ function Messagebox({friends, activeChats}) {
         const user = friends.find(obj => obj.username === toUser)
         const chatRoom = await getChatRoom(localStorage.getItem("Username"), toUser);
         const chatListInstance = Object.assign({}, user, chatRoom);
-        axios.post("http://localhost:3001/changeChatActive", {
+        axios.post(`${prodConfig}/changeChatActive`, {
           username: localStorage.getItem("Username"),
           friendid: user.id,
           action: "add",
@@ -192,7 +193,7 @@ function Messagebox({friends, activeChats}) {
   }
 
   const handleRemoveChatInstance = () => {
-    axios.post("http://localhost:3001/changeChatActive", {
+    axios.post(`${prodConfig}/changeChatActive`, {
       username: localStorage.getItem("Username"),
       friendid: currPerson.id,
       action: "remove",

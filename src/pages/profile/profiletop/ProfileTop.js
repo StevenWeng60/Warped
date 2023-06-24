@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from 'react'
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
 import { storage } from "../../../config/firebase-config"
 import axios from 'axios'
+import prodConfig from '../../../config/production-config'
 
 function ProfileTop({userInfo}) {
 
@@ -30,7 +31,7 @@ function ProfileTop({userInfo}) {
         await uploadBytes(filesFolderRef, file)
         // Get url link of the uploaded file
         const downloadURL = await getDownloadURL(ref(storage, imageURL));
-        axios.post("http://localhost:3001/uploadfirebase/pfp",{
+        axios.post(`${prodConfig}/uploadfirebase/pfp`,{
           username: localStorage.getItem("Username"),
           avatarURL: downloadURL,
           imageName: filename,
@@ -67,7 +68,7 @@ function ProfileTop({userInfo}) {
       username1: localStorage.getItem("Username"),
       username2: userInfo.username 
     }
-    axios.post("http://localhost:3001/addfriend", requestBody)
+    axios.post(`${prodConfig}/addfriend`, requestBody)
     .then((response) => {
       setIsFriend(true);
     })

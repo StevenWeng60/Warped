@@ -7,6 +7,7 @@ import axios from 'axios'
 import firebaseAuth from '../../components/firebaseauth';
 import Loading from '../../components/Loading';
 import Bottombar from '../../components/bottombar/Bottombar';
+import prodConfig from '../../config/production-config';
 
 function Messages() {
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState([]);
@@ -28,7 +29,7 @@ function Messages() {
 
   const getChatRoom = async (username1, username2) => {
     const room = getRoomName(username1, username2);
-    return axios.post("http://localhost:3001/connectChat", {
+    return axios.post(`${prodConfig}/connectChat`, {
       chatRoom: room,
     })
     .then((response) => {
@@ -40,7 +41,7 @@ function Messages() {
   }
 
   const getFriends = async () => {
-    axios.post("http://localhost:3001/friendicons",{
+    axios.post(`${prodConfig}/friendicons`,{
       username: localStorage.getItem("Username")
     })
     .then(async function (response) {

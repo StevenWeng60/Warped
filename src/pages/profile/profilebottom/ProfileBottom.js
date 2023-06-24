@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrash } from "react-icons/fa";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
 import { storage } from "../../../config/firebase-config"
+import prodConfig from '../../../config/production-config';
 
 
 function ProfileBottom({ posts, userInfo, friendList }) {
@@ -47,7 +48,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
   function addComment(e) {
     e.preventDefault();
       // Need req.body.userid, req.body.commentText, req.body.postid
-    axios.post("http://localhost:3001/addcomment", {
+    axios.post(`${prodConfig}/addcomment`, {
       userid: localStorage.getItem("Id"),
       commentText: commentRef.current.value,
       postid: currIndividualPost.postid,
@@ -76,7 +77,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
   }
 
   function deletePost(postId) {
-    axios.delete("http://localhost:3001/deletesinglepost", {
+    axios.delete(`${prodConfig}/deletesinglepost`, {
       params: {
         id: postId
       }
@@ -101,7 +102,7 @@ function ProfileBottom({ posts, userInfo, friendList }) {
       return post.postid === postId;
     })
     
-    const getPosts = await axios.post("http://localhost:3001/grabpostcomments", {
+    const getPosts = await axios.post(`${prodConfig}/grabpostcomments`, {
       postid: post.postid,
     })
     .then((response) => {

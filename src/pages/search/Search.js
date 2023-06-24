@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Bottombar from '../../components/bottombar/Bottombar';
 import firebaseAuth from '../../components/firebaseauth';
 import ProfileBottom from '../profile/profilebottom/ProfileBottom';
+import prodConfig from '../../config/production-config';
 
 
 function Search() {
@@ -30,7 +31,7 @@ function Search() {
 
     if (currLabelVal === "User"){
       // Step one - send request
-      axios.get("http://localhost:3001/findusers", {
+      axios.get(`${prodConfig}/findusers`, {
         params: {
           requser: localStorage.getItem("Username"),
           username: searchBarRef.current.value,
@@ -57,7 +58,7 @@ function Search() {
       })
     }
     else if(currLabelVal === "Post"){
-      axios.get("http://localhost:3001/findposts", {
+      axios.get(`${prodConfig}/findposts`, {
         params: {
           keyword: searchBarRef.current.value,
         }

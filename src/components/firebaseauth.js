@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { getAuth, auth } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 
 const firebaseAuth = (Component) => {
   const AuthenticateComponent = () => {

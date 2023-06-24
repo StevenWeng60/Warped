@@ -1,5 +1,6 @@
 import { io } from 'socket.io-client';
+import prodConfig from '../config/production-config';
 
-const URL = 'http://localhost:3001'
+const URL = prodConfig
 
 export const socket = io(URL);

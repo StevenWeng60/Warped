@@ -8,6 +8,7 @@ import Loading from '../../components/Loading.js';
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Bottombar from '../../components/bottombar/Bottombar';
+import prodConfig from '../../config/production-config';
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,11 +25,11 @@ function Home() {
   // Run initially to grab a list of friend icons when the page is being loaded
   useEffect(() => {
     // get friends
-    const friends = axios.post("http://localhost:3001/friendicons",{
+    const friends = axios.post(`${prodConfig}/friendicons`,{
       username: localStorage.getItem("Username")
     });
     // get feed
-    const mainfeed = axios.get("http://localhost:3001/mainfeed",
+    const mainfeed = axios.get(`${prodConfig}/mainfeed`,
     {
       params: {
         username: localStorage.getItem("Username"),

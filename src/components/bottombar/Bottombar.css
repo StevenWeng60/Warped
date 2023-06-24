@@ -12,6 +12,14 @@
   overflow:hidden;
 }
 
+@media only screen {
+  .Bottombar {
+    position:fixed;
+    bottom: 0;
+    z-index: 5;
+  }
+}
+
 .bottombarOptions {
   width: 100%;
   display:flex;

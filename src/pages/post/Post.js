@@ -8,6 +8,7 @@ import { storage } from '../../config/firebase-config'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import firebaseAuth from '../../components/firebaseauth';
 import Compressor from 'compressorjs';
+import prodConfig from '../../config/production-config';
 
 function Post() {
   const [file, setFile] = useState(null);
@@ -56,7 +57,7 @@ function Post() {
               
               getDownloadURL(ref(storage, imageURL))
               .then((url) => {
-                axios.post("http://localhost:3001/singlepostfirebaseimg", {
+                axios.post(`${prodConfig}/singlepostfirebaseimg`, {
                   imgURL: url,
                   imageName: fileName,
                   caption: text,

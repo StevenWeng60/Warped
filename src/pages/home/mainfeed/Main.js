@@ -3,6 +3,7 @@ import { useEffect, useState, useRef} from 'react'
 import React from 'react'
 import { FaHeart, FaComment } from "react-icons/fa";
 import axios from 'axios'
+import prodConfig from '../../../config/production-config';
 import './Main.css'
 
 // Custom hook for keeping track of a posts likes/unlike
@@ -54,7 +55,7 @@ function Main({listofposts, listOfFriends}) {
       return post.postid === postId;
     })
     
-    const getPosts = await axios.post("http://localhost:3001/grabpostcomments", {
+    const getPosts = await axios.post(`${prodConfig}/grabpostcomments`, {
       postid: post.postid,
     })
     .then((response) => {
@@ -100,7 +101,7 @@ function Main({listofposts, listOfFriends}) {
   }
 
   async function grabCommentsOnPost(post) {
-    const getposts = await axios.post("http://localhost:3001/grabpostcomments", {
+    const getposts = await axios.post(`${prodConfig}/grabpostcomments`, {
       postid: post.postid,
     })
     .then((response) => {
@@ -116,7 +117,7 @@ function Main({listofposts, listOfFriends}) {
   function addComment(e) {
     e.preventDefault();
       // Need req.body.userid, req.body.commentText, req.body.postid
-    axios.post("http://localhost:3001/addcomment", {
+    axios.post(`${prodConfig}/addcomment`, {
       userid: localStorage.getItem("Id"),
       commentText: commentRef.current.value,
       postid: currIndividualPost.postid,
@@ -149,7 +150,7 @@ function Main({listofposts, listOfFriends}) {
     const likeAction = !likesBooleanArray[index] ? 'like' : 'unlike';
 
 
-    axios.post("http://localhost:3001/likeorunlike", {
+    axios.post(`${prodConfig}/likeorunlike`, {
       action: likeAction,
       postid: postId,
       userid: localStorage.getItem("Id"),
@@ -170,7 +171,7 @@ function Main({listofposts, listOfFriends}) {
   function handlePostAlreadyLiked(event, index, postId){
     const likeAction = likesBooleanArray[index] ? 'like' : 'unlike';
 
-    axios.post("http://localhost:3001/likeorunlike", {
+    axios.post(`${prodConfig}/likeorunlike`, {
       action: likeAction,
       postid: postId,
       userid: localStorage.getItem("Id"),
@@ -244,6 +245,7 @@ function Main({listofposts, listOfFriends}) {
     </li>
   )
   }
+  <div className="extraspace" style={{height: '10em', width: '100%'}}></div>
   {postPopUp && <div className="popupContainer" onClick={handleClickOutOfPost}>
     {postPopUp && <div className="poppedUpPost" onClick={(event) => handleStayInPost(event)}>
       <div className="postImage" >

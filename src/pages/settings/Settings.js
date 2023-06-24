@@ -7,6 +7,7 @@ import Bottombar from "../../components/bottombar/Bottombar";
 import firebaseAuth from "../../components/firebaseauth";
 import { signOut } from 'firebase/auth'
 import { auth } from "../../config/firebase-config";
+import prodConfig from "../../config/production-config";
 
 
 function Settings() {
@@ -19,7 +20,7 @@ function Settings() {
   }
 
   function handleSaveClick() {
-    axios.post("http://localhost:3001/changebio", {
+    axios.post(`${prodConfig}/changebio`, {
         username: localStorage.getItem("Username"),
         biodescription: bioText,
       },
@@ -63,7 +64,7 @@ function Settings() {
           <textarea rows="8" cols="25" type="textarea" id="biodescription" value={bioText} onChange={handleTextChange} style={{width: '100%'}}></textarea>
           <button type='submit' style={{borderRadius: '5px', width: '100%'}} onClick={handleSaveClick}>Save</button>
           {seeSuccess && <h1 className="successPopUp">Success!</h1>}
-          <button type='submit' style={{position:'absolute', bottom: '2em',left: '25%', color: 'black', background: 'red', borderRadius: '5px', width: '50%', textAlign: 'center'}} onClick={handleLogOut}>Log Out</button>
+          <button type='submit' style={{marginTop: '5em', color: 'black', background: 'red', borderRadius: '5px', width: '50%', textAlign: 'center'}} onClick={handleLogOut}>Log Out</button>
         </div>
       </div>
       <div className="bottombar">

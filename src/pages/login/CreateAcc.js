@@ -5,6 +5,7 @@ import { auth, googleProvider, storage} from '../../config/firebase-config'
 import { ref, getDownloadURL } from 'firebase/storage'
 import { createUserWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import axios from 'axios';
+import prodConfig from '../../config/production-config';
 
 function CreateAcc() {
   const usernameRef = useRef(null);
@@ -26,7 +27,7 @@ function CreateAcc() {
     try{
       const imageURL = `projectFiles/default.jpg`;
       const downloadURL = await getDownloadURL(ref(storage, imageURL));
-      axios.post("http://localhost:3001/create", {
+      axios.post(`${prodConfig}/create`, {
         defaultURL: downloadURL,
         username: usernameRef.current.value,
         password: passwordRef.current.value,

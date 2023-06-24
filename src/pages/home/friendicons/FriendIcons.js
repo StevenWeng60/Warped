@@ -1,9 +1,6 @@
 import './FriendIcons.css'
-import { people } from '../../../utilities/data.js';
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Buffer } from 'buffer'
-import axios from 'axios';
 
 function FriendIcons({friendslist}) {
   const [listOfFriendsInfo, setListOfFriendsInfo] = useState(friendslist);
