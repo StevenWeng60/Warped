@@ -11,9 +11,7 @@
   width: 50%;
   display: flex;
   margin: auto;
-  flex-direction: column;
-  background: #4F4557;
-  padding: 1.5em;
+  padding: 1.5em; 
 }
 
 h2 {

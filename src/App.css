@@ -136,8 +136,8 @@
     right: 10px !important;
   }
   .pfp {
-    height: 10em !important;
-    width: 10em !important;
+    height: 8em !important;
+    width: 8em !important;
   }
   /* FOR MOBILE DEVICES */
   .usernameh4 {
@@ -166,6 +166,12 @@
     font-size: 0.75em !important;
   }
   .commentsp {
+    font-size: 0.9em !important;
+  }
+  .profiletop {
+    font-size: 0.8em !important;
+  }
+  .pfdescriptionflex {
     font-size: 0.9em !important;
   }
 }
