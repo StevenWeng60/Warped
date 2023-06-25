@@ -22,7 +22,6 @@ function Login() {
     e.preventDefault();
     setErrorPopup(false);
     
-
     let authenticated = false;
 
     try {

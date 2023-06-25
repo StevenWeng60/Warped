@@ -116,6 +116,7 @@
     grid-template-columns: 1fr !important;
     grid-template-rows: 3fr 1fr !important;
     overflow-y:scroll;
+    padding: 0.75em !important;
   }
 
   .postImage{
@@ -137,6 +138,9 @@
   .pfp {
     height: 10em !important;
     width: 10em !important;
+  }
+  .usernameh4 {
+    font-size: 1em !important;
   }
 }
 
@@ -245,6 +249,7 @@
   .poppedUpPost {
     width: 90vw !important;
     font-size: 0.6em;
+    padding: 1.25em !important;
   }
 
   .exitPostBtn {
@@ -258,6 +263,10 @@
   .pfp {
     height: 11em !important;
     width: 11em !important;
+  }
+
+  .usernameh4 {
+    font-size: 1.25em !important;
   }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -274,6 +283,7 @@
   .poppedUpPost {
     width: 85vw !important;
     font-size: 0.8em;
+    padding: 1.5em !important;
   }
 
   .exitPostBtn {
@@ -283,6 +293,10 @@
 
   .closeMInstance {
     right: 30px !important;
+  }
+
+  .usernameh4 {
+    font-size: 1.5em !important;
   }
 
 }

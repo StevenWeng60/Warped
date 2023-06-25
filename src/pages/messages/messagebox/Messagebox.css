@@ -58,6 +58,12 @@
   outline: 2px solid black;
 }
 
+@media only screen {
+  .messagefpfp {
+    outline: none !important;
+  }
+}
+
 .fusername {
   display: inline-block;
   padding: 1em;

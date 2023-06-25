@@ -61,3 +61,13 @@
   top: 50%;
   left: 2.5%;
 }
+
+@media only screen {
+  .friendsul li img {
+    outline: none !important;
+  }
+
+  .messageavatar {
+    border: none !important;
+  }
+}
