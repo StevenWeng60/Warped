@@ -206,7 +206,7 @@ function Main({listofposts, listOfFriends}) {
   return <ul className="mainfeedul">{ 
     posts.map((post, index) =>
     <li className="mainfeedpostli"key={post.postid}>
-      <div className="posttop">
+      <div className="posttopmainfeed">
         <img
           className="postuserpfp hoverable"
           src={post.avatarImage}

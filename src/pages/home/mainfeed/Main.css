@@ -32,7 +32,7 @@
   margin: 0;
 }
 
-.posttop {
+.posttop, .posttopmainfeed {
   display:flex;
   align-items:center;
 }

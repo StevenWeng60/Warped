@@ -139,6 +139,7 @@
     height: 10em !important;
     width: 10em !important;
   }
+  /* FOR MOBILE DEVICES */
   .usernameh4 {
     font-size: 1em !important;
   }
@@ -157,6 +158,15 @@
   }
   .feedimg {
     height: 50% !important;
+  }
+  .posttop {
+    font-size: 0.65em !important;
+  }
+  .commentsul li {
+    font-size: 0.75em !important;
+  }
+  .commentsp {
+    font-size: 0.9em !important;
   }
 }
 
