@@ -142,6 +142,13 @@
   .usernameh4 {
     font-size: 1em !important;
   }
+  .friendsul {
+    padding-top: 0.5em !important;
+    padding-left:0.5em !important;
+  }
+  .friendsul li {
+    font-size: 0.75em !important;
+  }
 }
 
 
@@ -268,6 +275,15 @@
   .usernameh4 {
     font-size: 1.25em !important;
   }
+
+  .friendsul {
+    padding-top: 0.65em !important;
+    padding-left: 0.65em !important;
+  }
+
+  .friendsul li {
+    font-size: 0.75em !important;
+  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
   .pfp {
@@ -297,6 +313,15 @@
 
   .usernameh4 {
     font-size: 1.5em !important;
+  }
+
+  .friendsul {
+    padding-top: 0.75em !important;
+    padding-left: 0.75em !important;
+  }
+
+  .friendsul li {
+    font-size: 0.75em !important;
   }
 
 }
