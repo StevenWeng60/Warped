@@ -147,7 +147,16 @@
     padding-left:0.5em !important;
   }
   .friendsul li {
-    font-size: 0.75em !important;
+    font-size: 0.6em !important;
+  }
+  .mainfeedul {
+    padding-left: 1.75em !important;
+  }
+  .mainfeedpostli {
+    font-size: 0.65em !important;
+  }
+  .feedimg {
+    height: 50% !important;
   }
 }
 
