@@ -13,3 +13,9 @@
   text-align:center;
   position:relative;
 }
+
+@media only screen {
+  .Body {
+    height: 100svh !important;
+  }
+}

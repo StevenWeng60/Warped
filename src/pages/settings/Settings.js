@@ -1,6 +1,6 @@
 import "./Settings.css"
 import Sidebar from "../../components/sidebar/Sidebar";
-import { useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Bottombar from "../../components/bottombar/Bottombar";

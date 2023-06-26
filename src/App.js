@@ -11,6 +11,10 @@ import Settings from './pages/settings/Settings';
 import { Route, Routes } from "react-router-dom"
 
 function App() {
+  // const documentHeight = () => {
+  //   const doc = document.documentElement;
+  //   do
+  // }
   return (
     <>
       <Routes>

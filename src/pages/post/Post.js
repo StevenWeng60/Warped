@@ -16,9 +16,11 @@ function Post() {
   const [text, setText] = useState('Write a Caption...')
   const [seeSuccess, setSeeSuccess] = useState(false);
 
+
   // refs to for the html elements
   const inputFileRef = useRef(null);
   const hashtagRef = useRef(null);
+
 
   function handleDrop(e) {
     const selectedFile = e.target.files[0];

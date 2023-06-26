@@ -5,7 +5,7 @@ import FriendIcons from './friendicons/FriendIcons.js';
 import Main from './mainfeed/Main.js';
 import firebaseAuth from '../../components/firebaseauth';
 import Loading from '../../components/Loading.js';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import axios from 'axios'
 import Bottombar from '../../components/bottombar/Bottombar';
 import prodConfig from '../../config/production-config';

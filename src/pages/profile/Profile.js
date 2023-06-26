@@ -3,11 +3,9 @@ import './Profile.css';
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import ProfileTop from './profiletop/ProfileTop.js';
 import ProfileBottom from './profilebottom/ProfileBottom.js';
-import { Buffer } from 'buffer'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import withAuth from '../../components/authenticate';
 import Loading from '../../components/Loading';
 import Bottombar from '../../components/bottombar/Bottombar';
 import firebaseAuth from '../../components/firebaseauth';
@@ -18,10 +16,12 @@ function Profile() {
   const [usersPosts, setUsersPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
   // will run when rendered or when the username dependency changes
   useEffect(() => {
     getPosts();
   }, [username])
+
 
   // One get request that grabs all of a users information and their posts history
   const getPosts = async () => {

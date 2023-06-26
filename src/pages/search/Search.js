@@ -1,7 +1,7 @@
 import './Search.css'
 import Sidebar from '../../components/sidebar/Sidebar.js';
 import Searchresults from './searchresults/Searchresults.js';
-import { useRef, useState } from 'react'
+import { useRef, useState, useLayoutEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import Bottombar from '../../components/bottombar/Bottombar';
@@ -161,7 +161,7 @@ function Search() {
                 }
                 return(<div className="searchUser" key={data._id} onClick={() => userclicked(data.username)}>
                   {listOfFriends.includes(data.username) 
-                    ? <h4 className="usernameh4"style={{backgroundColor: '#6D5D6E'}}>{data.username}</h4>
+                    ? <h4 className="usernameh4"style={{color: 'purple'}}>{data.username}</h4>
                     : <h4 className="usernameh4">{data.username}</h4>
                   }
                 </div>

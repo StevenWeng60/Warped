@@ -95,6 +95,9 @@
   .messageboxcontainer, .addpost, .mainsettings {
     grid-row: 1 / 8 !important;
   }
+  .messageboxcontainer {
+    grid-row: 1 / 8 !important;
+  }
   .addpostform, .maineditfeed {
     height: 85% !important;
   }
@@ -173,6 +176,14 @@
   }
   .pfdescriptionflex {
     font-size: 0.9em !important;
+  }
+  .mchatmid {
+    font-size: 0.65em !important;
+  }
+  .actualmessage {
+    font-size: 0.9em !important;
+    padding: 0.8em !important;
+    margin-left: 1em !important;
   }
 }
 
@@ -349,4 +360,10 @@
     font-size: 0.75em !important;
   }
 
+}
+
+@media only screen {
+  .Body {
+    height: auto;
+  }
 }
