@@ -12,6 +12,8 @@
   display: flex;
   margin: auto;
   padding: 1.5em; 
+  flex-direction: column;
+  background: #4F4557;
 }
 
 h2 {

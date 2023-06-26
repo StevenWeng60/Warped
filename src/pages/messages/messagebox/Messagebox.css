@@ -73,12 +73,12 @@
 
 .mchattop {
   width: 100%;
-  height: 10%;
+  height: 12%;
   background: var(--chatBGcolor);
 }
 .mchatmid {
   width: 100%;
-  height: 83%;
+  height: 81%;
   background: var(--chatBGcolor);
   overflow:scroll;
   overflow-x: hidden;
@@ -224,7 +224,6 @@ button[type="submit"]:hover {
 
 .Searchbar {
   position:relative;
-  z-index:2;
 }
 
 .popupContainer {
